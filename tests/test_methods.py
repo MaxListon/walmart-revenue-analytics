@@ -384,3 +384,163 @@ def test_monthly_review_bridge_reconciles_to_known_answer():
     assert "Monthly business review · April 2016" in report.render(r)
     with pytest.raises(ValueError):
         report.build(con, "2016-05")
+
+
+def _bench_frames(days=420, lift=1.3):
+    from retailrev import forecast_benchmark as fb
+
+    idx = pd.date_range("2015-01-01", periods=days, freq="D")
+    attrs = pd.DataFrame(
+        {
+            "store_id": ["CA_1", "CA_1", "TX_1", "TX_1"],
+            "state_id": ["CA", "CA", "TX", "TX"],
+            "cat_id": ["FOODS", "HOBBIES", "FOODS", "HOBBIES"],
+            "dept_id": ["FOODS_1", "HOBBIES_1", "FOODS_1", "HOBBIES_1"],
+        },
+        index=["CA_1|FOODS_1", "CA_1|HOBBIES_1", "TX_1|FOODS_1", "TX_1|HOBBIES_1"],
+    )
+    weekly = np.array([10, 12, 9, 11, 15, 20, 18], dtype=float)
+    base = np.tile(weekly, days // 7 + 1)[:days]
+    snap = np.asarray(idx.day <= 10)
+    units = pd.DataFrame({c: base * (i + 1) for i, c in enumerate(attrs.index)}, index=idx)
+    units_snap = units.copy()
+    units_snap.loc[snap, ["CA_1|FOODS_1", "TX_1|FOODS_1"]] *= lift
+    return fb, attrs, units, units_snap, snap
+
+
+def test_wrmsse_is_zero_for_perfect_and_seasonal_forecasts():
+    fb, attrs, units, _, _ = _bench_frames()
+    train, actual = units.iloc[:-28], units.iloc[-28:]
+    revenue = train * 2.0
+    assert fb.wrmsse(actual, actual, train, revenue, attrs)["wrmsse"] == pytest.approx(0)
+    sn = pd.DataFrame(fb._seasonal_naive(train.to_numpy()), index=actual.index, columns=units.columns)
+    assert fb.wrmsse(actual, sn, train, revenue, attrs)["wrmsse"] == pytest.approx(0, abs=1e-12)
+    naive = pd.DataFrame(fb._naive(train.to_numpy()), index=actual.index, columns=units.columns)
+    assert fb.wrmsse(actual, naive, train, revenue, attrs)["wrmsse"] > 0.5
+
+
+def test_calendar_aware_forecast_learns_planted_snap_lift():
+    fb, attrs, _, units, snap = _bench_frames(lift=1.3)
+    y = units.to_numpy()
+    closed = np.zeros(len(y), dtype=bool)
+    snap2d = np.column_stack([snap] * 4)
+    m = fb.calendar_multipliers(y[:-28], snap2d[:-28], closed[:-28])
+    assert m[0] == pytest.approx(1.3, rel=0.03) and m[1] == pytest.approx(1.0, rel=0.03)
+    f = fb._calendar_aware(y[:-28], snap2d[:-28], closed[:-28], snap2d[-28:], closed[-28:])
+    plain = fb._weekday_average(y[:-28])
+    err_cal, err_plain = np.abs(f - y[-28:]).mean(), np.abs(plain - y[-28:]).mean()
+    assert err_cal < 0.5 * err_plain
+
+
+def test_auc_matches_known_orderings():
+    from retailrev.launch_model import auc
+
+    y = np.array([0, 0, 1, 1])
+    assert auc(y, np.array([1, 2, 3, 4])) == 1.0
+    assert auc(y, np.array([4, 3, 2, 1])) == 0.0
+    assert auc(y, np.array([1, 3, 2, 4])) == 0.75
+
+
+def test_launch_model_finds_planted_signal():
+    from retailrev import launch_model as lm
+
+    rng = np.random.default_rng(3)
+    n = 800
+    vel = np.exp(rng.normal(1.4, 1.0, n))
+    price = np.exp(rng.normal(1.0, 0.5, n))
+    d = pd.DataFrame(
+        {
+            "item_id": [f"I{i:04d}" for i in range(n)],
+            "dept_id": "D",
+            "cat_id": rng.choice(["FOODS", "HOBBIES", "HOUSEHOLD"], n),
+            "launch_week": pd.Timestamp("2012-01-07") + pd.to_timedelta(rng.integers(0, 150, n), unit="W"),
+            "units_4wk": vel * 30,
+            "revenue_4wk": vel * 30 * price,
+            "store_weeks_4wk": 30,
+            "zero_weeks_4wk": rng.integers(0, 10, n),
+            "stores_by_week4": rng.integers(3, 11, n),
+            "velocity_week1": vel,
+            "velocity_week4": vel,
+            "price_4wk": price,
+            # later revenue rate follows early revenue rate, with noise
+            "revenue_later": vel * price * np.exp(rng.normal(0, 0.4, n)) * 400,
+            "store_weeks_later": 400,
+        }
+    )
+    r = lm.fit_and_evaluate(lm.add_features(d), n_boot=50)
+    s = r["scores"].set_index("model")["auc"]
+    assert s.min() > 0.8
+    assert r["calibration"]["actual"].iloc[-1] > r["calibration"]["actual"].iloc[0]
+
+
+def _sim_data(days=500, seed=0, noisy=True):
+    from retailrev import stock_sim as ss
+
+    rng = np.random.default_rng(seed)
+    dates = pd.date_range(ss.FY_START - pd.Timedelta(days=200), periods=days, freq="D")
+    n = 40
+    rate = rng.uniform(2, 8, n)
+    demand = rng.poisson(rate, (days, n)).astype(float) if noisy else np.tile(rate.round(), (days, 1))
+    attrs = pd.DataFrame(
+        {
+            "state_id": "CA",
+            "dept_id": "FOODS_3",
+            "item_id": [f"I{i}" for i in range(n)],
+            "segment": ["SNAP-driven staples"] * (n // 2) + ["Availability risk"] * (n - n // 2),
+        }
+    )
+    return ss, {
+        "demand": demand,
+        "price": np.full((days, n), 2.0),
+        "snap": np.zeros((days, n), dtype=bool),
+        "dates": dates,
+        "attrs": attrs,
+        "measured_loss": 0.0,
+    }
+
+
+def test_stock_sim_constant_demand_never_stocks_out():
+    ss, data = _sim_data(noisy=False)
+    r = ss.simulate(data, z=0.0)
+    assert r["lost_revenue"] == pytest.approx(0)
+    assert r["fill_rate"] == pytest.approx(1)
+
+
+def test_stock_sim_more_safety_stock_cuts_losses_and_costs_inventory():
+    ss, data = _sim_data()
+    low, high = ss.simulate(data, z=0.0), ss.simulate(data, z=2.0)
+    assert high["lost_revenue"] < low["lost_revenue"]
+    assert high["avg_inventory_value"] > low["avg_inventory_value"]
+
+
+def test_snap_multipliers_recover_planted_lift():
+    from retailrev.stock_sim import snap_multipliers
+
+    rng = np.random.default_rng(1)
+    days, n = 400, 6
+    snap = np.zeros((days, n), dtype=bool)
+    snap[np.arange(days) % 30 < 10] = True
+    demand = rng.poisson(10, (days, n)) * np.where(snap, 1.4, 1.0)
+    attrs = pd.DataFrame({"state_id": "TX", "dept_id": ["FOODS_1"] * 3 + ["HOBBIES_1"] * 3})
+    m = snap_multipliers(demand, np.ones_like(snap), snap, attrs)
+    assert m == pytest.approx(np.full(n, 1.4), rel=0.03)
+
+
+def test_price_test_readout_recovers_planted_elasticity():
+    from retailrev import price_test as pt
+
+    rng = np.random.default_rng(5)
+    stores, items, weeks = [f"S{i}" for i in range(10)], [f"H{i:03d}" for i in range(120)], 20
+    rows = []
+    for it in items:
+        base = rng.uniform(3, 12)
+        for st in stores:
+            level = base * rng.uniform(0.7, 1.3)
+            for w in range(weeks):
+                rows.append((st, it, w, float(rng.poisson(level * (1 + 0.1 * np.sin(w))))))
+    d = pd.DataFrame(rows, columns=["store_id", "item_id", "w", "units"])
+    g = pt.window(d)
+    pays, flat = pt.run(g, -0.4, seed=1), pt.run(g, -1.0, seed=1)
+    assert pays["estimated_elasticity"] == pytest.approx(-0.4, abs=0.35)
+    assert flat["estimated_elasticity"] == pytest.approx(-1.0, abs=0.35)
+    assert pays["decision"] == "Roll out" and flat["decision"] == "Don't roll out"

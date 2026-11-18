@@ -16,14 +16,18 @@ from retailrev import (
     drivers,
     events,
     experiment_design,
+    forecast_benchmark,
     inflation,
+    launch_model,
     launches,
     outlook,
     price_events,
+    price_test,
     pricing,
     quality,
     robustness,
     segments,
+    stock_sim,
     stockouts,
     store_events,
 )
@@ -110,11 +114,28 @@ def main() -> None:
     _save(price_events.promo_cost(ev, panel, promo), "promo_cost")
     _save(price_events.price_dip_screen(panel), "price_dip_screen")
 
+    print("Forecast benchmark (M5 WRMSSE, 6 windows)")
+    fb_runs = forecast_benchmark.benchmark(*forecast_benchmark.load())
+    _save(fb_runs, "forecast_benchmark")
+    _save(forecast_benchmark.summary(fb_runs), "forecast_benchmark_summary")
+
+    print("Launch success model")
+    lm_res = launch_model.fit_and_evaluate(launch_model.launches())
+    _save(lm_res["scores"], "launch_model_scores")
+    _save(lm_res["coefficients"], "launch_model_coefficients")
+    _save(lm_res["calibration"], "launch_model_calibration")
+
     print("Product segmentation")
-    seg_items, seg_profile, seg_k = segments.segment_products(segments.features(LATEST, con))
+    seg_items, seg_profile, seg_k = segments.segment_products(segments.features(LATEST))
     _save(seg_items, "product_segments")
     _save(seg_profile, "segment_profile")
     _save(seg_k, "segment_k_selection")
+
+    print("Price test readout (simulated result, 40 repeats per case)")
+    price_test.main()
+
+    print("Stock-out recovery simulation")
+    _save(stock_sim.scenarios(stock_sim.load()), "stockout_policy_simulation")
 
     print("Drivers of the comp decline")
     _save(drivers.cannibalization_models(drivers.panel()), "cannibalization_models")

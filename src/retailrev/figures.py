@@ -762,6 +762,108 @@ def segment_shares() -> None:
     )
 
 
+def forecast_benchmark() -> None:
+    b = pd.read_csv(OUTPUTS / "forecast_benchmark_summary.csv").sort_values("mean_wrmsse", ascending=False)
+    fig, ax = _subplots(figsize=(8, 3.8), slot=FULL)
+    y = np.arange(len(b))
+    best = b["mean_wrmsse"].idxmin()
+    colors = [BLUE if i == best else GRAY for i in b.index]
+    ax.barh(y, b["mean_wrmsse"], 0.6, color=colors)
+    ax.errorbar(
+        b["mean_wrmsse"],
+        y,
+        xerr=[b["mean_wrmsse"] - b["best_window"], b["worst_window"] - b["mean_wrmsse"]],
+        fmt="none",
+        ecolor=INK2,
+        elinewidth=1,
+        capsize=3,
+    )
+    for yi, v in zip(y, b["mean_wrmsse"]):
+        ax.text(v + 0.03, yi + 0.22, f"{v:.2f}", color=INK, fontsize=_fs(9), va="bottom")
+    ax.set_yticks(y, b["method"])
+    ax.set_xlabel("WRMSSE, M5 competition metric (lower is better; bars span best and worst window)")
+    ax.grid(axis="y", visible=False)
+    gain = 1 - b["mean_wrmsse"].min() / b.set_index("method").loc["Seasonal naive (last week)", "mean_wrmsse"]
+    _title(ax, f"The calendar-aware forecast is {gain:.0%} more accurate than seasonal naive across 6 windows")
+    _save(fig, "18_forecast_benchmark", "28-day forecasts of 70 store x department series, scored on M5 levels 1-9.")
+
+
+def launch_model() -> None:
+    s = pd.read_csv(OUTPUTS / "launch_model_scores.csv")
+    base = s["base_rate"].iloc[0]
+    labels = ["Pick at random", "Rule: week-4 revenue\nper store-week", "Logistic regression\n(all week-4 signals)"]
+    vals = [base, *s["precision_top20"]]
+    lo = [np.nan, *s["p20_ci_low"]]
+    hi = [np.nan, *s["p20_ci_high"]]
+    fig, ax = _subplots(figsize=(8, 3.8), slot=SIDE)
+    x = np.arange(3)
+    ax.bar(x, vals, 0.55, color=[GRAY, BLUE, ORANGE])
+    ax.errorbar(
+        x[1:],
+        vals[1:],
+        yerr=[np.subtract(vals[1:], lo[1:]), np.subtract(hi[1:], vals[1:])],
+        fmt="none",
+        ecolor=INK2,
+        elinewidth=1,
+        capsize=4,
+    )
+    for xi, v in zip(x, vals):
+        ax.text(xi, v / 2, f"{v:.0%}", ha="center", va="center", color="white", fontsize=_fs(11), fontweight="bold")
+    ax.set_xticks(x, labels)
+    ax.set_ylim(0, 1)
+    ax.yaxis.set_major_formatter(mtick.PercentFormatter(1, decimals=0))
+    ax.set_ylabel("Top-20% picks that became top sellers")
+    ax.grid(axis="x", visible=False)
+    _title(ax, f"Week-4 revenue alone picks future top sellers {vals[1] / base:.1f}x better than chance")
+    _save(
+        fig,
+        "19_launch_success",
+        "Later 30% of launches (test set); top seller = top quarter of revenue per store-week in weeks 13-52.",
+    )
+
+
+def stockout_policy() -> None:
+    d = pd.read_csv(OUTPUTS / "stockout_policy_simulation.csv")
+    fig, axes = _subplots(1, 2, figsize=(11, 4), slot=FULL)
+    for ax, seg, title in [
+        (axes[0], "All", "All simulated products"),
+        (axes[1], "SNAP-driven staples", "SNAP-driven staples"),
+    ]:
+        g = d[d["segment"] == seg]
+        for pol, color, marker in [("Flat forecast (current)", GRAY, "o"), ("SNAP-aware for staples", BLUE, "s")]:
+            h = g[g["policy"] == pol].sort_values("avg_inventory_value")
+            ax.plot(h["avg_inventory_value"] / 1e3, h["lost_revenue"] / 1e3, color=color, marker=marker, lw=2, label=pol)
+        base = g[(g["policy"] == "Flat forecast (current)") & (g["z_increase"] == 0)].iloc[0]
+        ax.annotate(
+            "today (calibrated)",
+            (base["avg_inventory_value"] / 1e3, base["lost_revenue"] / 1e3),
+            xytext=(8, 6),
+            textcoords="offset points",
+            fontsize=_fs(8),
+            color=INK2,
+        )
+        ax.set_title(title, fontsize=_fs(11), pad=8)
+        ax.set_xlabel("Average inventory on hand ($K, at shelf price)")
+        ax.xaxis.set_major_formatter(mtick.FuncFormatter(lambda v, _: f"${v:,.0f}K"))
+        ax.yaxis.set_major_formatter(mtick.FuncFormatter(lambda v, _: f"${v:,.0f}K"))
+    axes[0].set_ylabel("Revenue lost to stock-outs, FY2016")
+    axes[1].legend(loc="upper right", fontsize=_fs(9), handlelength=1.5)
+    _suptitle(
+        fig,
+        "More safety stock recovers about a quarter of losses; SNAP-aware ordering helps staples at no extra stock",
+        x=0.01,
+        ha="left",
+        fontweight="bold",
+        fontsize=_fs(12),
+        y=1.08,
+    )
+    _save(
+        fig,
+        "20_stockout_policy",
+        "Simulated weekly ordering, 3-day lead time, calibrated to measured FY2016 losses. Points: safety stock +0 to +1 SD.",
+    )
+
+
 def main() -> None:
     plt.switch_backend("Agg")
     FIGURES.mkdir(parents=True, exist_ok=True)
@@ -785,6 +887,9 @@ def main() -> None:
         price_test_power,
         shelf_price_vs_cpi,
         segment_shares,
+        forecast_benchmark,
+        launch_model,
+        stockout_policy,
     ):
         f()
 

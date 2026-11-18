@@ -129,6 +129,20 @@ Core fast movers are 27% of products but 46% of revenue. The surprise was SNAP-d
 **How do you know the method works?**
 A test plants five groups of fake products with known behaviours and checks that the method puts over 95% of them back in the right group with the right name, and gives the same answer however the rows are ordered.
 
+## Stress-testing the recommendations
+
+**How good is your forecasting, really?**
+I scored six methods with the M5 competition's own metric, WRMSSE, on 28-day daily forecasts over six windows, including the official M5 validation and evaluation periods. I forecast the 70 store × department series and added them up to the competition's 9 aggregate levels; I left out the product-level levels, so my scores aren't comparable with the Kaggle leaderboard, only with each other. The best was a weekday average that adds the SNAP-day effects I'd measured: 34% better than seasonal naive and 22% better than exponential smoothing, winning 5 of 6 windows. That's the SNAP finding paying off in a forecast.
+
+**Can you tell which new products will succeed?**
+By week 4, mostly yes, and with one number: first-month revenue per store-week. Trained on earlier launches and tested on the latest 30%, it ranks future top sellers with an AUC of 0.92, and its top-20% picks become top sellers 71% of the time against 19% at random. A logistic regression with five more signals did no better, and it was overconfident at the top. My first comparison made the model look much better, because I'd compared it with a units-based rule while the outcome was revenue; once the baseline used the same currency, the gap vanished. Caveat: the data only has products still sold in 2016, so I can't predict withdrawals.
+
+**Is the $0.79M of stock-outs really recoverable?**
+Not all of it. With no inventory data, I simulated weekly ordering with a 3-day lead time for every store-product in the two segments where stock-outs concentrate, using real demand, and calibrated the safety stock so today's simulated policy loses exactly what my detector measured. A moderate safety-stock increase recovers about 26% for $85K more average inventory, with diminishing returns. Scaled up, that's about $0.2M a year, so I corrected the recommendation. SNAP-aware ordering helped only the SNAP staples, by about $17K a year at the same inventory, which makes sense because only they spike on SNAP days.
+
+**How do you know the price-test analysis would work?**
+I wrote the brief before any result (hypothesis, design, metrics, guardrails, decision rule), then planted a known demand response into real Household sales and ran the exact analysis. Repeated 40 times per case, it said roll out 82% of the time when the rise truly pays and never when it doesn't, with unbiased estimates. The brief also flags the biggest risk: shoppers substituting from raised products to unraised ones in the same store, which would make demand look more elastic than a full rollout.
+
 ## SNAP, stores, forecast
 
 **How did you measure the SNAP effect?**
@@ -149,12 +163,13 @@ I backtested four methods from the same point (week 16) in FY2014, FY2015 and FY
 - **Recommendations:** I'd recommended auditing temporary price cuts before sizing them. Once I did, they were worth about $20K a year, so I replaced that action.
 - **Test design:** my first test design (2%, 8 weeks) had about 11% power, so I redesigned it. Then my first power estimates (50 simulations) moved by 20 points between runs, so I raised it to 200 simulations and added confidence ranges.
 - **Stock-outs:** my first stock-out detector flagged 15% of revenue, which was implausible, so I recalibrated it.
+- **Launch model:** my first comparison flattered the model by pitting it against a units-based rule when the outcome was revenue. With a fair baseline, the simple rule was just as good.
 - **Reproducibility:** re-running the whole pipeline and diffing every output caught two results that changed between runs. Two analyses with fixed random seeds were still picking different products because the database returned rows in a different order each time. Sorting before sampling fixed it; tests now shuffle the input and require identical results.
 
 Each time, the checks caught the problem.
 
 **How do you know the numbers are right?**
-- **pytest:** 28 tests, including methods recovering known answers from simulated data (a −1.2 elasticity, a +40% store jump, a planted stock-out, five planted product segments, a hand-worked monthly bridge).
+- **pytest:** 36 tests, including methods recovering known answers from simulated data (a −1.2 elasticity, a +40% store jump, a planted stock-out, five planted product segments, a hand-worked monthly bridge, a planted price response).
 - **dbt:** 34 data tests, including one that checks the dbt build against the Python pipeline.
 - **Reconciliation:** every revenue bridge reconciles to the cent.
 

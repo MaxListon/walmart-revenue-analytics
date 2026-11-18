@@ -2,7 +2,7 @@
 
 **Revenue across 10 Walmart stores grew 65% in four years, but the same products in the same stores sold less for three of those years.** This project measures how much growth was real, finds why existing products shrank, sizes the levers (availability, pricing, SNAP timing, store changes), groups products into five segments with their own playbooks, designs a price test, and forecasts the next year. It uses real Walmart sales data.
 
-![CI](https://img.shields.io/badge/tests-28%20pytest%20%2B%2034%20dbt-2a78d6) · 📄 [Executive summary](reports/executive_summary.md) · 📓 [Exploration notebook](notebooks/01_exploration.ipynb) · 📅 [Sample monthly review](reports/monthly/mbr_2016-04.html) · 📖 [Metrics catalog](docs/metrics_catalog.md) · 🎤 [Interview Q&A](docs/interview_prep.md) · 📊 Dashboard: `streamlit run app.py --server.address localhost` <!-- add the deployed link: docs/deploy.md -->
+![CI](https://img.shields.io/badge/tests-36%20pytest%20%2B%2034%20dbt-2a78d6) · 📄 [Executive summary](reports/executive_summary.md) · 📓 [Exploration notebook](notebooks/01_exploration.ipynb) · 📅 [Sample monthly review](reports/monthly/mbr_2016-04.html) · 📖 [Metrics catalog](docs/metrics_catalog.md) · 🎤 [Interview Q&A](docs/interview_prep.md) · 📊 Dashboard: `streamlit run app.py --server.address localhost` <!-- add the deployed link: docs/deploy.md -->
 
 ## Start here (2 minutes)
 1. **The question:** total revenue is growing. Is that real, and what should the business do next?
@@ -11,7 +11,7 @@
 
 ![Dashboard demo](reports/figures/dashboard_demo.gif)
 
-## Four findings
+## Five findings
 
 **1. Less than half of growth was organic.** Comparable sales (same products, same stores, a full year in both years) fell **−3.5%, −9.2%, −5.9%** in FY2013–15 while total revenue rose, then grew **+5.6%** in FY2016 (95% CI +2.9% to +8.4%). Only **43%** of FY2016's +$4.7M came from existing products; the rest was new products.
 
@@ -26,14 +26,20 @@
 
 **4. Five product segments need five different playbooks.** Grouping all 3,049 products by how they sell (speed, gaps, seasonality, SNAP lift, stock-outs) gives **core fast movers** (27% of products, 46% of revenue), **SNAP-driven staples**, **availability risk**, **seasonal** and **long tail**. The surprise: **SNAP-driven staples are 14% of products but 41% of store stock-out losses.** Food runs out around SNAP days.
 
+**5. The recommendations hold up when stress-tested.**
+- **Forecasting:** on the M5 competition's own accuracy metric, a weekday average that adds this project's SNAP effects beats the standard seasonal-naive benchmark by **34%** and exponential smoothing by 22%, winning 5 of 6 test windows. The SNAP finding measurably improves forecasts.
+- **Stock-outs:** a simulation calibrated to the measured losses shows about a quarter is realistically recoverable (**≈$0.2M a year**, not the full $0.79M) for a modest rise in safety stock; SNAP-aware ordering trims staples' losses at no extra inventory.
+- **Launches:** a product's **first-month revenue per store-week** already ranks future top sellers well (AUC 0.92; its top-20% picks become top sellers 71% of the time vs 19% at random). A fuller model adds nothing.
+- **Price test:** a [pre-registered brief](docs/price_test_brief.md) and a [readout run on a simulated result](reports/price_test_readout.md): across 40 repeats, the decision rule rolled out 82% of the time when the rise truly pays and never when it doesn't.
+
 ![Total vs comparable growth](reports/figures/01_growth_vs_comp.png)
 
 ## Recommendations
 | Action | Evidence | First step |
 |---|---|---|
 | Report comparable sales next to total growth | Total growth hid three years of decline | Add comp + revenue bridge to the monthly review |
-| Test a **5%** Household price increase | Main model says ≈ −0.4, but checks are noisy; worth ≈ $0.4M a year if −0.4 holds | Randomize half of product-store pairs for 12 weeks (89% power; [design](src/retailrev/experiment_design.py)) |
-| Cut store stock-outs, starting with SNAP-driven staples | $0.79M lost in FY2016; 41% of it in SNAP-driven staples | Daily zero-sales alerts; extra stock ahead of SNAP days |
+| Test a **5%** Household price increase | Main model says ≈ −0.4, but checks are noisy; worth ≈ $0.4M a year if −0.4 holds | Randomize half of product-store pairs for 12 weeks (89% power; [brief](docs/price_test_brief.md)) |
+| Cut store stock-outs, starting with SNAP-driven staples | $0.79M lost in FY2016, 41% of it in SNAP-driven staples; about a quarter (≈$0.2M) is realistically recoverable | Daily zero-sales alerts; modestly more safety stock; SNAP-aware ordering for staples |
 | Review chain-wide gaps with merchandising | $2.1M lost in FY2016 while listed products were dark in most stores at once | Separate deliberate range cuts from supply failures |
 | Plan food stock and labor to the SNAP calendar | Food +9% to +28% on SNAP days, sagging to −19% by month-end in Wisconsin (−27% on the 1st) | Shift replenishment into SNAP windows |
 
@@ -50,6 +56,9 @@
 | What do SNAP days and holidays do? | Compare SNAP days with other days in the same store and month (fixed-effects models) | Food follows the SNAP calendar day by day |
 | Which store changes were real? | Find the week each store's sales jumped, then compare it with a "twin" built from stores that didn't (changepoint detection, synthetic control, placebo tests) | +83%, +52%, +42%, −25% |
 | Where will FY2017 land? | Try four forecasting methods on past years and keep the most accurate (backtesting) | $48.7M, 0.9% average backtest error |
+| How good is the daily forecasting? | Score six methods on 28-day forecasts with the M5 competition's metric, over six windows (WRMSSE) | SNAP-aware method 34% better than seasonal naive |
+| Can we call a launch at week 4? | Predict top sellers from first-month signals, trained on earlier launches and tested on later ones (logistic regression, AUC) | One number does it: AUC 0.92 |
+| How much stock-out loss can we win back? | Simulate weekly ordering with more safety stock or SNAP-aware forecasts, calibrated to measured losses (inventory simulation) | About a quarter, ≈$0.2M a year |
 
 ## SQL highlights
 All business metrics are plain SQL files in [`sql/metrics/`](sql/metrics), run on a DuckDB warehouse of 59M daily rows.
@@ -95,7 +104,7 @@ The same warehouse is rebuilt in [dbt](dbt/) with 34 data tests, including one t
 
 ## Engineering
 - **SQL warehouse in DuckDB:** 59M daily rows, plus a parallel **dbt** project with 34 data tests.
-- **28 pytest tests:** each method must recover a known answer from simulated data (elasticity −1.2, a +40% store step, a planted stock-out, five planted product segments, a hand-worked monthly bridge), every revenue bridge must reconcile, and randomized steps must give identical results whatever order the data arrives in.
+- **36 pytest tests:** each method must recover a known answer from simulated data (elasticity −1.2, a +40% store step, a planted stock-out, five planted product segments, a hand-worked monthly bridge, a planted SNAP lift, a planted price response, a perfect forecast scoring zero), every revenue bridge must reconcile, and randomized steps must give identical results whatever order the data arrives in.
 - **Reproducible:** the full pipeline was re-run and every output diffed against the previous run; exact package versions are pinned in `requirements-lock.txt`.
 - **GitHub Actions:** linting with ruff, the tests, and a dbt compile check, on the pinned versions. Tests that need the non-redistributable raw data skip in CI.
 - **Self-contained dashboard:** it reads only the committed `outputs/`, so it deploys without the raw data ([deploy guide](docs/deploy.md)). A *Start here* tab tells the story, a sidebar glossary explains every term, and every tab offers its data as CSV.
@@ -125,7 +134,8 @@ python -m retailrev.figures      # report charts
 python -m retailrev.figures --deck   # slide-sized versions (uses Inter from assets/fonts/ if present)
 python -m retailrev.tableau      # Tableau / Power BI extracts
 python -m retailrev.report --month 2016-04   # one-page monthly business review
-pytest                           # 28 tests
+python -m retailrev.price_test   # price-test readout on a simulated result
+pytest                           # 36 tests
 cd dbt && dbt build --profiles-dir .   # 34 dbt data tests
 streamlit run app.py --server.address localhost   # local only; drop the flag to share on your network
 ```
@@ -135,11 +145,12 @@ streamlit run app.py --server.address localhost   # local only; drop the flag to
 sql/            warehouse build (staging, marts, stock-out detection) + one file per business metric
 dbt/            the same warehouse as dbt models with schema and reconciliation tests
 src/retailrev/  pipeline and analyses: drivers, stockouts, pricing, price_events, experiment_design,
-                segments, inflation, events, launches, store_events, outlook, robustness, figures, report
+                segments, inflation, events, launches, store_events, outlook, robustness, figures, report,
+                forecast_benchmark, launch_model, stock_sim, price_test
 notebooks/      exploratory analysis with a findings log
 outputs/        every result as CSV (+ tableau/ extracts, also used for Power BI)
-reports/        executive summary, 17 figures, dashboard GIF, monthly/ business reviews
-docs/           metrics catalog, interview Q&A, Tableau and Power BI build guides, deploy guide
+reports/        executive summary, 20 figures, dashboard GIF, price-test readout, monthly/ business reviews
+docs/           metrics catalog, price-test brief, interview Q&A, Tableau and Power BI build guides, deploy guide
 app.py          Streamlit dashboard (11 tabs, starting with a story tab)
 tests/          method tests on simulated data + output-integrity tests
 ```

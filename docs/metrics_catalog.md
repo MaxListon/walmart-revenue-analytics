@@ -179,3 +179,40 @@ Only **store stock-outs** are counted as lost sales in the headline ($0.79M in F
 | **Formula** | Store run-rate (rest of last year × each store's YTD growth), with a step-change store reverting to the other stores' median growth once its step annualizes. Chosen as the lowest average error in backtests from week 16 of FY2014–16; range = ± its worst backtest miss. |
 | **Source** | `outlook.py` → `outlook_fy2017.csv` |
 | **Watch out** | Three backtest years is a small sample. The naive chain run-rate ($50.0M) has a range that overlaps the forecast. |
+
+---
+
+## Stress tests
+
+### WRMSSE (forecast accuracy)
+| | |
+|---|---|
+| **Definition** | The M5 competition's accuracy metric: forecast error scaled by how hard each series is to forecast, weighted by its dollar sales. |
+| **Formula** | For each series, RMSSE = √(mean squared forecast error ÷ mean squared one-day change in its training history); WRMSSE = average over levels of the dollar-weighted RMSSE (weights: each series' share of its level's sales in the last 28 training days) |
+| **Grain** | 28-day forecast window; 9 aggregate levels (154 series) |
+| **Source** | `forecast_benchmark.py` → `forecast_benchmark.csv`, `forecast_benchmark_summary.csv` |
+| **Watch out** | Levels 10–12 (product level) are left out, so scores compare methods here but not with the Kaggle leaderboard. Below 1 means better than a one-step naive forecast in-sample. |
+
+### Launch ranking (AUC, precision in the top 20%)
+| | |
+|---|---|
+| **Definition** | **AUC:** the chance a random future top seller is ranked above a random non-top seller (0.5 = coin flip). **Precision in the top 20%:** of the launches ranked in the top fifth, the share that became top sellers. |
+| **Formula** | Top seller = top quarter of launches by revenue per listed store-week, weeks 13–52 after launch. Scores use only weeks 1–4. |
+| **Grain** | product launch; test set = the latest 30% of launches |
+| **Source** | `launch_model.py` → `launch_model_scores.csv` |
+| **Watch out** | Survivorship: withdrawn launches are missing. Bootstrap CIs (1,000 draws) are in the output. |
+
+### Recoverable stock-out loss (simulation)
+| | |
+|---|---|
+| **Definition** | Revenue a different ordering policy would have kept, in a simulation calibrated to the measured FY2016 losses. |
+| **Formula** | Weekly review, 3-day lead time, order up to forecast demand for 10 days + z × SD × √10; z set so the "current" policy loses the measured amount. Recovered = baseline loss − scenario loss; cost = extra average inventory at shelf price. SNAP-aware policies are compared with the flat policy at equal inventory. |
+| **Source** | `stock_sim.py` → `stockout_policy_simulation.csv` |
+| **Watch out** | A model, not a measurement: lead time and review cycle are assumptions. Use it to compare policies, not as a forecast of savings. |
+
+### Price-test decision
+| | |
+|---|---|
+| **Definition** | Roll out the 5% Household increase only if its elasticity is significantly above −1. |
+| **Formula** | One-sided test of (elasticity + 1) ÷ SE at the 5% level, from the pre-registered Poisson model in [the brief](price_test_brief.md) |
+| **Source** | `price_test.py` → `price_test_readout.csv`, `reports/price_test_readout.md` (simulated result) |

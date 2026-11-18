@@ -312,7 +312,8 @@ with tabs[0]:
     )
     st.write(
         "SNAP-driven food staples sell out around SNAP benefit days, so stock-outs and SNAP timing are one "
-        "conversation with replenishment."
+        "conversation with replenishment. Not all of the loss can be won back: an ordering simulation calibrated to "
+        "these losses says about a quarter (≈$0.2M a year) is realistic for a modest rise in safety stock."
     )
 
     chapter(5, "Pricing: Household is the place to test a price rise, carefully", "Pricing")
@@ -369,7 +370,12 @@ with tabs[0]:
             [
                 ["1", "Report comparable sales next to total growth", "Finance", "Next monthly review"],
                 ["2", "Test a 5% Household price increase", "Pricing", "12-week test"],
-                ["3", "Cut store stock-outs, starting with SNAP-driven staples", "Store operations", "30-day pilot"],
+                [
+                    "3",
+                    "Cut store stock-outs, starting with SNAP-driven staples (≈$0.2M/yr recoverable)",
+                    "Store operations",
+                    "30-day pilot",
+                ],
                 ["4", "Review chain-wide gaps with merchandising", "Merchandising", "Next range review"],
                 ["5", "Plan food stock and labor to the SNAP calendar", "Supply chain", "Next quarter"],
             ],
@@ -682,7 +688,70 @@ with tabs[3]:
     st.markdown("**Top products by FY2016 stock-out losses**")
     ti = load("stockout_top_items_fy2016")
     st.dataframe(ti.style.format({"lost_revenue": "${:,.0f}"}), hide_index=True, height=300)
-    downloads("availability", "stockout_summary", "stockout_by_store_dept_fy2016", "stockout_top_items_fy2016")
+    st.markdown("#### How much of the stock-out loss is realistically recoverable?")
+    sim = load("stockout_policy_simulation")
+    allp = sim[sim.segment == "All"]
+    flat = allp[allp.policy == "Flat forecast (current)"].set_index("z_increase")
+    staples = sim[(sim.segment == "SNAP-driven staples") & (sim.policy == "SNAP-aware for staples")]
+    k = st.columns(3)
+    k[0].metric(
+        "Loss recovered with a moderate safety-stock rise (+0.5 SD)",
+        f"{flat.loc[0.5, 'share_of_loss_recovered']:.0%}",
+        f"{money(flat.loc[0.5, 'revenue_recovered'])} a year",
+        delta_color="off",
+        delta_arrow="off",
+    )
+    k[1].metric(
+        "Extra inventory it takes",
+        money(flat.loc[0.5, "extra_inventory_value"]),
+        "average stock on hand, at shelf price",
+        delta_color="off",
+        delta_arrow="off",
+    )
+    k[2].metric(
+        "SNAP-aware ordering, staples",
+        f"{money(staples.saving_vs_flat_at_same_inventory.dropna().median())} a year",
+        "less lost at the same inventory",
+        delta_color="off",
+        delta_arrow="off",
+    )
+    left, right = st.columns(2)
+    for col, seg, title in [
+        (left, "All", "All simulated products"),
+        (right, "SNAP-driven staples", "SNAP-driven staples"),
+    ]:
+        with col:
+            g = sim[sim.segment == seg]
+            fig = go.Figure()
+            for pol, color in [("Flat forecast (current)", GRAY), ("SNAP-aware for staples", BLUE)]:
+                h = g[g.policy == pol].sort_values("avg_inventory_value")
+                fig.add_scatter(
+                    x=h.avg_inventory_value,
+                    y=h.lost_revenue,
+                    mode="lines+markers",
+                    name=pol,
+                    line=dict(color=color, width=2.5),
+                    customdata=h.z_increase,
+                    hovertemplate=pol + "<br>safety stock +%{customdata} SD<br>inventory %{x:$,.0f}"
+                    "<br>lost %{y:$,.0f}<extra></extra>",
+                )
+            fig.update_layout(title=f"{title}: revenue lost vs inventory held", xaxis_title="Average inventory")
+            fig.update_xaxes(tickprefix="$", tickformat="~s")
+            show(fig, money_y=True, height=380)
+    st.caption(
+        "Simulation, not measurement: every store-product in the SNAP-driven staples and availability-risk segments, "
+        "FY2016 demand (actual sales plus estimated lost sales), weekly orders with a 3-day lead time, safety stock "
+        "calibrated so today's policy loses what the detector measured. Holding more stock always cuts losses, so "
+        "policies are compared at equal inventory. Scaled to all store stock-outs, about $0.2M a year is realistically "
+        "recoverable, not the full $0.79M."
+    )
+    downloads(
+        "availability",
+        "stockout_summary",
+        "stockout_by_store_dept_fy2016",
+        "stockout_top_items_fy2016",
+        "stockout_policy_simulation",
+    )
 
 # ======================================================================== products & launches
 with tabs[4]:
@@ -793,8 +862,51 @@ with tabs[4]:
             grow[grow.cat_id.isin(cat)].tail(15).iloc[::-1][["item_id", "revenue_change", "revenue_growth"]].style.format(fmt),
             hide_index=True,
         )
+    st.markdown("#### Can we tell a future top seller by week 4?")
+    lsc = load("launch_model_scores")
+    lcal = load("launch_model_calibration")
+    rule, mdl = lsc.iloc[0], lsc.iloc[1]
+    k = st.columns(3)
+    k[0].metric(
+        "Top-20% picks that became top sellers",
+        f"{rule.precision_top20:.0%}",
+        f"vs {rule.base_rate:.0%} at random",
+        delta_color="off",
+        delta_arrow="off",
+    )
+    k[1].metric(
+        "Ranking accuracy (AUC), one-number rule",
+        f"{rule.auc:.2f}",
+        "0.5 = coin flip, 1 = perfect",
+        delta_color="off",
+        delta_arrow="off",
+    )
+    k[2].metric(
+        "Ranking accuracy (AUC), full model", f"{mdl.auc:.2f}", "no better than the rule", delta_color="off", delta_arrow="off"
+    )
+    fig = go.Figure()
+    fig.add_bar(x=lcal.decile, y=lcal.actual, name="Actual top-seller rate", marker_color=BLUE)
+    fig.add_scatter(
+        x=lcal.decile, y=lcal.predicted, name="Model's predicted rate", mode="lines+markers", line=dict(color=ORANGE, width=2.5)
+    )
+    fig.update_layout(title="Launches grouped by predicted chance (10 = most likely top seller)", xaxis_title="Decile")
+    show(fig, pct_y=True, height=360)
+    st.caption(
+        f"Test set: the latest {int(rule.test_launches)} launches (from {rule.test_from}); the model learned from the earlier "
+        f"{int(rule.train_launches)}. Top seller = top quarter by revenue per store-week in weeks 13–52. The simple rule "
+        "(first-month revenue per store-week) ranks as well as the full model, which is also overconfident at the top. "
+        "M5 only includes products still sold in 2016, so launches that were withdrawn can't be predicted."
+    )
     downloads(
-        "products", "item_pareto_fy2016", "item_growth_fy2016", "launch_outcomes_fy2016", "launch_ramp_curve", "launch_rollout"
+        "products",
+        "item_pareto_fy2016",
+        "item_growth_fy2016",
+        "launch_outcomes_fy2016",
+        "launch_ramp_curve",
+        "launch_rollout",
+        "launch_model_scores",
+        "launch_model_calibration",
+        "launch_model_coefficients",
     )
 
 # ======================================================================== stores
@@ -1005,8 +1117,44 @@ with tabs[6]:
         "price changed, give the true noise of the estimate. Randomizing whole products leaves product-to-product "
         "differences in the noise; randomizing product-store pairs compares each product with itself."
     )
+    st.markdown("#### The experiment brief, and a readout on a simulated result")
+    ro, rr = load("price_test_readout"), load("price_test_readout_repeats")
+    show_ro = ro[["true_elasticity", "estimated_elasticity", "ci_low", "ci_high", "p_value_vs_unit_elastic", "decision"]]
+    st.dataframe(
+        show_ro.rename(
+            columns={
+                "true_elasticity": "Planted elasticity",
+                "estimated_elasticity": "Estimated",
+                "ci_low": "95% CI low",
+                "ci_high": "95% CI high",
+                "p_value_vs_unit_elastic": "p (vs −1)",
+                "decision": "Decision",
+            }
+        ).style.format(
+            {
+                "Planted elasticity": "{:.2f}",
+                "Estimated": "{:.2f}",
+                "95% CI low": "{:.2f}",
+                "95% CI high": "{:.2f}",
+                "p (vs −1)": "{:.3f}",
+            }
+        ),
+        hide_index=True,
+        width="stretch",
+    )
+    pays = rr[rr.true_elasticity == -0.4]
+    flat_ = rr[rr.true_elasticity == -1.0]
+    st.caption(
+        "The test hasn't run, so a known demand response was planted into real FY2016 Household sales and the "
+        "pre-registered analysis (docs/price_test_brief.md) was run on it. Repeated with "
+        f"{len(pays)} random assignments per case: when the rise truly pays, the rule said roll out "
+        f"{(pays.decision == 'Roll out').mean():.0%} of the time; when it doesn't, "
+        f"{(flat_.decision == 'Roll out').mean():.0%}."
+    )
     downloads(
         "pricing",
+        "price_test_readout",
+        "price_test_readout_repeats",
         "price_elasticity",
         "price_event_elasticity",
         "price_event_dynamics",
@@ -1162,7 +1310,49 @@ with tabs[8]:
         "The winning method projects each store from its own year-to-date trend, but stops a store's step change "
         "(CA_2, June 2015) from compounding once it reaches its one-year anniversary."
     )
-    downloads("outlook", "outlook_fy2017", "outlook_weekly", "outlook_backtest")
+    st.markdown("#### How accurate is the forecasting? A benchmark on the M5 competition's own metric")
+    fbs = load("forecast_benchmark_summary").sort_values("mean_wrmsse")
+    fbr = load("forecast_benchmark")
+    left, right = st.columns([1.2, 1])
+    with left:
+        fig = go.Figure()
+        for m_ in fbs.method:
+            g = fbr[fbr.method == m_]
+            fig.add_scatter(
+                x=g.window_start,
+                y=g.wrmsse,
+                mode="lines+markers",
+                name=m_,
+                line=dict(width=3 if m_.startswith("Calendar") else 1.5),
+                hovertemplate=m_ + "<br>window from %{x|%d %b %Y}: %{y:.2f}<extra></extra>",
+            )
+        fig.update_layout(title="WRMSSE by 28-day window (lower is better)", xaxis_title="Window start")
+        show(fig, height=380)
+    with right:
+        st.dataframe(
+            fbs[["method", "mean_wrmsse", "windows_won", "m5_evaluation_window", "vs_seasonal_naive"]]
+            .rename(
+                columns={
+                    "method": "Method",
+                    "mean_wrmsse": "Mean WRMSSE",
+                    "windows_won": "Windows won",
+                    "m5_evaluation_window": "M5 evaluation window",
+                    "vs_seasonal_naive": "vs seasonal naive",
+                }
+            )
+            .style.format({"Mean WRMSSE": "{:.3f}", "M5 evaluation window": "{:.3f}", "vs seasonal naive": "{:+.0%}"}),
+            hide_index=True,
+            width="stretch",
+        )
+    st.caption(
+        "28-day daily unit forecasts for the 70 store × department series, added up and scored on the 9 aggregate "
+        "levels of the M5 metric (the 3 product-level levels are left out, so scores can't be compared with the Kaggle "
+        "leaderboard). Six windows ending 22 May 2016 include the official M5 validation and evaluation periods. "
+        "The calendar-aware method adds the SNAP-day effects found in this project to a weekday average."
+    )
+    downloads(
+        "outlook", "outlook_fy2017", "outlook_weekly", "outlook_backtest", "forecast_benchmark", "forecast_benchmark_summary"
+    )
 
 # ======================================================================== segments
 with tabs[9]:
