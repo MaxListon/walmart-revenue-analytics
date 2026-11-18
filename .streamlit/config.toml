@@ -1,10 +1,16 @@
+# Matches the leadership deck: Inter for text, Space Grotesk for headings, same palette.
 [theme]
 base = "light"
-primaryColor = "#2a78d6"
-backgroundColor = "#fcfcfb"
-secondaryBackgroundColor = "#f0efec"
-textColor = "#0b0b0b"
-font = "sans serif"
+primaryColor = "#1f63b8"
+backgroundColor = "#f7f6f2"
+secondaryBackgroundColor = "#eceae3"
+textColor = "#14213d"
+linkColor = "#1f63b8"
+borderColor = "#dcdad2"
+baseRadius = "medium"
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+headingFont = "Space Grotesk:https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&display=swap"
+chartCategoricalColors = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#a8a69f"]
 
 [server]
 headless = true

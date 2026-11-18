@@ -154,7 +154,7 @@ I backtested four methods from the same point (week 16) in FY2014, FY2015 and FY
 Each time, the checks caught the problem.
 
 **How do you know the numbers are right?**
-- **pytest:** 26 tests, including methods recovering known answers from simulated data (a −1.2 elasticity, a +40% store jump, a planted stock-out).
+- **pytest:** 28 tests, including methods recovering known answers from simulated data (a −1.2 elasticity, a +40% store jump, a planted stock-out, five planted product segments, a hand-worked monthly bridge).
 - **dbt:** 34 data tests, including one that checks the dbt build against the Python pipeline.
 - **Reconciliation:** every revenue bridge reconciles to the cent.
 

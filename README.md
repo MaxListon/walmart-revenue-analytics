@@ -2,12 +2,12 @@
 
 **Revenue across 10 Walmart stores grew 65% in four years, but the same products in the same stores sold less for three of those years.** This project measures how much growth was real, finds why existing products shrank, sizes the levers (availability, pricing, SNAP timing, store changes), groups products into five segments with their own playbooks, designs a price test, and forecasts the next year. It uses real Walmart sales data.
 
-![CI](https://img.shields.io/badge/tests-27%20pytest%20%2B%2034%20dbt-2a78d6) · 📄 [Executive summary](reports/executive_summary.md) · 📓 [Exploration notebook](notebooks/01_exploration.ipynb) · 🎤 [Interview Q&A](docs/interview_prep.md) · 📊 Dashboard: `streamlit run app.py --server.address localhost` <!-- add the deployed link: docs/deploy.md -->
+![CI](https://img.shields.io/badge/tests-28%20pytest%20%2B%2034%20dbt-2a78d6) · 📄 [Executive summary](reports/executive_summary.md) · 📓 [Exploration notebook](notebooks/01_exploration.ipynb) · 📅 [Sample monthly review](reports/monthly/mbr_2016-04.html) · 📖 [Metrics catalog](docs/metrics_catalog.md) · 🎤 [Interview Q&A](docs/interview_prep.md) · 📊 Dashboard: `streamlit run app.py --server.address localhost` <!-- add the deployed link: docs/deploy.md -->
 
 ## Start here (2 minutes)
 1. **The question:** total revenue is growing. Is that real, and what should the business do next?
 2. **The answer:** growth came mostly from *adding* products. Existing products shrank for three years, mainly from weaker demand, and recovered in FY2016. Stock-outs, SNAP timing and a carefully designed price test are where the money is.
-3. **Where to look:** the [executive summary](reports/executive_summary.md) (one page), the dashboard below, then the [SQL highlights](#sql-highlights) and [methods](#whats-in-the-analysis).
+3. **Where to look:** the [executive summary](reports/executive_summary.md) (one page), the dashboard below (its *Start here* tab tells the story in six steps), then the [SQL highlights](#sql-highlights) and [methods](#whats-in-the-analysis). Every metric is defined in the [metrics catalog](docs/metrics_catalog.md).
 
 ![Dashboard demo](reports/figures/dashboard_demo.gif)
 
@@ -95,10 +95,12 @@ The same warehouse is rebuilt in [dbt](dbt/) with 34 data tests, including one t
 
 ## Engineering
 - **SQL warehouse in DuckDB:** 59M daily rows, plus a parallel **dbt** project with 34 data tests.
-- **27 pytest tests:** each method must recover a known answer from simulated data (elasticity −1.2, a +40% store step, a planted stock-out, five planted product segments), every revenue bridge must reconcile, and randomized steps must give identical results whatever order the data arrives in.
+- **28 pytest tests:** each method must recover a known answer from simulated data (elasticity −1.2, a +40% store step, a planted stock-out, five planted product segments, a hand-worked monthly bridge), every revenue bridge must reconcile, and randomized steps must give identical results whatever order the data arrives in.
 - **Reproducible:** the full pipeline was re-run and every output diffed against the previous run; exact package versions are pinned in `requirements-lock.txt`.
 - **GitHub Actions:** linting with ruff, the tests, and a dbt compile check, on the pinned versions. Tests that need the non-redistributable raw data skip in CI.
-- **Self-contained dashboard:** it reads only the committed `outputs/`, so it deploys without the raw data ([deploy guide](docs/deploy.md)).
+- **Self-contained dashboard:** it reads only the committed `outputs/`, so it deploys without the raw data ([deploy guide](docs/deploy.md)). A *Start here* tab tells the story, a sidebar glossary explains every term, and every tab offers its data as CSV.
+- **Automated monthly business review:** `python -m retailrev.report --month 2016-04` writes a one-page HTML review for any month: KPIs, an auto-written summary, a reconciling bridge, category and state tables, top movers and stock-outs ([example](reports/monthly/mbr_2016-04.html)).
+- **Metrics catalog:** one definition, formula, grain and source for every number ([docs/metrics_catalog.md](docs/metrics_catalog.md)).
 - **BI-ready:** extracts and build guides for [Tableau](docs/tableau_build_guide.md) and [Power BI](docs/powerbi_build_guide.md).
 
 ## Data and limits
@@ -122,7 +124,8 @@ python -m retailrev.pipeline     # every analysis -> outputs/ (~5 min)
 python -m retailrev.figures      # report charts
 python -m retailrev.figures --deck   # slide-sized versions (uses Inter from assets/fonts/ if present)
 python -m retailrev.tableau      # Tableau / Power BI extracts
-pytest                           # 27 tests
+python -m retailrev.report --month 2016-04   # one-page monthly business review
+pytest                           # 28 tests
 cd dbt && dbt build --profiles-dir .   # 34 dbt data tests
 streamlit run app.py --server.address localhost   # local only; drop the flag to share on your network
 ```
@@ -132,12 +135,12 @@ streamlit run app.py --server.address localhost   # local only; drop the flag to
 sql/            warehouse build (staging, marts, stock-out detection) + one file per business metric
 dbt/            the same warehouse as dbt models with schema and reconciliation tests
 src/retailrev/  pipeline and analyses: drivers, stockouts, pricing, price_events, experiment_design,
-                segments, inflation, events, launches, store_events, outlook, robustness, figures
+                segments, inflation, events, launches, store_events, outlook, robustness, figures, report
 notebooks/      exploratory analysis with a findings log
 outputs/        every result as CSV (+ tableau/ extracts, also used for Power BI)
-reports/        executive summary, 17 figures, dashboard GIF
-docs/           interview Q&A, Tableau and Power BI build guides, deploy guide
-app.py          Streamlit dashboard (10 tabs)
+reports/        executive summary, 17 figures, dashboard GIF, monthly/ business reviews
+docs/           metrics catalog, interview Q&A, Tableau and Power BI build guides, deploy guide
+app.py          Streamlit dashboard (11 tabs, starting with a story tab)
 tests/          method tests on simulated data + output-integrity tests
 ```
 

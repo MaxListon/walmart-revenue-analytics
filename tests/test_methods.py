@@ -327,3 +327,60 @@ def test_segmentation_recovers_and_names_planted_groups():
     # same answer whatever order the rows arrive in
     again, _, _ = segments.segment_products(d.sample(frac=1, random_state=2))
     pd.testing.assert_frame_equal(items, again)
+
+
+def _mbr_db():
+    """Tiny warehouse: A and B on the shelf all year, C new this April, D dropped last year."""
+    days = pd.date_range("2015-03-01", "2016-04-30", freq="D")
+    rows = []
+    for dt in days:
+        this_year = dt >= pd.Timestamp("2016-01-30")
+        rows.append(("S1", "CA", "A", "FOODS_1", "FOODS", dt, 12 if this_year else 10, 2.5 if this_year else 2.0))
+        rows.append(("S1", "CA", "B", "HOBBIES_1", "HOBBIES", dt, 5, 4.0))
+        if dt >= pd.Timestamp("2016-04-01"):
+            rows.append(("S1", "CA", "C", "FOODS_1", "FOODS", dt, 3, 1.0))
+        if dt <= pd.Timestamp("2015-06-30"):
+            rows.append(("S1", "CA", "D", "FOODS_1", "FOODS", dt, 2, 1.0))
+    sales = pd.DataFrame(rows, columns=["store_id", "state_id", "item_id", "dept_id", "cat_id", "date", "units", "sell_price"])
+    sales["date"] = sales["date"].dt.date
+    sales["revenue"] = sales["units"] * sales["sell_price"]
+    cal = pd.DataFrame({"date": days.date, "fiscal_year": np.where(days >= pd.Timestamp("2016-01-30"), 2017, 2016)})
+    oos = pd.DataFrame(
+        {
+            "store_id": ["S1"],
+            "dept_id": ["FOODS_1"],
+            "date": [pd.Timestamp("2016-04-10").date()],
+            "lost_revenue": [25.0],
+            "strict_flag": [True],
+            "spell_class": ["Store stock-out"],
+        }
+    )
+    con = duckdb.connect()
+    con.register("sales_df", sales)
+    con.register("cal_df", cal)
+    con.register("oos_df", oos)
+    con.execute("CREATE TABLE v_sales_daily_priced AS SELECT * FROM sales_df")
+    con.execute("CREATE TABLE stg_calendar AS SELECT * FROM cal_df")
+    con.execute("CREATE TABLE fct_oos_days AS SELECT * FROM oos_df")
+    return con
+
+
+def test_monthly_review_bridge_reconciles_to_known_answer():
+    from retailrev import report
+
+    con = _mbr_db()
+    assert report.latest_complete_month(con) == "2016-04"
+    r = report.build(con, "2016-04")
+    p = r["parts"]
+    # A: 300 units at $2 -> 360 at $2.50; B: 150 units at $4 both years (30 days each)
+    assert p["comp_prior"] == pytest.approx(1200) and p["comp_current"] == pytest.approx(1500)
+    assert p["price"] == pytest.approx(360 * 0.5)
+    assert p["volume"] == pytest.approx(60 * 1200 / 450)
+    assert p["volume"] + p["mix"] + p["price"] == pytest.approx(p["comp_current"] - p["comp_prior"])
+    total_change = p["revenue_current"] - p["revenue_prior"]
+    assert p["volume"] + p["mix"] + p["price"] + p["other"] == pytest.approx(total_change)
+    assert p["other"] == pytest.approx(90 - 60)  # C new (+30 days x 3 x $1); D dropped (-30 days x 2 x $1)
+    assert r["stockout"] == pytest.approx(25) and not r["stockout_complete"]
+    assert "Monthly business review · April 2016" in report.render(r)
+    with pytest.raises(ValueError):
+        report.build(con, "2016-05")
