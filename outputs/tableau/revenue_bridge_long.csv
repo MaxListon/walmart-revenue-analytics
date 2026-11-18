@@ -1,0 +1,769 @@
+fiscal_year,level,segment,component,amount,step,group
+2013,Category,FOODS,revenue_prior,15648927.54,0 Prior year,Total
+2013,Category,FOODS,volume_effect,420108.4912443289,1 Volume,Comp
+2013,Category,FOODS,mix_effect,-683746.7357609011,2 Mix,Comp
+2013,Category,FOODS,price_effect,297748.07451657206,3 Price,Comp
+2013,Category,FOODS,launch_annualization_effect,1479767.8,4 Launches annualizing,Assortment
+2013,Category,FOODS,new_listings_effect,2768300.6,5 New listings,Assortment
+2013,Category,FOODS,lost_listings_effect,-12943.82,6 Lost listings,Assortment
+2013,Category,FOODS,revenue_current,19918161.95,7 Current year,Total
+2013,Category,HOBBIES,revenue_prior,2854336.46,0 Prior year,Total
+2013,Category,HOBBIES,volume_effect,-647767.9603402735,1 Volume,Comp
+2013,Category,HOBBIES,mix_effect,261348.25049020723,2 Mix,Comp
+2013,Category,HOBBIES,price_effect,20985.4498500661,3 Price,Comp
+2013,Category,HOBBIES,launch_annualization_effect,317307.17,4 Launches annualizing,Assortment
+2013,Category,HOBBIES,new_listings_effect,729025.37,5 New listings,Assortment
+2013,Category,HOBBIES,lost_listings_effect,-1560.92,6 Lost listings,Assortment
+2013,Category,HOBBIES,revenue_current,3533673.82,7 Current year,Total
+2013,Category,HOUSEHOLD,revenue_prior,7443558.11,0 Prior year,Total
+2013,Category,HOUSEHOLD,volume_effect,-253302.8842972735,1 Volume,Comp
+2013,Category,HOUSEHOLD,mix_effect,-170496.77099043317,2 Mix,Comp
+2013,Category,HOUSEHOLD,price_effect,43072.75528770592,3 Price,Comp
+2013,Category,HOUSEHOLD,launch_annualization_effect,637756.12,4 Launches annualizing,Assortment
+2013,Category,HOUSEHOLD,new_listings_effect,1740510.71,5 New listings,Assortment
+2013,Category,HOUSEHOLD,lost_listings_effect,-3390.81,6 Lost listings,Assortment
+2013,Category,HOUSEHOLD,revenue_current,9437707.23,7 Current year,Total
+2013,Department,FOODS_1,revenue_prior,1702033.74,0 Prior year,Total
+2013,Department,FOODS_1,volume_effect,141342.05957159254,1 Volume,Comp
+2013,Department,FOODS_1,mix_effect,-170483.5366692422,2 Mix,Comp
+2013,Department,FOODS_1,price_effect,64861.40709764953,3 Price,Comp
+2013,Department,FOODS_1,launch_annualization_effect,397963.61,4 Launches annualizing,Assortment
+2013,Department,FOODS_1,new_listings_effect,253432.65,5 New listings,Assortment
+2013,Department,FOODS_1,lost_listings_effect,-46.97,6 Lost listings,Assortment
+2013,Department,FOODS_1,revenue_current,2389102.96,7 Current year,Total
+2013,Department,FOODS_2,revenue_prior,3669141.1,0 Prior year,Total
+2013,Department,FOODS_2,volume_effect,-464057.41148087045,1 Volume,Comp
+2013,Department,FOODS_2,mix_effect,69960.50424290914,2 Mix,Comp
+2013,Department,FOODS_2,price_effect,107209.35723796114,3 Price,Comp
+2013,Department,FOODS_2,launch_annualization_effect,99080.19,4 Launches annualizing,Assortment
+2013,Department,FOODS_2,new_listings_effect,691711.86,5 New listings,Assortment
+2013,Department,FOODS_2,lost_listings_effect,-874.29,6 Lost listings,Assortment
+2013,Department,FOODS_2,revenue_current,4172171.31,7 Current year,Total
+2013,Department,FOODS_3,revenue_prior,10277752.7,0 Prior year,Total
+2013,Department,FOODS_3,volume_effect,600242.0172524621,1 Volume,Comp
+2013,Department,FOODS_3,mix_effect,-440641.87743342295,2 Mix,Comp
+2013,Department,FOODS_3,price_effect,125677.31018096022,3 Price,Comp
+2013,Department,FOODS_3,launch_annualization_effect,982724.0,4 Launches annualizing,Assortment
+2013,Department,FOODS_3,new_listings_effect,1823156.09,5 New listings,Assortment
+2013,Department,FOODS_3,lost_listings_effect,-12022.56,6 Lost listings,Assortment
+2013,Department,FOODS_3,revenue_current,13356887.68,7 Current year,Total
+2013,Department,HOBBIES_1,revenue_prior,2695933.74,0 Prior year,Total
+2013,Department,HOBBIES_1,volume_effect,-646939.8783546244,1 Volume,Comp
+2013,Department,HOBBIES_1,mix_effect,272116.6262073638,2 Mix,Comp
+2013,Department,HOBBIES_1,price_effect,18902.722147260793,3 Price,Comp
+2013,Department,HOBBIES_1,launch_annualization_effect,298239.67,4 Launches annualizing,Assortment
+2013,Department,HOBBIES_1,new_listings_effect,716412.31,5 New listings,Assortment
+2013,Department,HOBBIES_1,lost_listings_effect,-1462.7,6 Lost listings,Assortment
+2013,Department,HOBBIES_1,revenue_current,3353202.49,7 Current year,Total
+2013,Department,HOBBIES_2,revenue_prior,158402.72,0 Prior year,Total
+2013,Department,HOBBIES_2,volume_effect,-5365.87807862087,1 Volume,Comp
+2013,Department,HOBBIES_2,mix_effect,-6230.5796241847565,2 Mix,Comp
+2013,Department,HOBBIES_2,price_effect,2082.7277028056124,3 Price,Comp
+2013,Department,HOBBIES_2,launch_annualization_effect,19067.5,4 Launches annualizing,Assortment
+2013,Department,HOBBIES_2,new_listings_effect,12613.06,5 New listings,Assortment
+2013,Department,HOBBIES_2,lost_listings_effect,-98.22,6 Lost listings,Assortment
+2013,Department,HOBBIES_2,revenue_current,180471.33,7 Current year,Total
+2013,Department,HOUSEHOLD_1,revenue_prior,5066651.58,0 Prior year,Total
+2013,Department,HOUSEHOLD_1,volume_effect,-129123.81911655166,1 Volume,Comp
+2013,Department,HOUSEHOLD_1,mix_effect,-190180.86948859552,2 Mix,Comp
+2013,Department,HOUSEHOLD_1,price_effect,37762.28860514751,3 Price,Comp
+2013,Department,HOUSEHOLD_1,launch_annualization_effect,473687.34,4 Launches annualizing,Assortment
+2013,Department,HOUSEHOLD_1,new_listings_effect,1596667.62,5 New listings,Assortment
+2013,Department,HOUSEHOLD_1,lost_listings_effect,-2227.79,6 Lost listings,Assortment
+2013,Department,HOUSEHOLD_1,revenue_current,6853236.35,7 Current year,Total
+2013,Department,HOUSEHOLD_2,revenue_prior,2376906.53,0 Prior year,Total
+2013,Department,HOUSEHOLD_2,volume_effect,-137148.420171973,1 Volume,Comp
+2013,Department,HOUSEHOLD_2,mix_effect,32653.453489415813,2 Mix,Comp
+2013,Department,HOUSEHOLD_2,price_effect,5310.466682557249,3 Price,Comp
+2013,Department,HOUSEHOLD_2,launch_annualization_effect,164068.78,4 Launches annualizing,Assortment
+2013,Department,HOUSEHOLD_2,new_listings_effect,143843.09,5 New listings,Assortment
+2013,Department,HOUSEHOLD_2,lost_listings_effect,-1163.02,6 Lost listings,Assortment
+2013,Department,HOUSEHOLD_2,revenue_current,2584470.88,7 Current year,Total
+2013,State,CA,revenue_prior,11971065.78,0 Prior year,Total
+2013,State,CA,volume_effect,-226213.71011873422,1 Volume,Comp
+2013,State,CA,mix_effect,-320427.32130456157,2 Mix,Comp
+2013,State,CA,price_effect,151860.7914232947,3 Price,Comp
+2013,State,CA,launch_annualization_effect,1123245.98,4 Launches annualizing,Assortment
+2013,State,CA,new_listings_effect,2021535.32,5 New listings,Assortment
+2013,State,CA,lost_listings_effect,-7703.4,6 Lost listings,Assortment
+2013,State,CA,revenue_current,14713363.44,7 Current year,Total
+2013,State,TX,revenue_prior,7812432.92,0 Prior year,Total
+2013,State,TX,volume_effect,-122636.14370368373,1 Volume,Comp
+2013,State,TX,mix_effect,-225956.06979302876,2 Mix,Comp
+2013,State,TX,price_effect,118393.3834967129,3 Price,Comp
+2013,State,TX,launch_annualization_effect,570730.83,4 Launches annualizing,Assortment
+2013,State,TX,new_listings_effect,1536762.08,5 New listings,Assortment
+2013,State,TX,lost_listings_effect,-2366.49,6 Lost listings,Assortment
+2013,State,TX,revenue_current,9687360.51,7 Current year,Total
+2013,State,WI,revenue_prior,6163323.41,0 Prior year,Total
+2013,State,WI,volume_effect,34068.139367561584,1 Volume,Comp
+2013,State,WI,mix_effect,-212692.5041019041,2 Mix,Comp
+2013,State,WI,price_effect,91552.10473434255,3 Price,Comp
+2013,State,WI,launch_annualization_effect,740854.28,4 Launches annualizing,Assortment
+2013,State,WI,new_listings_effect,1679539.28,5 New listings,Assortment
+2013,State,WI,lost_listings_effect,-7825.66,6 Lost listings,Assortment
+2013,State,WI,revenue_current,8488819.05,7 Current year,Total
+2013,Store,CA_1,revenue_prior,3169519.04,0 Prior year,Total
+2013,Store,CA_1,volume_effect,-15690.40860836694,1 Volume,Comp
+2013,Store,CA_1,mix_effect,-79842.30378245004,2 Mix,Comp
+2013,Store,CA_1,price_effect,38734.58239081688,3 Price,Comp
+2013,Store,CA_1,launch_annualization_effect,238377.86,4 Launches annualizing,Assortment
+2013,Store,CA_1,new_listings_effect,572837.41,5 New listings,Assortment
+2013,Store,CA_1,lost_listings_effect,-473.59,6 Lost listings,Assortment
+2013,Store,CA_1,revenue_current,3923462.59,7 Current year,Total
+2013,Store,CA_2,revenue_prior,2606005.2,0 Prior year,Total
+2013,Store,CA_2,volume_effect,-202244.05040349095,1 Volume,Comp
+2013,Store,CA_2,mix_effect,-14547.577643555123,2 Mix,Comp
+2013,Store,CA_2,price_effect,34370.768047045916,3 Price,Comp
+2013,Store,CA_2,launch_annualization_effect,273311.8,4 Launches annualizing,Assortment
+2013,Store,CA_2,new_listings_effect,378036.02,5 New listings,Assortment
+2013,Store,CA_2,lost_listings_effect,-4894.32,6 Lost listings,Assortment
+2013,Store,CA_2,revenue_current,3070037.84,7 Current year,Total
+2013,Store,CA_3,revenue_prior,4550028.37,0 Prior year,Total
+2013,Store,CA_3,volume_effect,-19148.313523287692,1 Volume,Comp
+2013,Store,CA_3,mix_effect,-182621.2547434466,2 Mix,Comp
+2013,Store,CA_3,price_effect,59934.588266734034,3 Price,Comp
+2013,Store,CA_3,launch_annualization_effect,443848.43,4 Launches annualizing,Assortment
+2013,Store,CA_3,new_listings_effect,806958.77,5 New listings,Assortment
+2013,Store,CA_3,lost_listings_effect,-1093.28,6 Lost listings,Assortment
+2013,Store,CA_3,revenue_current,5657907.31,7 Current year,Total
+2013,Store,CA_4,revenue_prior,1645513.17,0 Prior year,Total
+2013,Store,CA_4,volume_effect,-387.59463724331187,1 Volume,Comp
+2013,Store,CA_4,mix_effect,-32159.52808144968,2 Mix,Comp
+2013,Store,CA_4,price_effect,18820.85271869297,3 Price,Comp
+2013,Store,CA_4,launch_annualization_effect,167707.89,4 Launches annualizing,Assortment
+2013,Store,CA_4,new_listings_effect,263703.12,5 New listings,Assortment
+2013,Store,CA_4,lost_listings_effect,-1242.21,6 Lost listings,Assortment
+2013,Store,CA_4,revenue_current,2061955.7,7 Current year,Total
+2013,Store,TX_1,revenue_prior,2263660.11,0 Prior year,Total
+2013,Store,TX_1,volume_effect,-43989.992162425275,1 Volume,Comp
+2013,Store,TX_1,mix_effect,-30330.727709421655,2 Mix,Comp
+2013,Store,TX_1,price_effect,37861.60987184686,3 Price,Comp
+2013,Store,TX_1,launch_annualization_effect,148918.27,4 Launches annualizing,Assortment
+2013,Store,TX_1,new_listings_effect,448649.92,5 New listings,Assortment
+2013,Store,TX_1,lost_listings_effect,-2050.76,6 Lost listings,Assortment
+2013,Store,TX_1,revenue_current,2822718.43,7 Current year,Total
+2013,Store,TX_2,revenue_prior,3109229.4,0 Prior year,Total
+2013,Store,TX_2,volume_effect,61901.38466084713,1 Volume,Comp
+2013,Store,TX_2,mix_effect,-132719.91676197015,2 Mix,Comp
+2013,Store,TX_2,price_effect,45585.012101122644,3 Price,Comp
+2013,Store,TX_2,launch_annualization_effect,246713.6,4 Launches annualizing,Assortment
+2013,Store,TX_2,new_listings_effect,587669.83,5 New listings,Assortment
+2013,Store,TX_2,lost_listings_effect,-8.13,6 Lost listings,Assortment
+2013,Store,TX_2,revenue_current,3918371.18,7 Current year,Total
+2013,Store,TX_3,revenue_prior,2439543.41,0 Prior year,Total
+2013,Store,TX_3,volume_effect,-138184.00673229198,1 Volume,Comp
+2013,Store,TX_3,mix_effect,-65268.954791450175,2 Mix,Comp
+2013,Store,TX_3,price_effect,34946.76152374223,3 Price,Comp
+2013,Store,TX_3,launch_annualization_effect,175098.96,4 Launches annualizing,Assortment
+2013,Store,TX_3,new_listings_effect,500442.33,5 New listings,Assortment
+2013,Store,TX_3,lost_listings_effect,-307.6,6 Lost listings,Assortment
+2013,Store,TX_3,revenue_current,2946270.9,7 Current year,Total
+2013,Store,WI_1,revenue_prior,1592913.18,0 Prior year,Total
+2013,Store,WI_1,volume_effect,-49445.643923075506,1 Volume,Comp
+2013,Store,WI_1,mix_effect,-33257.058803665685,2 Mix,Comp
+2013,Store,WI_1,price_effect,27087.252726741135,3 Price,Comp
+2013,Store,WI_1,launch_annualization_effect,163563.85,4 Launches annualizing,Assortment
+2013,Store,WI_1,new_listings_effect,396841.11,5 New listings,Assortment
+2013,Store,WI_1,lost_listings_effect,-2240.57,6 Lost listings,Assortment
+2013,Store,WI_1,revenue_current,2095462.12,7 Current year,Total
+2013,Store,WI_2,revenue_prior,1552588.96,0 Prior year,Total
+2013,Store,WI_2,volume_effect,111561.06122114968,1 Volume,Comp
+2013,Store,WI_2,mix_effect,-32360.704275738914,2 Mix,Comp
+2013,Store,WI_2,price_effect,14448.673054589191,3 Price,Comp
+2013,Store,WI_2,launch_annualization_effect,367663.84,4 Launches annualizing,Assortment
+2013,Store,WI_2,new_listings_effect,752952.94,5 New listings,Assortment
+2013,Store,WI_2,lost_listings_effect,-576.22,6 Lost listings,Assortment
+2013,Store,WI_2,revenue_current,2766278.55,7 Current year,Total
+2013,Store,WI_3,revenue_prior,3017821.27,0 Prior year,Total
+2013,Store,WI_3,volume_effect,-32748.960591043044,1 Volume,Comp
+2013,Store,WI_3,mix_effect,-142373.05836196756,2 Mix,Comp
+2013,Store,WI_3,price_effect,50016.178953011055,3 Price,Comp
+2013,Store,WI_3,launch_annualization_effect,209626.59,4 Launches annualizing,Assortment
+2013,Store,WI_3,new_listings_effect,529745.23,5 New listings,Assortment
+2013,Store,WI_3,lost_listings_effect,-5008.87,6 Lost listings,Assortment
+2013,Store,WI_3,revenue_current,3627078.38,7 Current year,Total
+2013,Total,Total,revenue_prior,25946822.11,0 Prior year,Total
+2013,Total,Total,volume_effect,-306324.9498768092,1 Volume,Comp
+2013,Total,Total,mix_effect,-767532.6597775444,2 Mix,Comp
+2013,Total,Total,price_effect,361806.27965435013,3 Price,Comp
+2013,Total,Total,launch_annualization_effect,2434831.09,4 Launches annualizing,Assortment
+2013,Total,Total,new_listings_effect,5237836.68,5 New listings,Assortment
+2013,Total,Total,lost_listings_effect,-17895.55,6 Lost listings,Assortment
+2013,Total,Total,revenue_current,32889543.0,7 Current year,Total
+2014,Category,FOODS,revenue_prior,19918161.95,0 Prior year,Total
+2014,Category,FOODS,volume_effect,-2090929.6194057178,1 Volume,Comp
+2014,Category,FOODS,mix_effect,75127.45168917812,2 Mix,Comp
+2014,Category,FOODS,price_effect,-88581.48228346184,3 Price,Comp
+2014,Category,FOODS,launch_annualization_effect,1275628.13,4 Launches annualizing,Assortment
+2014,Category,FOODS,new_listings_effect,1663027.27,5 New listings,Assortment
+2014,Category,FOODS,lost_listings_effect,-13876.1,6 Lost listings,Assortment
+2014,Category,FOODS,revenue_current,20738557.6,7 Current year,Total
+2014,Category,HOBBIES,revenue_prior,3533673.82,0 Prior year,Total
+2014,Category,HOBBIES,volume_effect,368662.4083755893,1 Volume,Comp
+2014,Category,HOBBIES,mix_effect,-304590.3391159531,2 Mix,Comp
+2014,Category,HOBBIES,price_effect,52713.27074036375,3 Price,Comp
+2014,Category,HOBBIES,launch_annualization_effect,371547.05,4 Launches annualizing,Assortment
+2014,Category,HOBBIES,new_listings_effect,398938.09,5 New listings,Assortment
+2014,Category,HOBBIES,lost_listings_effect,-7265.63,6 Lost listings,Assortment
+2014,Category,HOBBIES,revenue_current,4413678.67,7 Current year,Total
+2014,Category,HOUSEHOLD,revenue_prior,9437707.23,0 Prior year,Total
+2014,Category,HOUSEHOLD,volume_effect,-655145.6787628743,1 Volume,Comp
+2014,Category,HOUSEHOLD,mix_effect,33227.052341667004,2 Mix,Comp
+2014,Category,HOUSEHOLD,price_effect,-8180.283578793518,3 Price,Comp
+2014,Category,HOUSEHOLD,launch_annualization_effect,910617.66,4 Launches annualizing,Assortment
+2014,Category,HOUSEHOLD,new_listings_effect,1066766.88,5 New listings,Assortment
+2014,Category,HOUSEHOLD,lost_listings_effect,-1378.68,6 Lost listings,Assortment
+2014,Category,HOUSEHOLD,revenue_current,10783614.18,7 Current year,Total
+2014,Department,FOODS_1,revenue_prior,2389102.96,0 Prior year,Total
+2014,Department,FOODS_1,volume_effect,-370622.0340012192,1 Volume,Comp
+2014,Department,FOODS_1,mix_effect,195935.7661756929,2 Mix,Comp
+2014,Department,FOODS_1,price_effect,491.5778255262412,3 Price,Comp
+2014,Department,FOODS_1,launch_annualization_effect,129414.43,4 Launches annualizing,Assortment
+2014,Department,FOODS_1,new_listings_effect,162564.72,5 New listings,Assortment
+2014,Department,FOODS_1,lost_listings_effect,-1818.68,6 Lost listings,Assortment
+2014,Department,FOODS_1,revenue_current,2505068.74,7 Current year,Total
+2014,Department,FOODS_2,revenue_prior,4172171.31,0 Prior year,Total
+2014,Department,FOODS_2,volume_effect,-561133.7060270228,1 Volume,Comp
+2014,Department,FOODS_2,mix_effect,87077.10849653976,2 Mix,Comp
+2014,Department,FOODS_2,price_effect,26073.357530483045,3 Price,Comp
+2014,Department,FOODS_2,launch_annualization_effect,495698.68,4 Launches annualizing,Assortment
+2014,Department,FOODS_2,new_listings_effect,252232.3,5 New listings,Assortment
+2014,Department,FOODS_2,lost_listings_effect,-8594.96,6 Lost listings,Assortment
+2014,Department,FOODS_2,revenue_current,4463524.09,7 Current year,Total
+2014,Department,FOODS_3,revenue_prior,13356887.68,0 Prior year,Total
+2014,Department,FOODS_3,volume_effect,-1228199.9225973089,1 Volume,Comp
+2014,Department,FOODS_3,mix_effect,-138859.3797632251,2 Mix,Comp
+2014,Department,FOODS_3,price_effect,-115146.417639466,3 Price,Comp
+2014,Department,FOODS_3,launch_annualization_effect,650515.02,4 Launches annualizing,Assortment
+2014,Department,FOODS_3,new_listings_effect,1248230.25,5 New listings,Assortment
+2014,Department,FOODS_3,lost_listings_effect,-3462.46,6 Lost listings,Assortment
+2014,Department,FOODS_3,revenue_current,13769964.77,7 Current year,Total
+2014,Department,HOBBIES_1,revenue_prior,3353202.49,0 Prior year,Total
+2014,Department,HOBBIES_1,volume_effect,408141.64850563766,1 Volume,Comp
+2014,Department,HOBBIES_1,mix_effect,-327486.34992535505,2 Mix,Comp
+2014,Department,HOBBIES_1,price_effect,49473.63141971687,3 Price,Comp
+2014,Department,HOBBIES_1,launch_annualization_effect,359087.79,4 Launches annualizing,Assortment
+2014,Department,HOBBIES_1,new_listings_effect,375784.92,5 New listings,Assortment
+2014,Department,HOBBIES_1,lost_listings_effect,-7170.18,6 Lost listings,Assortment
+2014,Department,HOBBIES_1,revenue_current,4211033.95,7 Current year,Total
+2014,Department,HOBBIES_2,revenue_prior,180471.33,0 Prior year,Total
+2014,Department,HOBBIES_2,volume_effect,-20033.945147806233,1 Volume,Comp
+2014,Department,HOBBIES_2,mix_effect,3450.715827160602,2 Mix,Comp
+2014,Department,HOBBIES_2,price_effect,3239.6393206455978,3 Price,Comp
+2014,Department,HOBBIES_2,launch_annualization_effect,12459.26,4 Launches annualizing,Assortment
+2014,Department,HOBBIES_2,new_listings_effect,23153.17,5 New listings,Assortment
+2014,Department,HOBBIES_2,lost_listings_effect,-95.45,6 Lost listings,Assortment
+2014,Department,HOBBIES_2,revenue_current,202644.72,7 Current year,Total
+2014,Department,HOUSEHOLD_1,revenue_prior,6853236.35,0 Prior year,Total
+2014,Department,HOUSEHOLD_1,volume_effect,-477664.8817814365,1 Volume,Comp
+2014,Department,HOUSEHOLD_1,mix_effect,3823.037039389834,2 Mix,Comp
+2014,Department,HOUSEHOLD_1,price_effect,-6416.735257953405,3 Price,Comp
+2014,Department,HOUSEHOLD_1,launch_annualization_effect,767049.34,4 Launches annualizing,Assortment
+2014,Department,HOUSEHOLD_1,new_listings_effect,880823.61,5 New listings,Assortment
+2014,Department,HOUSEHOLD_1,lost_listings_effect,-1339.5,6 Lost listings,Assortment
+2014,Department,HOUSEHOLD_1,revenue_current,8019511.22,7 Current year,Total
+2014,Department,HOUSEHOLD_2,revenue_prior,2584470.88,0 Prior year,Total
+2014,Department,HOUSEHOLD_2,volume_effect,-166815.4550918117,1 Volume,Comp
+2014,Department,HOUSEHOLD_2,mix_effect,18738.673412645236,2 Mix,Comp
+2014,Department,HOUSEHOLD_2,price_effect,-1763.5483208335936,3 Price,Comp
+2014,Department,HOUSEHOLD_2,launch_annualization_effect,143568.32,4 Launches annualizing,Assortment
+2014,Department,HOUSEHOLD_2,new_listings_effect,185943.27,5 New listings,Assortment
+2014,Department,HOUSEHOLD_2,lost_listings_effect,-39.18,6 Lost listings,Assortment
+2014,Department,HOUSEHOLD_2,revenue_current,2764102.96,7 Current year,Total
+2014,State,CA,revenue_prior,14713363.44,0 Prior year,Total
+2014,State,CA,volume_effect,-1020916.9171055591,1 Volume,Comp
+2014,State,CA,mix_effect,82171.07928169891,2 Mix,Comp
+2014,State,CA,price_effect,-3400.5921761393547,3 Price,Comp
+2014,State,CA,launch_annualization_effect,870388.08,4 Launches annualizing,Assortment
+2014,State,CA,new_listings_effect,1577514.07,5 New listings,Assortment
+2014,State,CA,lost_listings_effect,-9283.72,6 Lost listings,Assortment
+2014,State,CA,revenue_current,16209835.44,7 Current year,Total
+2014,State,TX,revenue_prior,9687360.51,0 Prior year,Total
+2014,State,TX,volume_effect,-853674.4539771879,1 Volume,Comp
+2014,State,TX,mix_effect,28567.33298296202,2 Mix,Comp
+2014,State,TX,price_effect,-9423.299005774781,3 Price,Comp
+2014,State,TX,launch_annualization_effect,626977.04,4 Launches annualizing,Assortment
+2014,State,TX,new_listings_effect,753296.34,5 New listings,Assortment
+2014,State,TX,lost_listings_effect,-6350.18,6 Lost listings,Assortment
+2014,State,TX,revenue_current,10226753.29,7 Current year,Total
+2014,State,WI,revenue_prior,8488819.05,0 Prior year,Total
+2014,State,WI,volume_effect,-725620.3622130456,1 Volume,Comp
+2014,State,WI,mix_effect,-84175.40384698566,2 Mix,Comp
+2014,State,WI,price_effect,-31224.603939969093,3 Price,Comp
+2014,State,WI,launch_annualization_effect,1060427.72,4 Launches annualizing,Assortment
+2014,State,WI,new_listings_effect,797921.83,5 New listings,Assortment
+2014,State,WI,lost_listings_effect,-6886.51,6 Lost listings,Assortment
+2014,State,WI,revenue_current,9499261.72,7 Current year,Total
+2014,Store,CA_1,revenue_prior,3923462.59,0 Prior year,Total
+2014,Store,CA_1,volume_effect,-230558.60863981798,1 Volume,Comp
+2014,Store,CA_1,mix_effect,31010.79895598814,2 Mix,Comp
+2014,Store,CA_1,price_effect,-191.93031617021188,3 Price,Comp
+2014,Store,CA_1,launch_annualization_effect,235007.07,4 Launches annualizing,Assortment
+2014,Store,CA_1,new_listings_effect,408520.8,5 New listings,Assortment
+2014,Store,CA_1,lost_listings_effect,-2105.73,6 Lost listings,Assortment
+2014,Store,CA_1,revenue_current,4365144.99,7 Current year,Total
+2014,Store,CA_2,revenue_prior,3070037.84,0 Prior year,Total
+2014,Store,CA_2,volume_effect,-223409.88794110308,1 Volume,Comp
+2014,Store,CA_2,mix_effect,-13576.01130493451,2 Mix,Comp
+2014,Store,CA_2,price_effect,457.31924603739753,3 Price,Comp
+2014,Store,CA_2,launch_annualization_effect,153305.06,4 Launches annualizing,Assortment
+2014,Store,CA_2,new_listings_effect,316595.19,5 New listings,Assortment
+2014,Store,CA_2,lost_listings_effect,-1620.85,6 Lost listings,Assortment
+2014,Store,CA_2,revenue_current,3301788.66,7 Current year,Total
+2014,Store,CA_3,revenue_prior,5657907.31,0 Prior year,Total
+2014,Store,CA_3,volume_effect,-503936.79649427254,1 Volume,Comp
+2014,Store,CA_3,mix_effect,88646.2678156374,2 Mix,Comp
+2014,Store,CA_3,price_effect,-6114.5913213649765,3 Price,Comp
+2014,Store,CA_3,launch_annualization_effect,326374.09,4 Launches annualizing,Assortment
+2014,Store,CA_3,new_listings_effect,629116.45,5 New listings,Assortment
+2014,Store,CA_3,lost_listings_effect,-2942.92,6 Lost listings,Assortment
+2014,Store,CA_3,revenue_current,6189049.81,7 Current year,Total
+2014,Store,CA_4,revenue_prior,2061955.7,0 Prior year,Total
+2014,Store,CA_4,volume_effect,-60007.885861414026,1 Volume,Comp
+2014,Store,CA_4,mix_effect,-26913.714353943942,2 Mix,Comp
+2014,Store,CA_4,price_effect,2448.6102153579704,3 Price,Comp
+2014,Store,CA_4,launch_annualization_effect,155701.86,4 Launches annualizing,Assortment
+2014,Store,CA_4,new_listings_effect,223281.63,5 New listings,Assortment
+2014,Store,CA_4,lost_listings_effect,-2614.22,6 Lost listings,Assortment
+2014,Store,CA_4,revenue_current,2353851.98,7 Current year,Total
+2014,Store,TX_1,revenue_prior,2822718.43,0 Prior year,Total
+2014,Store,TX_1,volume_effect,-265696.3610138879,1 Volume,Comp
+2014,Store,TX_1,mix_effect,24604.246048047207,2 Mix,Comp
+2014,Store,TX_1,price_effect,-4151.415034159552,3 Price,Comp
+2014,Store,TX_1,launch_annualization_effect,181130.48,4 Launches annualizing,Assortment
+2014,Store,TX_1,new_listings_effect,222353.83,5 New listings,Assortment
+2014,Store,TX_1,lost_listings_effect,-1350.27,6 Lost listings,Assortment
+2014,Store,TX_1,revenue_current,2979608.94,7 Current year,Total
+2014,Store,TX_2,revenue_prior,3918371.18,0 Prior year,Total
+2014,Store,TX_2,volume_effect,-346993.8482873568,1 Volume,Comp
+2014,Store,TX_2,mix_effect,11240.028187294025,2 Mix,Comp
+2014,Store,TX_2,price_effect,708.6601000633091,3 Price,Comp
+2014,Store,TX_2,launch_annualization_effect,273950.68,4 Launches annualizing,Assortment
+2014,Store,TX_2,new_listings_effect,296123.71,5 New listings,Assortment
+2014,Store,TX_2,lost_listings_effect,-2136.45,6 Lost listings,Assortment
+2014,Store,TX_2,revenue_current,4151263.96,7 Current year,Total
+2014,Store,TX_3,revenue_prior,2946270.9,0 Prior year,Total
+2014,Store,TX_3,volume_effect,-240893.4063962083,1 Volume,Comp
+2014,Store,TX_3,mix_effect,-7367.779532115441,2 Mix,Comp
+2014,Store,TX_3,price_effect,-5980.54407167621,3 Price,Comp
+2014,Store,TX_3,launch_annualization_effect,171895.88,4 Launches annualizing,Assortment
+2014,Store,TX_3,new_listings_effect,234818.8,5 New listings,Assortment
+2014,Store,TX_3,lost_listings_effect,-2863.46,6 Lost listings,Assortment
+2014,Store,TX_3,revenue_current,3095880.39,7 Current year,Total
+2014,Store,WI_1,revenue_prior,2095462.12,0 Prior year,Total
+2014,Store,WI_1,volume_effect,65578.4293593506,1 Volume,Comp
+2014,Store,WI_1,mix_effect,-83002.99305623653,2 Mix,Comp
+2014,Store,WI_1,price_effect,-2923.62630311423,3 Price,Comp
+2014,Store,WI_1,launch_annualization_effect,477501.07,4 Launches annualizing,Assortment
+2014,Store,WI_1,new_listings_effect,263395.79,5 New listings,Assortment
+2014,Store,WI_1,lost_listings_effect,-2022.58,6 Lost listings,Assortment
+2014,Store,WI_1,revenue_current,2813988.21,7 Current year,Total
+2014,Store,WI_2,revenue_prior,2766278.55,0 Prior year,Total
+2014,Store,WI_2,volume_effect,139831.85410189623,1 Volume,Comp
+2014,Store,WI_2,mix_effect,-35365.23230159376,2 Mix,Comp
+2014,Store,WI_2,price_effect,-9830.051800302695,3 Price,Comp
+2014,Store,WI_2,launch_annualization_effect,457017.39,4 Launches annualizing,Assortment
+2014,Store,WI_2,new_listings_effect,313914.9,5 New listings,Assortment
+2014,Store,WI_2,lost_listings_effect,-4139.42,6 Lost listings,Assortment
+2014,Store,WI_2,revenue_current,3627707.99,7 Current year,Total
+2014,Store,WI_3,revenue_prior,3627078.38,0 Prior year,Total
+2014,Store,WI_3,volume_effect,-904185.3019130103,1 Volume,Comp
+2014,Store,WI_3,mix_effect,7347.477749559097,2 Mix,Comp
+2014,Store,WI_3,price_effect,-18470.925836548675,3 Price,Comp
+2014,Store,WI_3,launch_annualization_effect,125909.26,4 Launches annualizing,Assortment
+2014,Store,WI_3,new_listings_effect,220611.14,5 New listings,Assortment
+2014,Store,WI_3,lost_listings_effect,-724.51,6 Lost listings,Assortment
+2014,Store,WI_3,revenue_current,3057565.52,7 Current year,Total
+2014,Total,Total,revenue_prior,32889543.0,0 Prior year,Total
+2014,Total,Total,volume_effect,-2613608.5252577076,1 Volume,Comp
+2014,Total,Total,mix_effect,39959.8003795892,2 Mix,Comp
+2014,Total,Total,price_effect,-44048.495121881366,3 Price,Comp
+2014,Total,Total,launch_annualization_effect,2557792.84,4 Launches annualizing,Assortment
+2014,Total,Total,new_listings_effect,3128732.24,5 New listings,Assortment
+2014,Total,Total,lost_listings_effect,-22520.41,6 Lost listings,Assortment
+2014,Total,Total,revenue_current,35935850.45,7 Current year,Total
+2015,Category,FOODS,revenue_prior,20738557.6,0 Prior year,Total
+2015,Category,FOODS,volume_effect,-1750578.8756128447,1 Volume,Comp
+2015,Category,FOODS,mix_effect,1103447.8386191577,2 Mix,Comp
+2015,Category,FOODS,price_effect,167037.36699368432,3 Price,Comp
+2015,Category,FOODS,launch_annualization_effect,1050627.24,4 Launches annualizing,Assortment
+2015,Category,FOODS,new_listings_effect,911682.43,5 New listings,Assortment
+2015,Category,FOODS,lost_listings_effect,-1457.66,6 Lost listings,Assortment
+2015,Category,FOODS,revenue_current,22219315.94,7 Current year,Total
+2015,Category,HOBBIES,revenue_prior,4413678.67,0 Prior year,Total
+2015,Category,HOBBIES,volume_effect,-524396.343753674,1 Volume,Comp
+2015,Category,HOBBIES,mix_effect,-17926.093137240503,2 Mix,Comp
+2015,Category,HOBBIES,price_effect,-19359.47310908558,3 Price,Comp
+2015,Category,HOBBIES,launch_annualization_effect,315492.29,4 Launches annualizing,Assortment
+2015,Category,HOBBIES,new_listings_effect,327944.25,5 New listings,Assortment
+2015,Category,HOBBIES,lost_listings_effect,-999.73,6 Lost listings,Assortment
+2015,Category,HOBBIES,revenue_current,4494433.57,7 Current year,Total
+2015,Category,HOUSEHOLD,revenue_prior,10783614.18,0 Prior year,Total
+2015,Category,HOUSEHOLD,volume_effect,-1172795.252319568,1 Volume,Comp
+2015,Category,HOUSEHOLD,mix_effect,259188.43209690042,2 Mix,Comp
+2015,Category,HOUSEHOLD,price_effect,18139.13022266887,3 Price,Comp
+2015,Category,HOUSEHOLD,launch_annualization_effect,384639.95,4 Launches annualizing,Assortment
+2015,Category,HOUSEHOLD,new_listings_effect,1087281.49,5 New listings,Assortment
+2015,Category,HOUSEHOLD,lost_listings_effect,-623.97,6 Lost listings,Assortment
+2015,Category,HOUSEHOLD,revenue_current,11359443.96,7 Current year,Total
+2015,Department,FOODS_1,revenue_prior,2505068.74,0 Prior year,Total
+2015,Department,FOODS_1,volume_effect,-231782.5420651644,1 Volume,Comp
+2015,Department,FOODS_1,mix_effect,188955.58562178258,2 Mix,Comp
+2015,Department,FOODS_1,price_effect,27714.156443381682,3 Price,Comp
+2015,Department,FOODS_1,launch_annualization_effect,64539.32,4 Launches annualizing,Assortment
+2015,Department,FOODS_1,new_listings_effect,46885.8,5 New listings,Assortment
+2015,Department,FOODS_1,lost_listings_effect,-113.92,6 Lost listings,Assortment
+2015,Department,FOODS_1,revenue_current,2601267.14,7 Current year,Total
+2015,Department,FOODS_2,revenue_prior,4463524.09,0 Prior year,Total
+2015,Department,FOODS_2,volume_effect,-175983.23621497498,1 Volume,Comp
+2015,Department,FOODS_2,mix_effect,95525.24688131688,2 Mix,Comp
+2015,Department,FOODS_2,price_effect,-7460.240666341502,3 Price,Comp
+2015,Department,FOODS_2,launch_annualization_effect,153053.57,4 Launches annualizing,Assortment
+2015,Department,FOODS_2,new_listings_effect,324475.01,5 New listings,Assortment
+2015,Department,FOODS_2,lost_listings_effect,-791.8,6 Lost listings,Assortment
+2015,Department,FOODS_2,revenue_current,4852342.64,7 Current year,Total
+2015,Department,FOODS_3,revenue_prior,13769964.77,0 Prior year,Total
+2015,Department,FOODS_3,volume_effect,-1268357.8674319559,1 Volume,Comp
+2015,Department,FOODS_3,mix_effect,744511.7762152944,2 Mix,Comp
+2015,Department,FOODS_3,price_effect,146783.4512166623,3 Price,Comp
+2015,Department,FOODS_3,launch_annualization_effect,833034.35,4 Launches annualizing,Assortment
+2015,Department,FOODS_3,new_listings_effect,540321.62,5 New listings,Assortment
+2015,Department,FOODS_3,lost_listings_effect,-551.94,6 Lost listings,Assortment
+2015,Department,FOODS_3,revenue_current,14765706.16,7 Current year,Total
+2015,Department,HOBBIES_1,revenue_prior,4211033.95,0 Prior year,Total
+2015,Department,HOBBIES_1,volume_effect,-576951.602570127,1 Volume,Comp
+2015,Department,HOBBIES_1,mix_effect,16479.366803133395,2 Mix,Comp
+2015,Department,HOBBIES_1,price_effect,-20272.23423300637,3 Price,Comp
+2015,Department,HOBBIES_1,launch_annualization_effect,303605.72,4 Launches annualizing,Assortment
+2015,Department,HOBBIES_1,new_listings_effect,300663.03,5 New listings,Assortment
+2015,Department,HOBBIES_1,lost_listings_effect,-974.12,6 Lost listings,Assortment
+2015,Department,HOBBIES_1,revenue_current,4233584.11,7 Current year,Total
+2015,Department,HOBBIES_2,revenue_prior,202644.72,0 Prior year,Total
+2015,Department,HOBBIES_2,volume_effect,25630.16854141859,1 Volume,Comp
+2015,Department,HOBBIES_2,mix_effect,-7480.3696653402585,2 Mix,Comp
+2015,Department,HOBBIES_2,price_effect,912.761123921664,3 Price,Comp
+2015,Department,HOBBIES_2,launch_annualization_effect,11886.57,4 Launches annualizing,Assortment
+2015,Department,HOBBIES_2,new_listings_effect,27281.22,5 New listings,Assortment
+2015,Department,HOBBIES_2,lost_listings_effect,-25.61,6 Lost listings,Assortment
+2015,Department,HOBBIES_2,revenue_current,260849.46,7 Current year,Total
+2015,Department,HOUSEHOLD_1,revenue_prior,8019511.22,0 Prior year,Total
+2015,Department,HOUSEHOLD_1,volume_effect,-939606.9852431368,1 Volume,Comp
+2015,Department,HOUSEHOLD_1,mix_effect,242139.91102788132,2 Mix,Comp
+2015,Department,HOUSEHOLD_1,price_effect,-15992.21578474436,3 Price,Comp
+2015,Department,HOUSEHOLD_1,launch_annualization_effect,259911.17,4 Launches annualizing,Assortment
+2015,Department,HOUSEHOLD_1,new_listings_effect,894178.1,5 New listings,Assortment
+2015,Department,HOUSEHOLD_1,lost_listings_effect,-623.97,6 Lost listings,Assortment
+2015,Department,HOUSEHOLD_1,revenue_current,8459517.23,7 Current year,Total
+2015,Department,HOUSEHOLD_2,revenue_prior,2764102.96,0 Prior year,Total
+2015,Department,HOUSEHOLD_2,volume_effect,-192645.49615777546,1 Volume,Comp
+2015,Department,HOUSEHOLD_2,mix_effect,-23494.249849640764,2 Mix,Comp
+2015,Department,HOUSEHOLD_2,price_effect,34131.346007416025,3 Price,Comp
+2015,Department,HOUSEHOLD_2,launch_annualization_effect,124728.78,4 Launches annualizing,Assortment
+2015,Department,HOUSEHOLD_2,new_listings_effect,193103.39,5 New listings,Assortment
+2015,Department,HOUSEHOLD_2,lost_listings_effect,0.0,6 Lost listings,Assortment
+2015,Department,HOUSEHOLD_2,revenue_current,2899926.73,7 Current year,Total
+2015,State,CA,revenue_prior,16209835.44,0 Prior year,Total
+2015,State,CA,volume_effect,-1518917.5328345557,1 Volume,Comp
+2015,State,CA,mix_effect,469210.7932206746,2 Mix,Comp
+2015,State,CA,price_effect,102809.1696138829,3 Price,Comp
+2015,State,CA,launch_annualization_effect,801753.18,4 Launches annualizing,Assortment
+2015,State,CA,new_listings_effect,1057218.32,5 New listings,Assortment
+2015,State,CA,lost_listings_effect,-1706.49,6 Lost listings,Assortment
+2015,State,CA,revenue_current,17120202.88,7 Current year,Total
+2015,State,TX,revenue_prior,10226753.29,0 Prior year,Total
+2015,State,TX,volume_effect,-1091039.3871773463,1 Volume,Comp
+2015,State,TX,mix_effect,435400.72930348665,2 Mix,Comp
+2015,State,TX,price_effect,19097.317873859778,3 Price,Comp
+2015,State,TX,launch_annualization_effect,441302.94,4 Launches annualizing,Assortment
+2015,State,TX,new_listings_effect,657510.31,5 New listings,Assortment
+2015,State,TX,lost_listings_effect,-120.6,6 Lost listings,Assortment
+2015,State,TX,revenue_current,10688904.6,7 Current year,Total
+2015,State,WI,revenue_prior,9499261.72,0 Prior year,Total
+2015,State,WI,volume_effect,-735824.4879339531,1 Volume,Comp
+2015,State,WI,mix_effect,338109.5913144024,2 Mix,Comp
+2015,State,WI,price_effect,43910.53661955148,3 Price,Comp
+2015,State,WI,launch_annualization_effect,507703.36,4 Launches annualizing,Assortment
+2015,State,WI,new_listings_effect,612179.54,5 New listings,Assortment
+2015,State,WI,lost_listings_effect,-1254.27,6 Lost listings,Assortment
+2015,State,WI,revenue_current,10264085.99,7 Current year,Total
+2015,Store,CA_1,revenue_prior,4365144.99,0 Prior year,Total
+2015,Store,CA_1,volume_effect,-293493.71544620814,1 Volume,Comp
+2015,Store,CA_1,mix_effect,98435.4160190844,2 Mix,Comp
+2015,Store,CA_1,price_effect,28203.459427123424,3 Price,Comp
+2015,Store,CA_1,launch_annualization_effect,230770.81,4 Launches annualizing,Assortment
+2015,Store,CA_1,new_listings_effect,249390.61,5 New listings,Assortment
+2015,Store,CA_1,lost_listings_effect,-419.58,6 Lost listings,Assortment
+2015,Store,CA_1,revenue_current,4678031.99,7 Current year,Total
+2015,Store,CA_2,revenue_prior,3301788.66,0 Prior year,Total
+2015,Store,CA_2,volume_effect,-647701.3101192351,1 Volume,Comp
+2015,Store,CA_2,mix_effect,82639.81286389101,2 Mix,Comp
+2015,Store,CA_2,price_effect,18605.7372553437,3 Price,Comp
+2015,Store,CA_2,launch_annualization_effect,113542.58,4 Launches annualizing,Assortment
+2015,Store,CA_2,new_listings_effect,234851.29,5 New listings,Assortment
+2015,Store,CA_2,lost_listings_effect,-356.89,6 Lost listings,Assortment
+2015,Store,CA_2,revenue_current,3103369.88,7 Current year,Total
+2015,Store,CA_3,revenue_prior,6189049.81,0 Prior year,Total
+2015,Store,CA_3,volume_effect,-405732.1456150657,1 Volume,Comp
+2015,Store,CA_3,mix_effect,214216.12163708732,2 Mix,Comp
+2015,Store,CA_3,price_effect,41709.97397797834,3 Price,Comp
+2015,Store,CA_3,launch_annualization_effect,322041.15,4 Launches annualizing,Assortment
+2015,Store,CA_3,new_listings_effect,392368.52,5 New listings,Assortment
+2015,Store,CA_3,lost_listings_effect,-385.82,6 Lost listings,Assortment
+2015,Store,CA_3,revenue_current,6753267.61,7 Current year,Total
+2015,Store,CA_4,revenue_prior,2353851.98,0 Prior year,Total
+2015,Store,CA_4,volume_effect,-192956.38150198766,1 Volume,Comp
+2015,Store,CA_4,mix_effect,94885.46254855697,2 Mix,Comp
+2015,Store,CA_4,price_effect,14289.998953430913,3 Price,Comp
+2015,Store,CA_4,launch_annualization_effect,135398.64,4 Launches annualizing,Assortment
+2015,Store,CA_4,new_listings_effect,180607.9,5 New listings,Assortment
+2015,Store,CA_4,lost_listings_effect,-544.2,6 Lost listings,Assortment
+2015,Store,CA_4,revenue_current,2585533.4,7 Current year,Total
+2015,Store,TX_1,revenue_prior,2979608.94,0 Prior year,Total
+2015,Store,TX_1,volume_effect,-249187.7537801466,1 Volume,Comp
+2015,Store,TX_1,mix_effect,108489.94529850548,2 Mix,Comp
+2015,Store,TX_1,price_effect,8407.308481641114,3 Price,Comp
+2015,Store,TX_1,launch_annualization_effect,142064.16,4 Launches annualizing,Assortment
+2015,Store,TX_1,new_listings_effect,195923.64,5 New listings,Assortment
+2015,Store,TX_1,lost_listings_effect,-47.26,6 Lost listings,Assortment
+2015,Store,TX_1,revenue_current,3185258.98,7 Current year,Total
+2015,Store,TX_2,revenue_prior,4151263.96,0 Prior year,Total
+2015,Store,TX_2,volume_effect,-791927.8697305433,1 Volume,Comp
+2015,Store,TX_2,mix_effect,102882.62478408823,2 Mix,Comp
+2015,Store,TX_2,price_effect,16090.794946454931,3 Price,Comp
+2015,Store,TX_2,launch_annualization_effect,122489.68,4 Launches annualizing,Assortment
+2015,Store,TX_2,new_listings_effect,215070.65,5 New listings,Assortment
+2015,Store,TX_2,lost_listings_effect,-13.3,6 Lost listings,Assortment
+2015,Store,TX_2,revenue_current,3815856.54,7 Current year,Total
+2015,Store,TX_3,revenue_prior,3095880.39,0 Prior year,Total
+2015,Store,TX_3,volume_effect,-50253.069417586834,1 Volume,Comp
+2015,Store,TX_3,mix_effect,224357.46497181337,2 Mix,Comp
+2015,Store,TX_3,price_effect,-5400.785554226022,3 Price,Comp
+2015,Store,TX_3,launch_annualization_effect,176749.1,4 Launches annualizing,Assortment
+2015,Store,TX_3,new_listings_effect,246516.02,5 New listings,Assortment
+2015,Store,TX_3,lost_listings_effect,-60.04,6 Lost listings,Assortment
+2015,Store,TX_3,revenue_current,3687789.08,7 Current year,Total
+2015,Store,WI_1,revenue_prior,2813988.21,0 Prior year,Total
+2015,Store,WI_1,volume_effect,57802.55778144108,1 Volume,Comp
+2015,Store,WI_1,mix_effect,111429.21405110089,2 Mix,Comp
+2015,Store,WI_1,price_effect,16298.198167457711,3 Price,Comp
+2015,Store,WI_1,launch_annualization_effect,203939.99,4 Launches annualizing,Assortment
+2015,Store,WI_1,new_listings_effect,213838.11,5 New listings,Assortment
+2015,Store,WI_1,lost_listings_effect,-1046.13,6 Lost listings,Assortment
+2015,Store,WI_1,revenue_current,3416250.15,7 Current year,Total
+2015,Store,WI_2,revenue_prior,3627707.99,0 Prior year,Total
+2015,Store,WI_2,volume_effect,-159659.36727080625,1 Volume,Comp
+2015,Store,WI_2,mix_effect,98740.78896922199,2 Mix,Comp
+2015,Store,WI_2,price_effect,12784.28830158431,3 Price,Comp
+2015,Store,WI_2,launch_annualization_effect,168905.67,4 Launches annualizing,Assortment
+2015,Store,WI_2,new_listings_effect,240770.02,5 New listings,Assortment
+2015,Store,WI_2,lost_listings_effect,-171.12,6 Lost listings,Assortment
+2015,Store,WI_2,revenue_current,3989078.27,7 Current year,Total
+2015,Store,WI_3,revenue_prior,3057565.52,0 Prior year,Total
+2015,Store,WI_3,volume_effect,-611871.3309548504,1 Volume,Comp
+2015,Store,WI_3,mix_effect,105843.24080434721,2 Mix,Comp
+2015,Store,WI_3,price_effect,14828.050150502939,3 Price,Comp
+2015,Store,WI_3,launch_annualization_effect,134857.7,4 Launches annualizing,Assortment
+2015,Store,WI_3,new_listings_effect,157571.41,5 New listings,Assortment
+2015,Store,WI_3,lost_listings_effect,-37.02,6 Lost listings,Assortment
+2015,Store,WI_3,revenue_current,2858757.57,7 Current year,Total
+2015,Total,Total,revenue_prior,35935850.45,0 Prior year,Total
+2015,Total,Total,volume_effect,-3339970.0425480315,1 Volume,Comp
+2015,Total,Total,mix_effect,1236909.7484407313,2 Mix,Comp
+2015,Total,Total,price_effect,165817.02410730347,3 Price,Comp
+2015,Total,Total,launch_annualization_effect,1750759.48,4 Launches annualizing,Assortment
+2015,Total,Total,new_listings_effect,2326908.17,5 New listings,Assortment
+2015,Total,Total,lost_listings_effect,-3081.36,6 Lost listings,Assortment
+2015,Total,Total,revenue_current,38073193.47,7 Current year,Total
+2016,Category,FOODS,revenue_prior,22219315.94,0 Prior year,Total
+2016,Category,FOODS,volume_effect,-603735.5571472732,1 Volume,Comp
+2016,Category,FOODS,mix_effect,521703.6453705579,2 Mix,Comp
+2016,Category,FOODS,price_effect,323468.70177671686,3 Price,Comp
+2016,Category,FOODS,launch_annualization_effect,777055.75,4 Launches annualizing,Assortment
+2016,Category,FOODS,new_listings_effect,327027.54,5 New listings,Assortment
+2016,Category,FOODS,lost_listings_effect,-726.86,6 Lost listings,Assortment
+2016,Category,FOODS,revenue_current,23564109.16,7 Current year,Total
+2016,Category,HOBBIES,revenue_prior,4494433.57,0 Prior year,Total
+2016,Category,HOBBIES,volume_effect,583997.6941502978,1 Volume,Comp
+2016,Category,HOBBIES,mix_effect,226374.39040722977,2 Mix,Comp
+2016,Category,HOBBIES,price_effect,25531.70544247236,3 Price,Comp
+2016,Category,HOBBIES,launch_annualization_effect,556657.74,4 Launches annualizing,Assortment
+2016,Category,HOBBIES,new_listings_effect,69092.76,5 New listings,Assortment
+2016,Category,HOBBIES,lost_listings_effect,0.0,6 Lost listings,Assortment
+2016,Category,HOBBIES,revenue_current,5956087.86,7 Current year,Total
+2016,Category,HOUSEHOLD,revenue_prior,11359443.96,0 Prior year,Total
+2016,Category,HOUSEHOLD,volume_effect,1147755.6442146897,1 Volume,Comp
+2016,Category,HOUSEHOLD,mix_effect,-248647.15731697716,2 Mix,Comp
+2016,Category,HOUSEHOLD,price_effect,47607.173102287576,3 Price,Comp
+2016,Category,HOUSEHOLD,launch_annualization_effect,775745.87,4 Launches annualizing,Assortment
+2016,Category,HOUSEHOLD,new_listings_effect,178603.79,5 New listings,Assortment
+2016,Category,HOUSEHOLD,lost_listings_effect,-538.91,6 Lost listings,Assortment
+2016,Category,HOUSEHOLD,revenue_current,13259970.37,7 Current year,Total
+2016,Department,FOODS_1,revenue_prior,2601267.14,0 Prior year,Total
+2016,Department,FOODS_1,volume_effect,216210.60009539232,1 Volume,Comp
+2016,Department,FOODS_1,mix_effect,26399.3333934471,2 Mix,Comp
+2016,Department,FOODS_1,price_effect,49160.99651116086,3 Price,Comp
+2016,Department,FOODS_1,launch_annualization_effect,34073.35,4 Launches annualizing,Assortment
+2016,Department,FOODS_1,new_listings_effect,899.97,5 New listings,Assortment
+2016,Department,FOODS_1,lost_listings_effect,0.0,6 Lost listings,Assortment
+2016,Department,FOODS_1,revenue_current,2928011.39,7 Current year,Total
+2016,Department,FOODS_2,revenue_prior,4852342.64,0 Prior year,Total
+2016,Department,FOODS_2,volume_effect,515382.35967969755,1 Volume,Comp
+2016,Department,FOODS_2,mix_effect,122285.21272585448,2 Mix,Comp
+2016,Department,FOODS_2,price_effect,23165.837594447657,3 Price,Comp
+2016,Department,FOODS_2,launch_annualization_effect,283274.32,4 Launches annualizing,Assortment
+2016,Department,FOODS_2,new_listings_effect,222341.41,5 New listings,Assortment
+2016,Department,FOODS_2,lost_listings_effect,0.0,6 Lost listings,Assortment
+2016,Department,FOODS_2,revenue_current,6018791.78,7 Current year,Total
+2016,Department,FOODS_3,revenue_prior,14765706.16,0 Prior year,Total
+2016,Department,FOODS_3,volume_effect,-1081016.4260589883,1 Volume,Comp
+2016,Department,FOODS_3,mix_effect,118707.00838787481,2 Mix,Comp
+2016,Department,FOODS_3,price_effect,251141.8676711116,3 Price,Comp
+2016,Department,FOODS_3,launch_annualization_effect,459708.08,4 Launches annualizing,Assortment
+2016,Department,FOODS_3,new_listings_effect,103786.16,5 New listings,Assortment
+2016,Department,FOODS_3,lost_listings_effect,-726.86,6 Lost listings,Assortment
+2016,Department,FOODS_3,revenue_current,14617305.99,7 Current year,Total
+2016,Department,HOBBIES_1,revenue_prior,4233584.11,0 Prior year,Total
+2016,Department,HOBBIES_1,volume_effect,562665.1491447532,1 Volume,Comp
+2016,Department,HOBBIES_1,mix_effect,232532.18615786172,2 Mix,Comp
+2016,Department,HOBBIES_1,price_effect,26833.004697385244,3 Price,Comp
+2016,Department,HOBBIES_1,launch_annualization_effect,534235.93,4 Launches annualizing,Assortment
+2016,Department,HOBBIES_1,new_listings_effect,67044.25,5 New listings,Assortment
+2016,Department,HOBBIES_1,lost_listings_effect,0.0,6 Lost listings,Assortment
+2016,Department,HOBBIES_1,revenue_current,5656894.63,7 Current year,Total
+2016,Department,HOBBIES_2,revenue_prior,260849.46,0 Prior year,Total
+2016,Department,HOBBIES_2,volume_effect,26033.47283444945,1 Volume,Comp
+2016,Department,HOBBIES_2,mix_effect,-10858.723579535173,2 Mix,Comp
+2016,Department,HOBBIES_2,price_effect,-1301.29925491428,3 Price,Comp
+2016,Department,HOBBIES_2,launch_annualization_effect,22421.81,4 Launches annualizing,Assortment
+2016,Department,HOBBIES_2,new_listings_effect,2048.51,5 New listings,Assortment
+2016,Department,HOBBIES_2,lost_listings_effect,0.0,6 Lost listings,Assortment
+2016,Department,HOBBIES_2,revenue_current,299193.23,7 Current year,Total
+2016,Department,HOUSEHOLD_1,revenue_prior,8459517.23,0 Prior year,Total
+2016,Department,HOUSEHOLD_1,volume_effect,1016563.1032093317,1 Volume,Comp
+2016,Department,HOUSEHOLD_1,mix_effect,-171152.65448892117,2 Mix,Comp
+2016,Department,HOUSEHOLD_1,price_effect,29407.231279589236,3 Price,Comp
+2016,Department,HOUSEHOLD_1,launch_annualization_effect,567311.7,4 Launches annualizing,Assortment
+2016,Department,HOUSEHOLD_1,new_listings_effect,167852.9,5 New listings,Assortment
+2016,Department,HOUSEHOLD_1,lost_listings_effect,-538.91,6 Lost listings,Assortment
+2016,Department,HOUSEHOLD_1,revenue_current,10068960.6,7 Current year,Total
+2016,Department,HOUSEHOLD_2,revenue_prior,2899926.73,0 Prior year,Total
+2016,Department,HOUSEHOLD_2,volume_effect,61638.736377461304,1 Volume,Comp
+2016,Department,HOUSEHOLD_2,mix_effect,-7940.698200152721,2 Mix,Comp
+2016,Department,HOUSEHOLD_2,price_effect,18199.941822691355,3 Price,Comp
+2016,Department,HOUSEHOLD_2,launch_annualization_effect,208434.17,4 Launches annualizing,Assortment
+2016,Department,HOUSEHOLD_2,new_listings_effect,10750.89,5 New listings,Assortment
+2016,Department,HOUSEHOLD_2,lost_listings_effect,0.0,6 Lost listings,Assortment
+2016,Department,HOUSEHOLD_2,revenue_current,3191009.77,7 Current year,Total
+2016,State,CA,revenue_prior,17120202.88,0 Prior year,Total
+2016,State,CA,volume_effect,-33674.52687600327,1 Volume,Comp
+2016,State,CA,mix_effect,520128.3526972234,2 Mix,Comp
+2016,State,CA,price_effect,181848.174178781,3 Price,Comp
+2016,State,CA,launch_annualization_effect,810806.23,4 Launches annualizing,Assortment
+2016,State,CA,new_listings_effect,375599.81,5 New listings,Assortment
+2016,State,CA,lost_listings_effect,-528.05,6 Lost listings,Assortment
+2016,State,CA,revenue_current,18974382.87,7 Current year,Total
+2016,State,TX,revenue_prior,10688904.6,0 Prior year,Total
+2016,State,TX,volume_effect,90404.13098845325,1 Volume,Comp
+2016,State,TX,mix_effect,432504.30583842285,2 Mix,Comp
+2016,State,TX,price_effect,138564.8631731253,3 Price,Comp
+2016,State,TX,launch_annualization_effect,833027.01,4 Launches annualizing,Assortment
+2016,State,TX,new_listings_effect,119185.44,5 New listings,Assortment
+2016,State,TX,lost_listings_effect,-190.86,6 Lost listings,Assortment
+2016,State,TX,revenue_current,12302399.49,7 Current year,Total
+2016,State,WI,revenue_prior,10264085.99,0 Prior year,Total
+2016,State,WI,volume_effect,539851.8214835925,1 Volume,Comp
+2016,State,WI,mix_effect,78234.57554683834,2 Mix,Comp
+2016,State,WI,price_effect,76194.5429695677,3 Price,Comp
+2016,State,WI,launch_annualization_effect,465626.12,4 Launches annualizing,Assortment
+2016,State,WI,new_listings_effect,79938.84,5 New listings,Assortment
+2016,State,WI,lost_listings_effect,-546.86,6 Lost listings,Assortment
+2016,State,WI,revenue_current,11503385.03,7 Current year,Total
+2016,Store,CA_1,revenue_prior,4678031.99,0 Prior year,Total
+2016,Store,CA_1,volume_effect,-90721.73388317767,1 Volume,Comp
+2016,Store,CA_1,mix_effect,195856.4006761806,2 Mix,Comp
+2016,Store,CA_1,price_effect,49480.34320699796,3 Price,Comp
+2016,Store,CA_1,launch_annualization_effect,193901.28,4 Launches annualizing,Assortment
+2016,Store,CA_1,new_listings_effect,36155.63,5 New listings,Assortment
+2016,Store,CA_1,lost_listings_effect,0.0,6 Lost listings,Assortment
+2016,Store,CA_1,revenue_current,5062703.91,7 Current year,Total
+2016,Store,CA_2,revenue_prior,3103369.88,0 Prior year,Total
+2016,Store,CA_2,volume_effect,402407.0880348458,1 Volume,Comp
+2016,Store,CA_2,mix_effect,54746.753569935914,2 Mix,Comp
+2016,Store,CA_2,price_effect,36371.59839521814,3 Price,Comp
+2016,Store,CA_2,launch_annualization_effect,210159.73,4 Launches annualizing,Assortment
+2016,Store,CA_2,new_listings_effect,247534.75,5 New listings,Assortment
+2016,Store,CA_2,lost_listings_effect,-503.2,6 Lost listings,Assortment
+2016,Store,CA_2,revenue_current,4054086.6,7 Current year,Total
+2016,Store,CA_3,revenue_prior,6753267.61,0 Prior year,Total
+2016,Store,CA_3,volume_effect,-312809.1662955429,1 Volume,Comp
+2016,Store,CA_3,mix_effect,217775.35610256903,2 Mix,Comp
+2016,Store,CA_3,price_effect,71687.4301929744,3 Price,Comp
+2016,Store,CA_3,launch_annualization_effect,270496.84,4 Launches annualizing,Assortment
+2016,Store,CA_3,new_listings_effect,67742.11,5 New listings,Assortment
+2016,Store,CA_3,lost_listings_effect,-24.85,6 Lost listings,Assortment
+2016,Store,CA_3,revenue_current,7068135.33,7 Current year,Total
+2016,Store,CA_4,revenue_prior,2585533.4,0 Prior year,Total
+2016,Store,CA_4,volume_effect,-10706.14957475793,1 Volume,Comp
+2016,Store,CA_4,mix_effect,29905.277191170957,2 Mix,Comp
+2016,Store,CA_4,price_effect,24308.8023835863,3 Price,Comp
+2016,Store,CA_4,launch_annualization_effect,136248.38,4 Launches annualizing,Assortment
+2016,Store,CA_4,new_listings_effect,24167.32,5 New listings,Assortment
+2016,Store,CA_4,lost_listings_effect,0.0,6 Lost listings,Assortment
+2016,Store,CA_4,revenue_current,2789457.03,7 Current year,Total
+2016,Store,TX_1,revenue_prior,3185258.98,0 Prior year,Total
+2016,Store,TX_1,volume_effect,-12418.277851552923,1 Volume,Comp
+2016,Store,TX_1,mix_effect,102159.27972413646,2 Mix,Comp
+2016,Store,TX_1,price_effect,45953.78812741628,3 Price,Comp
+2016,Store,TX_1,launch_annualization_effect,158774.54,4 Launches annualizing,Assortment
+2016,Store,TX_1,new_listings_effect,58993.52,5 New listings,Assortment
+2016,Store,TX_1,lost_listings_effect,-10.86,6 Lost listings,Assortment
+2016,Store,TX_1,revenue_current,3538710.97,7 Current year,Total
+2016,Store,TX_2,revenue_prior,3815856.54,0 Prior year,Total
+2016,Store,TX_2,volume_effect,-9516.383416303754,1 Volume,Comp
+2016,Store,TX_2,mix_effect,261473.84121722588,2 Mix,Comp
+2016,Store,TX_2,price_effect,55821.792199078016,3 Price,Comp
+2016,Store,TX_2,launch_annualization_effect,175294.69,4 Launches annualizing,Assortment
+2016,Store,TX_2,new_listings_effect,24175.63,5 New listings,Assortment
+2016,Store,TX_2,lost_listings_effect,-180.0,6 Lost listings,Assortment
+2016,Store,TX_2,revenue_current,4322926.11,7 Current year,Total
+2016,Store,TX_3,revenue_prior,3687789.08,0 Prior year,Total
+2016,Store,TX_3,volume_effect,114975.86545588744,1 Volume,Comp
+2016,Store,TX_3,mix_effect,66234.11169747822,2 Mix,Comp
+2016,Store,TX_3,price_effect,36789.282846634276,3 Price,Comp
+2016,Store,TX_3,launch_annualization_effect,498957.78,4 Launches annualizing,Assortment
+2016,Store,TX_3,new_listings_effect,36016.29,5 New listings,Assortment
+2016,Store,TX_3,lost_listings_effect,0.0,6 Lost listings,Assortment
+2016,Store,TX_3,revenue_current,4440762.41,7 Current year,Total
+2016,Store,WI_1,revenue_prior,3416250.15,0 Prior year,Total
+2016,Store,WI_1,volume_effect,185474.61308045566,1 Volume,Comp
+2016,Store,WI_1,mix_effect,-5628.321878616698,2 Mix,Comp
+2016,Store,WI_1,price_effect,25038.848798161373,3 Price,Comp
+2016,Store,WI_1,launch_annualization_effect,153892.21,4 Launches annualizing,Assortment
+2016,Store,WI_1,new_listings_effect,26246.39,5 New listings,Assortment
+2016,Store,WI_1,lost_listings_effect,-544.86,6 Lost listings,Assortment
+2016,Store,WI_1,revenue_current,3800729.03,7 Current year,Total
+2016,Store,WI_2,revenue_prior,3989078.27,0 Prior year,Total
+2016,Store,WI_2,volume_effect,16854.939634281025,1 Volume,Comp
+2016,Store,WI_2,mix_effect,116349.96071699308,2 Mix,Comp
+2016,Store,WI_2,price_effect,25157.38964872621,3 Price,Comp
+2016,Store,WI_2,launch_annualization_effect,181526.9,4 Launches annualizing,Assortment
+2016,Store,WI_2,new_listings_effect,24346.15,5 New listings,Assortment
+2016,Store,WI_2,lost_listings_effect,0.0,6 Lost listings,Assortment
+2016,Store,WI_2,revenue_current,4353313.61,7 Current year,Total
+2016,Store,WI_3,revenue_prior,2858757.57,0 Prior year,Total
+2016,Store,WI_3,volume_effect,340086.2589512468,1 Volume,Comp
+2016,Store,WI_3,mix_effect,-35051.053473930806,2 Mix,Comp
+2016,Store,WI_3,price_effect,25998.30452268431,3 Price,Comp
+2016,Store,WI_3,launch_annualization_effect,130207.01,4 Launches annualizing,Assortment
+2016,Store,WI_3,new_listings_effect,29346.3,5 New listings,Assortment
+2016,Store,WI_3,lost_listings_effect,-2.0,6 Lost listings,Assortment
+2016,Store,WI_3,revenue_current,3349342.39,7 Current year,Total
+2016,Total,Total,revenue_prior,38073193.47,0 Prior year,Total
+2016,Total,Total,volume_effect,619010.3569395524,1 Volume,Comp
+2016,Total,Total,mix_effect,1008438.3027390018,2 Mix,Comp
+2016,Total,Total,price_effect,396607.5803214386,3 Price,Comp
+2016,Total,Total,launch_annualization_effect,2109459.36,4 Launches annualizing,Assortment
+2016,Total,Total,new_listings_effect,574724.09,5 New listings,Assortment
+2016,Total,Total,lost_listings_effect,-1265.77,6 Lost listings,Assortment
+2016,Total,Total,revenue_current,42780167.39,7 Current year,Total

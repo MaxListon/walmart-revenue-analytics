@@ -1,0 +1,11 @@
+check,type,value,expectation,passed,meaning
+Units reconcile: raw daily = weekly fact,hard,0.0,== 0,True,No units lost or duplicated when joining prices and rolling up to weeks.
+Revenue reconciles: weekly fact = daily store-dept fact,hard,0.0,< 0.01,True,Both marts tie to the cent.
+Sales on days with no shelf price,hard,0.0,== 0,True,"Every unit sold has a price, so revenue = units x price is complete."
+Negative unit values,hard,0.0,== 0,True,No returns or corrections are mixed in.
+Duplicate store-item-week price rows,hard,0.0,== 0,True,One price per item per store per week.
+Days with near-zero chain sales (store closures),finding,5.0,== 5,True,All 5 are Christmas Day: stores closed. Excluded from baselines.
+53-week fiscal years,finding,1.0,== 1,True,FY2014 has 53 weeks; growth is reported on a 52-week basis.
+Implausible prices (<= $0.05),finding,105.0,> 0,True,105 of 6.8M price rows. Excluded from elasticity models.
+Store-items added to the assortment after FY2012,finding,13454.0,> 0,True,Assortment grew ~79%. Total growth is split into comp vs. new listings.
+Listed full weeks with zero sales,finding,23.9,> 0,True,~24% of listed weeks sell nothing: slow movers or out-of-stocks.

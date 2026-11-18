@@ -1,0 +1,21 @@
+definition,fiscal_year,comp_growth,store_items
+Listed all 52 weeks of both years (headline),2013,-0.03457133453224759,10932
+Listed all 52 weeks of both years (headline),2014,-0.09195623897810323,17230
+Listed all 52 weeks of both years (headline),2015,-0.05891838210619671,22238
+Listed all 52 weeks of both years (headline),2016,0.05645699959028172,26396
+Listed 48+ weeks of both years,2013,-0.020006755216361527,13033
+Listed 48+ weeks of both years,2014,-0.08863171157273242,17867
+Listed 48+ weeks of both years,2015,-0.057511692456848285,22818
+Listed 48+ weeks of both years,2016,0.06137318004578862,26996
+Listed 26+ weeks of both years,2013,0.004524493118349016,15560
+Listed 26+ weeks of both years,2014,-0.05854391652065061,20440
+Listed 26+ weeks of both years,2015,-0.0351728693178508,24849
+Listed 26+ weeks of both years,2016,0.08037737934125877,28730
+Sold at least once in both years,2013,0.06789197127137214,16861
+Sold at least once in both years,2014,-0.0014686074652044967,21738
+Sold at least once in both years,2015,-0.002132267600678528,25678
+Sold at least once in both years,2016,0.0971951154395645,29401
+"Listed all 52 weeks, excluding WI_1, WI_2, CA_2 (step-change stores)",2013,-0.0353975326947128,8096
+"Listed all 52 weeks, excluding WI_1, WI_2, CA_2 (step-change stores)",2014,-0.11184419109152699,12632
+"Listed all 52 weeks, excluding WI_1, WI_2, CA_2 (step-change stores)",2015,-0.06366372830082867,15752
+"Listed all 52 weeks, excluding WI_1, WI_2, CA_2 (step-change stores)",2016,0.04488948061841391,18643
