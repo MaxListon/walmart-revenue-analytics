@@ -1,0 +1,14 @@
+data/raw/
+data/*.duckdb
+data/*.duckdb.wal
+.venv/
+__pycache__/
+*.egg-info/
+.ipynb_checkpoints/
+.DS_Store
+.pytest_cache/
+data/dbt.duckdb*
+assets/fonts/*.ttf
+dbt/target/
+dbt/logs/
+.ruff_cache/

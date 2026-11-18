@@ -1,0 +1,72 @@
+version: 2
+
+models:
+  - name: stg_calendar
+    description: One row per day, Walmart fiscal calendar.
+    columns:
+      - name: date
+        data_tests: [not_null, unique]
+      - name: day_num
+        data_tests: [not_null, unique]
+      - name: fiscal_week
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53]
+
+  - name: stg_sales_daily
+    description: Daily unit sales per item and store (59M rows).
+    columns:
+      - name: units
+        data_tests: [not_null]
+      - name: cat_id
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['FOODS', 'HOUSEHOLD', 'HOBBIES']
+
+  - name: dim_store
+    columns:
+      - name: store_id
+        data_tests: [not_null, unique]
+      - name: state_id
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['CA', 'TX', 'WI']
+
+  - name: dim_item
+    columns:
+      - name: item_id
+        data_tests: [not_null, unique]
+
+  - name: fct_item_store_week
+    description: Grain = store x item x listed week. Revenue = units x shelf price.
+    columns:
+      - name: store_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_store')
+                field: store_id
+      - name: item_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_item')
+                field: item_id
+      - name: revenue
+        data_tests: [not_null]
+      - name: days_observed
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4, 5, 6, 7]
+
+  - name: comp_sales
+    description: Comparable (like-for-like) sales growth by fiscal year.
+    columns:
+      - name: fiscal_year
+        data_tests: [not_null, unique]

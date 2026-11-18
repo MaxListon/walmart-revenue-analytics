@@ -1,0 +1,7 @@
+walmart_revenue:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../data/dbt.duckdb
+      threads: 4
