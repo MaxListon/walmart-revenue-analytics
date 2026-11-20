@@ -29,7 +29,8 @@ jobs:
 
       - name: Tests
         # Unit tests run on hand-built and simulated data; output-integrity tests
-        # read the committed outputs/. Tests that need the raw Kaggle data skip.
+        # read the committed outputs/; dashboard tests render every tab with
+        # Streamlit's test harness. Tests that need the raw Kaggle data skip.
         run: pytest -q
 
       - name: dbt project compiles
@@ -38,5 +39,3 @@ jobs:
         working-directory: dbt
         run: dbt parse --profiles-dir .
 
-      - name: Dashboard imports
-        run: python -c "import ast, pathlib; ast.parse(pathlib.Path('app.py').read_text())"

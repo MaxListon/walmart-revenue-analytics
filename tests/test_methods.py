@@ -544,3 +544,21 @@ def test_price_test_readout_recovers_planted_elasticity():
     assert pays["estimated_elasticity"] == pytest.approx(-0.4, abs=0.35)
     assert flat["estimated_elasticity"] == pytest.approx(-1.0, abs=0.35)
     assert pays["decision"] == "Roll out" and flat["decision"] == "Don't roll out"
+
+
+def test_excel_workbook_is_formula_driven(tmp_path, monkeypatch):
+    from openpyxl import load_workbook
+
+    from retailrev import excel
+
+    monkeypatch.setattr(excel, "OUT", tmp_path / "model.xlsx")
+    excel.build()
+    wb = load_workbook(tmp_path / "model.xlsx")
+    assert wb.sheetnames == ["Read me", "Price test ROI", "Segments", "Comparable sales"]
+    roi = wb["Price test ROI"]
+    # results must be live formulas built on the input cells (B5-B8), not pasted numbers
+    for ref in ["B11", "B12", "B13", "B14", "B16"]:
+        f = str(roi[ref].value)
+        assert f.startswith("=") and any(cell in f for cell in ["B5", "B6", "B7", "B8", "B12"])
+    formulas = sum(1 for ws in wb.worksheets for row in ws.iter_rows() for c in row if str(c.value).startswith("="))
+    assert formulas > 100

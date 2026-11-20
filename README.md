@@ -2,7 +2,7 @@
 
 **Revenue across 10 Walmart stores grew 65% in four years, but the same products in the same stores sold less for three of those years.** This project measures how much growth was real, finds why existing products shrank, sizes the levers (availability, pricing, SNAP timing, store changes), groups products into five segments with their own playbooks, designs a price test, and forecasts the next year. It uses real Walmart sales data.
 
-![CI](https://img.shields.io/badge/tests-36%20pytest%20%2B%2034%20dbt-2a78d6) · 📄 [Executive summary](reports/executive_summary.md) · 📓 [Exploration notebook](notebooks/01_exploration.ipynb) · 📅 [Sample monthly review](reports/monthly/mbr_2016-04.html) · 📖 [Metrics catalog](docs/metrics_catalog.md) · 🎤 [Interview Q&A](docs/interview_prep.md) · 📊 Dashboard: `streamlit run app.py --server.address localhost` <!-- add the deployed link: docs/deploy.md -->
+![CI](https://img.shields.io/badge/tests-41%20pytest%20%2B%2034%20dbt-2a78d6) · 📄 [Executive summary](reports/executive_summary.md) · 📓 [Exploration notebook](notebooks/01_exploration.ipynb) · 📅 [Sample monthly review](reports/monthly/mbr_2016-04.html) · 📖 [Metrics catalog](docs/metrics_catalog.md) · 🗂️ [Data model (dbt docs)](https://maxliston.github.io/walmart-revenue-analytics/) · 📗 [Excel model](reports/walmart_price_test_and_segments.xlsx) · 🎤 [Interview Q&A](docs/interview_prep.md) · 📊 Dashboard: `streamlit run app.py --server.address localhost` <!-- add the deployed link: docs/deploy.md -->
 
 ## Start here (2 minutes)
 1. **The question:** total revenue is growing. Is that real, and what should the business do next?
@@ -103,14 +103,15 @@ sum(CASE WHEN units = 0 THEN 1 ELSE 0 END) OVER (PARTITION BY store_id, item_id 
 The same warehouse is rebuilt in [dbt](dbt/) with 34 data tests, including one that checks dbt's numbers against the Python pipeline.
 
 ## Engineering
-- **SQL warehouse in DuckDB:** 59M daily rows, plus a parallel **dbt** project with 34 data tests.
-- **36 pytest tests:** each method must recover a known answer from simulated data (elasticity −1.2, a +40% store step, a planted stock-out, five planted product segments, a hand-worked monthly bridge, a planted SNAP lift, a planted price response, a perfect forecast scoring zero), every revenue bridge must reconcile, and randomized steps must give identical results whatever order the data arrives in.
+- **SQL warehouse in DuckDB:** 59M daily rows, plus a parallel **dbt** project with 34 data tests and every model and column documented. Browse the [data model and lineage graph](https://maxliston.github.io/walmart-revenue-analytics/).
+- **41 pytest tests:** each method must recover a known answer from simulated data (elasticity −1.2, a +40% store step, a planted stock-out, five planted product segments, a hand-worked monthly bridge, a planted SNAP lift, a planted price response, a perfect forecast scoring zero), every revenue bridge must reconcile, and randomized steps must give identical results whatever order the data arrives in. The dashboard is tested too: every tab renders, every dropdown and filter option works, and the headline numbers match the analysis outputs.
 - **Reproducible:** the full pipeline was re-run and every output diffed against the previous run; exact package versions are pinned in `requirements-lock.txt`.
 - **GitHub Actions:** linting with ruff, the tests, and a dbt compile check, on the pinned versions. Tests that need the non-redistributable raw data skip in CI.
 - **Self-contained dashboard:** it reads only the committed `outputs/`, so it deploys without the raw data ([deploy guide](docs/deploy.md)). A *Start here* tab tells the story, a sidebar glossary explains every term, and every tab offers its data as CSV.
 - **Automated monthly business review:** `python -m retailrev.report --month 2016-04` writes a one-page HTML review for any month: KPIs, an auto-written summary, a reconciling bridge, category and state tables, top movers and stock-outs ([example](reports/monthly/mbr_2016-04.html)).
 - **Metrics catalog:** one definition, formula, grain and source for every number ([docs/metrics_catalog.md](docs/metrics_catalog.md)).
 - **BI-ready:** extracts and build guides for [Tableau](docs/tableau_build_guide.md) and [Power BI](docs/powerbi_build_guide.md).
+- **Excel model:** [a workbook](reports/walmart_price_test_and_segments.xlsx) with a live price-test ROI model (change the price or elasticity and everything recalculates), the segment table and comparable sales, all as formulas (`python -m retailrev.excel`).
 
 ## Data and limits
 [M5 Forecasting competition](https://www.kaggle.com/competitions/m5-forecasting-accuracy/data): **real Walmart** daily unit sales and weekly shelf prices for 3,049 products in 10 stores (CA, TX, WI), Jan 2011 – May 2016. The data is described in Makridakis, Spiliotis & Assimakopoulos, *International Journal of Forecasting* 38(4), 2022. Inflation data is BLS CPI-U (public domain). The raw data isn't redistributable, so it isn't in this repo.
@@ -135,8 +136,10 @@ python -m retailrev.figures --deck   # slide-sized versions (uses Inter from ass
 python -m retailrev.tableau      # Tableau / Power BI extracts
 python -m retailrev.report --month 2016-04   # one-page monthly business review
 python -m retailrev.price_test   # price-test readout on a simulated result
-pytest                           # 36 tests
-cd dbt && dbt build --profiles-dir .   # 34 dbt data tests
+python -m retailrev.excel        # Excel workbook (formulas; Excel recalculates on open)
+pytest                           # 41 tests (incl. dashboard tests)
+cd dbt && dbt build --profiles-dir . && dbt docs generate --profiles-dir . --static && cd ..
+                                 # 34 dbt data tests, then the data-model site (dbt/target/static_index.html)
 streamlit run app.py --server.address localhost   # local only; drop the flag to share on your network
 ```
 
@@ -146,13 +149,13 @@ sql/            warehouse build (staging, marts, stock-out detection) + one file
 dbt/            the same warehouse as dbt models with schema and reconciliation tests
 src/retailrev/  pipeline and analyses: drivers, stockouts, pricing, price_events, experiment_design,
                 segments, inflation, events, launches, store_events, outlook, robustness, figures, report,
-                forecast_benchmark, launch_model, stock_sim, price_test
+                forecast_benchmark, launch_model, stock_sim, price_test, excel
 notebooks/      exploratory analysis with a findings log
 outputs/        every result as CSV (+ tableau/ extracts, also used for Power BI)
-reports/        executive summary, 20 figures, dashboard GIF, price-test readout, monthly/ business reviews
+reports/        executive summary, 20 figures, dashboard GIF, price-test readout, Excel model, monthly/ reviews
 docs/           metrics catalog, price-test brief, interview Q&A, Tableau and Power BI build guides, deploy guide
 app.py          Streamlit dashboard (11 tabs, starting with a story tab)
-tests/          method tests on simulated data + output-integrity tests
+tests/          method tests on simulated data, output-integrity tests, dashboard tests
 ```
 
 ## License

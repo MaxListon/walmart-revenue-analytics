@@ -14,3 +14,4 @@ ipykernel>=6.29
 pyfixest>=0.30
 dbt-duckdb
 ruff
+openpyxl>=3.1
