@@ -388,7 +388,7 @@ def elasticity() -> None:
     ax2.set_xlabel("Event-study elasticity vs same item, other stores")
     _suptitle(
         fig,
-        "Household is the least price-sensitive area; shoppers react far less to price increases than to cuts",
+        "Household looks least price-sensitive in the main model; shoppers react far less to increases than to cuts",
         x=0.01,
         ha="left",
         fontweight="bold",
@@ -443,7 +443,7 @@ def stockouts() -> None:
     ax.set_xticks(range(len(t)), [f"FY{y}" for y in t.index])
     ax.yaxis.set_major_formatter(mtick.FuncFormatter(_m))
     ax.legend(loc="upper left", handlelength=1, fontsize=_fs(9))
-    _title(ax, "Revenue lost while products sat at zero sales: store stock-outs are ~$0.8M a year")
+    _title(ax, "Revenue lost while products sat at zero sales: store stock-outs ~$0.8M a year since FY2014")
     _save(
         fig,
         "10_stockouts",

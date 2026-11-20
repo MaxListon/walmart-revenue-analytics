@@ -2,12 +2,12 @@
 
 **Revenue across 10 Walmart stores grew 65% in four years, but the same products in the same stores sold less for three of those years.** This project measures how much growth was real, finds why existing products shrank, sizes the levers (availability, pricing, SNAP timing, store changes), groups products into five segments with their own playbooks, designs a price test, and forecasts the next year. It uses real Walmart sales data.
 
-![CI](https://img.shields.io/badge/tests-41%20pytest%20%2B%2034%20dbt-2a78d6) · 📄 [Executive summary](reports/executive_summary.md) · 📓 [Exploration notebook](notebooks/01_exploration.ipynb) · 📅 [Sample monthly review](reports/monthly/mbr_2016-04.html) · 📖 [Metrics catalog](docs/metrics_catalog.md) · 🗂️ [Data model (dbt docs)](https://maxliston.github.io/walmart-revenue-analytics/) · 📗 [Excel model](reports/walmart_price_test_and_segments.xlsx) · 🎤 [Interview Q&A](docs/interview_prep.md) · 📊 Dashboard: `streamlit run app.py --server.address localhost` <!-- add the deployed link: docs/deploy.md -->
+[![CI](https://github.com/MaxListon/walmart-revenue-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/MaxListon/walmart-revenue-analytics/actions/workflows/ci.yml) 41 tests + 34 dbt checks · 📄 [Executive summary](reports/executive_summary.md) · 📓 [Exploration notebook](notebooks/01_exploration.ipynb) · 📅 [Sample monthly review](https://maxliston.github.io/walmart-revenue-analytics/monthly/mbr_2016-04.html) · 📖 [Metrics catalog](docs/metrics_catalog.md) · 🗂️ [Data model (dbt docs)](https://maxliston.github.io/walmart-revenue-analytics/) · 📗 [Excel model](reports/walmart_price_test_and_segments.xlsx) · 🎤 [Interview Q&A](docs/interview_prep.md) · 📊 Dashboard: `streamlit run app.py --server.address localhost` <!-- add the deployed link: docs/deploy.md -->
 
 ## Start here (2 minutes)
 1. **The question:** total revenue is growing. Is that real, and what should the business do next?
 2. **The answer:** growth came mostly from *adding* products. Existing products shrank for three years, mainly from weaker demand, and recovered in FY2016. Stock-outs, SNAP timing and a carefully designed price test are where the money is.
-3. **Where to look:** the [executive summary](reports/executive_summary.md) (one page), the dashboard below (its *Start here* tab tells the story in six steps), then the [SQL highlights](#sql-highlights) and [methods](#whats-in-the-analysis). Every metric is defined in the [metrics catalog](docs/metrics_catalog.md).
+3. **Where to look:** the [executive summary](reports/executive_summary.md) (bottom line and actions first), the dashboard below (its *Start here* tab tells the story in six steps), then the [SQL highlights](#sql-highlights) and [methods](#whats-in-the-analysis). Every metric is defined in the [metrics catalog](docs/metrics_catalog.md).
 
 ![Dashboard demo](reports/figures/dashboard_demo.gif)
 
@@ -26,7 +26,7 @@
 
 **4. Five product segments need five different playbooks.** Grouping all 3,049 products by how they sell (speed, gaps, seasonality, SNAP lift, stock-outs) gives **core fast movers** (27% of products, 46% of revenue), **SNAP-driven staples**, **availability risk**, **seasonal** and **long tail**. The surprise: **SNAP-driven staples are 14% of products but 41% of store stock-out losses.** Food runs out around SNAP days.
 
-**5. The recommendations hold up when stress-tested.**
+**5. Stress-testing sharpened the recommendations.**
 - **Forecasting:** on the M5 competition's own accuracy metric, a weekday average that adds this project's SNAP effects beats the standard seasonal-naive benchmark by **34%** and exponential smoothing by 22%, winning 5 of 6 test windows. The SNAP finding measurably improves forecasts.
 - **Stock-outs:** a simulation calibrated to the measured losses shows about a quarter is realistically recoverable (**≈$0.2M a year**, not the full $0.79M) for a modest rise in safety stock; SNAP-aware ordering trims staples' losses at no extra inventory.
 - **Launches:** a product's **first-month revenue per store-week** already ranks future top sellers well (AUC 0.92; its top-20% picks become top sellers 71% of the time vs 19% at random). A fuller model adds nothing.
@@ -108,7 +108,7 @@ The same warehouse is rebuilt in [dbt](dbt/) with 34 data tests, including one t
 - **Reproducible:** the full pipeline was re-run and every output diffed against the previous run; exact package versions are pinned in `requirements-lock.txt`.
 - **GitHub Actions:** linting with ruff, the tests, and a dbt compile check, on the pinned versions. Tests that need the non-redistributable raw data skip in CI.
 - **Self-contained dashboard:** it reads only the committed `outputs/`, so it deploys without the raw data ([deploy guide](docs/deploy.md)). A *Start here* tab tells the story, a sidebar glossary explains every term, and every tab offers its data as CSV.
-- **Automated monthly business review:** `python -m retailrev.report --month 2016-04` writes a one-page HTML review for any month: KPIs, an auto-written summary, a reconciling bridge, category and state tables, top movers and stock-outs ([example](reports/monthly/mbr_2016-04.html)).
+- **Automated monthly business review:** `python -m retailrev.report --month 2016-04` writes a one-page HTML review for any month: KPIs, an auto-written summary, a reconciling bridge, category and state tables, top movers and stock-outs ([example](https://maxliston.github.io/walmart-revenue-analytics/monthly/mbr_2016-04.html)).
 - **Metrics catalog:** one definition, formula, grain and source for every number ([docs/metrics_catalog.md](docs/metrics_catalog.md)).
 - **BI-ready:** extracts and build guides for [Tableau](docs/tableau_build_guide.md) and [Power BI](docs/powerbi_build_guide.md).
 - **Excel model:** [a workbook](reports/walmart_price_test_and_segments.xlsx) with a live price-test ROI model (change the price or elasticity and everything recalculates), the segment table and comparable sales, all as formulas (`python -m retailrev.excel`).
@@ -138,8 +138,7 @@ python -m retailrev.report --month 2016-04   # one-page monthly business review
 python -m retailrev.price_test   # price-test readout on a simulated result
 python -m retailrev.excel        # Excel workbook (formulas; Excel recalculates on open)
 pytest                           # 41 tests (incl. dashboard tests)
-cd dbt && dbt build --profiles-dir . && dbt docs generate --profiles-dir . --static && cd ..
-                                 # 34 dbt data tests, then the data-model site (dbt/target/static_index.html)
+cd dbt && dbt build --profiles-dir . && dbt docs generate --profiles-dir . --static && cd ..   # 34 data tests + docs site
 streamlit run app.py --server.address localhost   # local only; drop the flag to share on your network
 ```
 

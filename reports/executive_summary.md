@@ -5,6 +5,16 @@
 ## Bottom line
 Revenue grew **65%** from FY2012 to FY2016 ($25.9M → $42.8M), but **the same products in the same stores sold less for three straight years**. Comparable sales were −3.5%, −9.2% and −5.9%. Adding products carried growth until FY2016, when comparable sales turned positive (**+5.6%**, 95% CI +2.9% to +8.4%). FY2017 is tracking to **$48.7M (+13.8%)**.
 
+## What to do
+1. **Report comparable sales next to total growth** in every review, with the revenue bridge.
+2. **Run the Household price test** as set out in the [brief](../docs/price_test_brief.md): a 5% increase on a random half of product-store pairs for 12 weeks. If elasticity is about −0.4, a full Household rollout is worth about **+3% ≈ $0.4M a year** on $13.3M of revenue. If the test finds elasticity near −1, don't roll out.
+3. **Cut store stock-outs**, starting with SNAP-driven staples (41% of the losses): daily zero-sales alerts, modestly more safety stock and SNAP-aware ordering for staples. $0.79M was lost in FY2016; about $0.2M a year is realistically recoverable.
+4. **Plan food replenishment and labor to each state's SNAP calendar**, especially in Wisconsin and Texas.
+5. **Review chain-wide gaps with merchandising:** $2.1M of FY2016 revenue was lost while listed products were dark in most stores at once. Separate deliberate range cuts from supply failures.
+6. **Visit CA_3** (the largest store, with flat comparable sales) **and WI_3** (−25% in April 2013).
+
+The evidence for each is below.
+
 ![Total vs comparable growth](figures/01_growth_vs_comp.png)
 
 ## Findings
@@ -25,7 +35,7 @@ Revenue grew **65%** from FY2012 to FY2016 ($25.9M → $42.8M), but **the same p
 **3. Stock-outs have cost about $0.8M a year since FY2014.** A zero-sale run is flagged when the product's own sales history makes it less than 0.1% likely.
 - **Store stock-outs:** $0.79M lost in FY2016 (1.9% of revenue).
 - **Chain-wide gaps:** another $2.1M, when products are dark in most stores at once. That's a supply or assortment question.
-- **Store long gaps:** $0.46M, when one store is dark for longer than a month while others keep selling.
+- **Store long gaps:** $0.46M, when one store is dark for longer than 28 days while most other stores keep selling.
 - **Seasonal gaps:** $1.6M, which are intentional.
 
 **4. Household is the best candidate for a price test, but not a settled case.** In the main Poisson fixed-effects model, Household elasticity is about −0.4 (HOUSEHOLD_1 −0.41, HOUSEHOLD_2 −0.39), while Foods sits near −0.9 to −1.4. The robustness checks are noisier: restricted to fast sellers, HOUSEHOLD_2 comes out at +0.09 (CI −0.57 to +0.75), and the price-change event study for HOUSEHOLD_1 alone gives −1.63 (CI −2.88 to −0.38). That uncertainty is why the recommendation is a test, not a rollout. Across all 15,246 permanent price changes, compared against the same product in stores that kept the old price:
@@ -57,21 +67,13 @@ SNAP-driven staples carry far more than their share of stock-outs: demand spikes
 
 ![Product segments](figures/17_product_segments.png)
 
-**10. The recommendations hold up when stress-tested.**
+**10. Stress-testing sharpened the recommendations.**
 - **Forecasting:** scored with the M5 competition's own metric (WRMSSE, 9 aggregate levels, six 28-day windows), a weekday average that adds the SNAP-day effects from finding 6 is **34% more accurate than seasonal naive** and 22% better than exponential smoothing, winning 5 of 6 windows.
 - **Stock-outs:** a weekly-ordering simulation, calibrated so today's policy loses what the detector measured, recovers **26% of losses for $85K more average inventory** (+0.5 SD safety stock), with diminishing returns after that. Scaled to all store stock-outs, about **$0.2M a year is realistically recoverable**, not $0.79M. SNAP-aware ordering saves staples about $17K a year at the same inventory.
 - **Launches:** first-month revenue per store-week alone ranks future top sellers with AUC 0.92; its top-20% picks become top sellers 71% of the time (19% at random). A logistic model with five more signals adds nothing.
 - **Price test:** the [experiment brief](../docs/price_test_brief.md) fixes the analysis in advance. Run on real sales with a planted response, the decision rule rolled out 82% of the time when the rise truly pays (consistent with the designed 89%) and never when it doesn't; estimates were unbiased.
 
 ![Forecast benchmark](figures/18_forecast_benchmark.png)
-
-## Recommendations
-1. **Report comparable sales next to total growth** in every review, with the revenue bridge.
-2. **Run the Household price test** as set out in the [brief](../docs/price_test_brief.md): a 5% increase on a random half of product-store pairs for 12 weeks. If elasticity is about −0.4, a full Household rollout is worth about **+3% ≈ $0.4M a year** on $13.3M of revenue. If the test finds elasticity near −1, don't roll out.
-3. **Cut store stock-outs**, starting with SNAP-driven staples (41% of the losses): daily zero-sales alerts, modestly more safety stock and SNAP-aware ordering for staples. $0.79M was lost in FY2016; about $0.2M a year is realistically recoverable.
-4. **Plan food replenishment and labor to each state's SNAP calendar**, especially in Wisconsin and Texas.
-5. **Review chain-wide gaps with merchandising:** $2.1M of FY2016 revenue was lost while listed products were dark in most stores at once. Separate deliberate range cuts from supply failures.
-6. **Visit CA_3** (the largest store, with flat comparable sales) **and WI_3** (−25% in April 2013).
 
 ## Caveats
 - **A sample, not all of Walmart:** 3,049 anonymized products in 10 stores, not total store revenue.

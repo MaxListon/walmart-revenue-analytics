@@ -5,14 +5,14 @@ The questions an interviewer is most likely to ask about this project, with plai
 ---
 
 ## The 30-second pitch
-> "I analyzed five years of real Walmart sales, 59 million daily records across 10 stores. Revenue grew 65%, but when I held the product range fixed, the same products in the same stores were shrinking for three years. Growth was coming from adding products. I tested why: it wasn't new products stealing sales or a pricing problem; it was mostly weaker demand, plus about $0.8M a year in stock-outs. I sized the levers, designed a price test with real power calculations, and built a forecast with 0.9% backtest error, less than half that of a naive run-rate."
+> "I analyzed five years of real Walmart sales, 59 million daily records across 10 stores. Revenue grew 65%, but when I held the product range fixed, the same products in the same stores were shrinking for three years. Growth was coming from adding products. I tested why: it wasn't new products stealing sales or a pricing problem; it was mostly weaker demand, plus about $0.8M a year lost to stock-outs, of which about a quarter is realistically recoverable. I sized the levers, designed a price test with real power calculations, and built a forecast with 0.9% backtest error, less than half that of a naive run-rate."
 
 ---
 
 ## About the data
 
 **Is this real data?**
-Yes. It's the M5 forecasting competition dataset, which Walmart released through the University of Nicosia in 2020: real daily unit sales and weekly shelf prices for 3,049 products in 10 stores. Product names are anonymized, but categories, departments, stores and states are real. Three peer-reviewed papers describe it, including one showing it behaves like other real grocery datasets.
+Yes. It's the M5 forecasting competition dataset, which Walmart released through the University of Nicosia in 2020: real daily unit sales and weekly shelf prices for 3,049 products in 10 stores. Product names are anonymized, but categories, departments, stores and states are real. The competition and data are described in the *International Journal of Forecasting* (Makridakis, Spiliotis & Assimakopoulos, 2022).
 
 **Where does revenue come from? There's no revenue column.**
 Revenue = units sold × that week's shelf price. I checked that every unit sold has a price, so the calculation is complete, and units and revenue reconcile exactly across every table.
@@ -77,14 +77,14 @@ A run of zero-sale days is flagged when the product's own history makes it very 
 - I take the more conservative of the before/after rates.
 - Long gaps are classified separately: "seasonal" if the gap recurs at the same time each year, "chain-wide" if most other stores are dark at the same time.
 
-Only short gaps count as lost sales: $0.79M in FY2016 (1.9% of revenue), which is in line with industry norms. A test confirms the detector ignores a product whose demand truly disappears.
+Only short gaps count as lost sales: $0.79M in FY2016 (1.9% of revenue). A test confirms the detector ignores a product whose demand truly disappears.
 
 ---
 
 ## Pricing
 
 **What's price elasticity?**
-The % change in units for a 1% change in price. Above −1 in absolute terms (e.g. −0.4) means a price rise loses fewer units than it gains in price, so revenue goes up.
+The % change in units for a 1% change in price. Between 0 and −1 (e.g. −0.4), a price rise loses proportionally fewer units than it gains in price, so revenue goes up; below −1 (e.g. −1.5), revenue falls.
 
 **How did you estimate it?**
 Two ways:
@@ -115,6 +115,8 @@ I ran 200 "A/A tests" per design on real history: random fake treatment groups w
 
 ---
 
+---
+
 ## Product segments
 
 **How did you segment products, and why products instead of customers?**
@@ -129,6 +131,8 @@ Core fast movers are 27% of products but 46% of revenue. The surprise was SNAP-d
 **How do you know the method works?**
 A test plants five groups of fake products with known behaviours and checks that the method puts over 95% of them back in the right group with the right name, and gives the same answer however the rows are ordered.
 
+---
+
 ## Stress-testing the recommendations
 
 **How good is your forecasting, really?**
@@ -142,6 +146,8 @@ Not all of it. With no inventory data, I simulated weekly ordering with a 3-day 
 
 **How do you know the price-test analysis would work?**
 I wrote the brief before any result (hypothesis, design, metrics, guardrails, decision rule), then planted a known demand response into real Household sales and ran the exact analysis. Repeated 40 times per case, it said roll out 82% of the time when the rise truly pays and never when it doesn't, with unbiased estimates. The brief also flags the biggest risk: shoppers substituting from raised products to unraised ones in the same store, which would make demand look more elastic than a full rollout.
+
+---
 
 ## SNAP, stores, forecast
 
@@ -173,6 +179,9 @@ Each time, the checks caught the problem.
 - **dbt:** 34 data tests, including one that checks the dbt build against the Python pipeline.
 - **Reconciliation:** every revenue bridge reconciles to the cent.
 - **The dashboard itself:** automated tests render every tab, try every dropdown and filter option, and check the headline numbers against the analysis outputs, on every push.
+
+**How would this run in a real analytics team?**
+The same way it's built here. The metric definitions live in one [metrics catalog](metrics_catalog.md), so finance and merchandising mean the same thing by "comparable sales". A one-command [monthly business review](https://maxliston.github.io/walmart-revenue-analytics/monthly/mbr_2016-04.html) replaces a hand-built slide pack and flags its own weak spots (for example, stock-out estimates for the latest month are incomplete). The data model is documented and tested in dbt, the dashboard is tested on every change, and every number in the deck traces back to a file in `outputs/`.
 
 **What would you do with more data?**
 - **Promotion and display data:** to separate price effects from signage.
