@@ -79,6 +79,15 @@ A run of zero-sale days is flagged when the product's own history makes it very 
 
 Only short gaps count as lost sales: $0.79M in FY2016 (1.9% of revenue). A test confirms the detector ignores a product whose demand truly disappears.
 
+**You recommend zero-sales alerts. Do they actually work?**
+I built one and backtested it. Each morning, a product is flagged when its run without a sale would happen less than 0.1% of the time given its own last 28 days, so a fast seller is flagged after 2–3 quiet days and a slow seller only after weeks. Each store gets its top 5 by revenue at risk. On FY2016, 64% of alerts turned out to be real gaps, against 27% for a simple "no sale in 5 days" rule at the same workload, and the alerts fired while 49% of the stock-out loss was still ahead.
+
+**How do you know the alert isn't cheating by seeing the future?**
+It only uses sales up to the alert morning, and a test checks it: cutting the data off on the alert day gives the same alert. The honest weakness is the truth label. With no inventory records, "real gap" means the full detector (which does see the following 28 days) confirmed it, and that detector uses the same kind of test, so the comparison flatters my rule somewhat. In a real job I'd validate against store inventory counts or out-of-stock scans.
+
+**What happens to products that are dark everywhere?**
+They're not a shelf problem. Anything dark in 4+ other stores, or for more than 28 days, goes to a merchandising list (one row per product) instead of a store's morning list.
+
 ---
 
 ## Pricing
@@ -175,7 +184,7 @@ I backtested four methods from the same point (week 16) in FY2014, FY2015 and FY
 Each time, the checks caught the problem.
 
 **How do you know the numbers are right?**
-- **pytest:** 45 tests, including methods recovering known answers from simulated data (a −1.2 elasticity, a +40% store jump, a planted stock-out, five planted product segments, a hand-worked monthly bridge, a planted price response).
+- **pytest:** 51 tests, including methods recovering known answers from simulated data (a −1.2 elasticity, a +40% store jump, a planted stock-out, five planted product segments, a hand-worked monthly bridge, a planted price response).
 - **dbt:** 34 data tests, including one that checks the dbt build against the Python pipeline.
 - **Reconciliation:** every revenue bridge reconciles to the cent.
 - **The dashboard itself:** automated tests render every tab, try every dropdown and filter option, and check the headline numbers against the analysis outputs, on every push.

@@ -129,10 +129,97 @@ def render() -> None:
         "policies are compared at equal inventory. Scaled to all store stock-outs, about $0.2M a year is realistically "
         "recoverable, not the full $0.79M."
     )
+    alerts_section()
     downloads(
         "availability",
         "stockout_summary",
         "stockout_by_store_dept_fy2016",
         "stockout_top_items_fy2016",
         "stockout_policy_simulation",
+        "stockout_alert_backtest",
+        "stockout_alerts_latest_store",
+        "stockout_alerts_latest_merchandising",
+    )
+
+
+def alerts_section() -> None:
+    st.markdown("#### Daily stock-out alerts: does a simple alert catch them in time?")
+    bt = load("stockout_alert_backtest")
+    ch = bt[bt.chosen].iloc[0]
+    fx = bt[bt.setting == "5 days without a sale"].iloc[0]
+    k = st.columns(3)
+    k[0].metric(
+        "Alerts that were real gaps",
+        f"{ch.real_gap_share:.0%}",
+        f"vs {fx.real_gap_share:.0%} for 'no sale in 5 days'",
+        delta_color="off",
+        delta_arrow="off",
+    )
+    k[1].metric(
+        "Store stock-out loss still ahead when the alert fired",
+        f"{ch.loss_after_alert_share:.0%}",
+        f"vs {fx.loss_after_alert_share:.0%} for 'no sale in 5 days'",
+        delta_color="off",
+        delta_arrow="off",
+    )
+    k[2].metric(
+        "Workload",
+        f"{ch.alerts_per_store_day:.0f} alerts",
+        "per store per day, highest revenue at risk first",
+        delta_color="off",
+        delta_arrow="off",
+    )
+    left, right = st.columns([1, 1.2])
+    with left:
+        fig = go.Figure()
+        for rule, color in [("Fixed days", GRAY), ("Item-aware", BLUE)]:
+            g = bt[bt.rule == rule]
+            fig.add_scatter(
+                x=g.loss_after_alert_share,
+                y=g.real_gap_share,
+                mode="markers+text",
+                name=rule,
+                text=[t.replace(" without a sale", "") + (" (used)" if c else "") for t, c in zip(g.setting, g.chosen)],
+                textposition="middle right" if rule == "Item-aware" else "middle left",
+                marker=dict(color=color, size=11, line=dict(color="white", width=2)),
+                hovertemplate="%{text}<br>real gaps %{y:.0%}<br>loss still ahead %{x:.0%}<extra></extra>",
+            )
+        fig.update_layout(
+            title="Each rule at 5 alerts per store per day (FY2016)",
+            xaxis_title="Store stock-out loss still ahead when the alert fired",
+            yaxis_title="Alerts that were real gaps",
+        )
+        fig.update_xaxes(range=[0.1, 0.62])
+        fig.update_yaxes(range=[0.1, 0.9])
+        show(fig, pct_y=True, pct_x=True, height=420)
+    with right:
+        store_list = load("stockout_alerts_latest_store")
+        merch = load("stockout_alerts_latest_merchandising")
+        store = st.selectbox("Alert list for store", sorted(store_list.store_id.unique()), key="alert_store")
+        s = store_list[store_list.store_id == store].copy()
+        s["chance"] = s.chance_if_selling_normally.map(lambda p: f"1 in {1 / p:,.0f}" if p > 1e-6 else "under 1 in a million")
+        st.caption(f"Morning of {s.as_of.iloc[0]}: top {len(s)} by revenue at risk")
+        st.dataframe(
+            s[["item_id", "days_without_sale", "revenue_at_risk_per_day", "chance"]].rename(
+                columns={
+                    "item_id": "Product",
+                    "days_without_sale": "Days without a sale",
+                    "revenue_at_risk_per_day": "At risk per day",
+                    "chance": "Chance if selling normally",
+                }
+            ),
+            hide_index=True,
+            column_config={"At risk per day": st.column_config.NumberColumn(format="$%.2f")},
+        )
+        st.caption(
+            f"Sent to merchandising instead: {len(merch)} products dark in 4+ other stores or for over 28 days "
+            f"(top: {', '.join(merch.item_id.head(3))})."
+        )
+    st.caption(
+        "An alert fires when a product's run without a sale would happen less than 0.1% of the time given its own last "
+        "28 days, so fast sellers are flagged after 2–3 days and slow ones only after weeks. Alerts use only sales up "
+        "to that morning. 'Real gap' means the full detector, which also sees the 28 days after, confirmed it; "
+        f"{ch.seasonal_gap_share:.0%} of alerts were seasonal gaps (real but intentional). There are no inventory "
+        "records to check against, and the truth label uses the same kind of test, so the comparison with fixed-day "
+        "rules favors the item-aware rule somewhat."
     )

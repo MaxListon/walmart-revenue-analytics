@@ -210,6 +210,15 @@ Only **store stock-outs** are counted as lost sales in the headline ($0.79M in F
 | **Source** | `stock_sim.py` → `stockout_policy_simulation.csv` |
 | **Watch out** | A model, not a measurement: lead time and review cycle are assumptions. Use it to compare policies, not as a forecast of savings. |
 
+### Stock-out alert precision and lead
+| | |
+|---|---|
+| **Definition** | How often a daily zero-sales alert is right, and how much stock-out loss is still ahead when it fires. |
+| **Formula** | Alert on day ⌊ln(0.001) / ln(p₀)⌋ + 1 of a run without a sale, where p₀ = (zero days in the 28 days before + 1) / 30; top 5 per store per day by revenue at risk (recent units × price). **Real-gap share** = alerts the full detector later confirms at 0.1%. **Loss still ahead** = confirmed store stock-out loss on and after the alert day ÷ all FY2016 store stock-out loss. |
+| **Grain** | alert (store × product × run), FY2016 |
+| **Source** | `stock_alerts.py` → `stockout_alert_backtest.csv`, `stockout_alerts_latest_store.csv`, `stockout_alerts_latest_merchandising.csv` |
+| **Watch out** | No inventory records, so "real" means confirmed by the retrospective detector, which uses the same kind of test: the comparison with fixed-day rules favours the item-aware rule somewhat. About 10% of alerts are seasonal gaps (real but intentional). |
+
 ### Price-test decision
 | | |
 |---|---|

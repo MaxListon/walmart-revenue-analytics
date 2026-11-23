@@ -27,6 +27,7 @@ from retailrev import (
     quality,
     robustness,
     segments,
+    stock_alerts,
     stock_sim,
     stockouts,
     store_events,
@@ -149,6 +150,9 @@ def main() -> None:
     _save(stockouts.by_store(LATEST), "stockout_by_store_dept_fy2016")
     _save(stockouts.top_items(LATEST), "stockout_top_items_fy2016")
     _save(stockouts.availability_decomposition(), "availability_decomposition")
+
+    print("Stock-out alerts (backtest and latest lists)")
+    stock_alerts.main()
 
     print("Robustness")
     _save(robustness.comp_sensitivity(), "comp_sensitivity")
