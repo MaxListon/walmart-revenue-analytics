@@ -2,12 +2,14 @@
 
 **Revenue across 10 Walmart stores grew 65% in four years, but the same products in the same stores sold less for three of those years.** This project measures how much growth was real, finds why existing products shrank, sizes the levers (availability, pricing, SNAP timing, store changes), groups products into five segments with their own playbooks, designs a price test, and forecasts the next year. It uses real Walmart sales data.
 
-[![CI](https://github.com/MaxListon/walmart-revenue-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/MaxListon/walmart-revenue-analytics/actions/workflows/ci.yml) 41 tests + 34 dbt checks · 📄 [Executive summary](reports/executive_summary.md) · 📓 [Exploration notebook](notebooks/01_exploration.ipynb) · 📅 [Sample monthly review](https://maxliston.github.io/walmart-revenue-analytics/monthly/mbr_2016-04.html) · 📖 [Metrics catalog](docs/metrics_catalog.md) · 🗂️ [Data model (dbt docs)](https://maxliston.github.io/walmart-revenue-analytics/) · 📗 [Excel model](reports/walmart_price_test_and_segments.xlsx) · 🎤 [Interview Q&A](docs/interview_prep.md) · 📊 Dashboard: `streamlit run app.py --server.address localhost` <!-- add the deployed link: docs/deploy.md -->
+[![CI](https://github.com/MaxListon/walmart-revenue-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/MaxListon/walmart-revenue-analytics/actions/workflows/ci.yml) 41 tests + 34 dbt checks · 📄 [Executive summary](reports/executive_summary.md) · 🖥️ [Leadership deck (PDF)](reports/leadership_deck.pdf) · 📓 [Exploration notebook](notebooks/01_exploration.ipynb) · 📅 [Sample monthly review](https://maxliston.github.io/walmart-revenue-analytics/monthly/mbr_2016-04.html) · 📖 [Metrics catalog](docs/metrics_catalog.md) · 🗂️ [Data model (dbt docs)](https://maxliston.github.io/walmart-revenue-analytics/) · 📗 [Excel model](reports/walmart_price_test_and_segments.xlsx) · 🎤 [Interview Q&A](docs/interview_prep.md) · 📊 Dashboard: `streamlit run app.py --server.address localhost` <!-- add the deployed link: docs/deploy.md -->
+
+**Skills shown:** SQL (DuckDB, dbt) · Python (pandas, statsmodels) · data modeling and data-quality testing · KPI definitions · A/B test design · forecasting with backtests · product segmentation (k-means) · Streamlit dashboard · Excel modeling · automated monthly reporting · executive write-ups
 
 ## Start here (2 minutes)
 1. **The question:** total revenue is growing. Is that real, and what should the business do next?
 2. **The answer:** growth came mostly from *adding* products. Existing products shrank for three years, mainly from weaker demand, and recovered in FY2016. Stock-outs, SNAP timing and a carefully designed price test are where the money is.
-3. **Where to look:** the [executive summary](reports/executive_summary.md) (bottom line and actions first), the dashboard below (its *Start here* tab tells the story in six steps), then the [SQL highlights](#sql-highlights) and [methods](#whats-in-the-analysis). Every metric is defined in the [metrics catalog](docs/metrics_catalog.md).
+3. **Where to look:** the [executive summary](reports/executive_summary.md) (bottom line and actions first), the 18-slide [leadership deck](reports/leadership_deck.pdf), the dashboard below (its *Start here* tab tells the story in six steps), then the [SQL highlights](#sql-highlights) and [methods](#whats-in-the-analysis). Every metric is defined in the [metrics catalog](docs/metrics_catalog.md).
 
 ![Dashboard demo](reports/figures/dashboard_demo.gif)
 
@@ -151,9 +153,10 @@ src/retailrev/  pipeline and analyses: drivers, stockouts, pricing, price_events
                 forecast_benchmark, launch_model, stock_sim, price_test, excel
 notebooks/      exploratory analysis with a findings log
 outputs/        every result as CSV (+ tableau/ extracts, also used for Power BI)
-reports/        executive summary, 20 figures, dashboard GIF, price-test readout, Excel model, monthly/ reviews
+reports/        executive summary, leadership deck (PDF), 20 figures, dashboard GIF, price-test readout, Excel model, monthly/ reviews
 docs/           metrics catalog, price-test brief, interview Q&A, Tableau and Power BI build guides, deploy guide
-app.py          Streamlit dashboard (11 tabs, starting with a story tab)
+app.py          Streamlit dashboard entry point (11 tabs, starting with a story tab)
+dashboard/      one module per tab, each with render(); common.py holds the palette, loaders and widgets
 tests/          method tests on simulated data, output-integrity tests, dashboard tests
 ```
 
