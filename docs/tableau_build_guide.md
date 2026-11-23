@@ -1,5 +1,7 @@
 # Tableau Public build guide
 
+> Short on time? The [one-hour quickstart](tableau_public_quickstart.md) builds a one-page version from four ready-shaped files.
+
 This guide rebuilds the executive dashboard in **Tableau Public** (free, and it runs on Mac) from the extracts in `outputs/tableau/`. It takes about 60–90 minutes. Publishing it gives you a public link for your resume next to the GitHub repo.
 
 ## 0. Setup

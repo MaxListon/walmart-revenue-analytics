@@ -554,7 +554,19 @@ def test_excel_workbook_is_formula_driven(tmp_path, monkeypatch):
     monkeypatch.setattr(excel, "OUT", tmp_path / "model.xlsx")
     excel.build()
     wb = load_workbook(tmp_path / "model.xlsx")
-    assert wb.sheetnames == ["Read me", "Price test ROI", "Segments", "Comparable sales"]
+    assert wb.sheetnames == [
+        "Read me",
+        "Store explorer",
+        "Price test ROI",
+        "Segments",
+        "Comparable sales",
+        "Data - store x category",
+    ]
+    ex = wb["Store explorer"]
+    # the store picker is a dropdown, and the summary is lookups on the data sheet, not pasted numbers
+    assert any("B4" in str(dv.sqref) for dv in ex.data_validations.dataValidation)
+    assert str(ex["B5"].value).startswith("=INDEX(") and "MATCH($B$4" in str(ex["B5"].value)
+    assert all(str(ex[f"C{r}"].value).startswith("=SUMIFS(") for r in (12, 13, 14))
     roi = wb["Price test ROI"]
     # results must be live formulas built on the input cells (B5-B8), not pasted numbers
     for ref in ["B11", "B12", "B13", "B14", "B16"]:

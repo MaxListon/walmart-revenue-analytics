@@ -1,0 +1,16 @@
+segment_order,segment,playbook,measure,share
+1,Core fast movers,Protect: daily replenishment and a close price watch on the biggest revenue block.,Share of products,0.26887721602101117
+1,Core fast movers,Protect: daily replenishment and a close price watch on the biggest revenue block.,Share of revenue,0.46020147094146285
+1,Core fast movers,Protect: daily replenishment and a close price watch on the biggest revenue block.,Share of stock-out losses,0.22016816294740588
+2,SNAP-driven staples,"Time it: build stock and staff ahead of each state's SNAP days, when these run out.",Share of products,0.1372291529875246
+2,SNAP-driven staples,"Time it: build stock and staff ahead of each state's SNAP days, when these run out.",Share of revenue,0.2057216181453562
+2,SNAP-driven staples,"Time it: build stock and staff ahead of each state's SNAP days, when these run out.",Share of stock-out losses,0.41211803408085557
+3,Availability risk,Fix supply: zero-sales alerts and more safety stock where stock-outs are frequent.,Share of products,0.3046618516086671
+3,Availability risk,Fix supply: zero-sales alerts and more safety stock where stock-outs are frequent.,Share of revenue,0.19383847132721563
+3,Availability risk,Fix supply: zero-sales alerts and more safety stock where stock-outs are frequent.,Share of stock-out losses,0.3149466350849558
+4,Seasonal,Plan by season: buy to the curve and review the range; sales are shrinking.,Share of products,0.14018384766907419
+4,Seasonal,Plan by season: buy to the curve and review the range; sales are shrinking.,Share of revenue,0.09571031858461365
+4,Seasonal,Plan by season: buy to the curve and review the range; sales are shrinking.,Share of stock-out losses,0.04611818138729625
+5,Long tail,"Review the range: many products, little revenue.",Share of products,0.1490479317137229
+5,Long tail,"Review the range: many products, little revenue.",Share of revenue,0.04452812100135169
+5,Long tail,"Review the range: many products, little revenue.",Share of stock-out losses,0.006648986499486486

@@ -175,7 +175,7 @@ I backtested four methods from the same point (week 16) in FY2014, FY2015 and FY
 Each time, the checks caught the problem.
 
 **How do you know the numbers are right?**
-- **pytest:** 41 tests, including methods recovering known answers from simulated data (a −1.2 elasticity, a +40% store jump, a planted stock-out, five planted product segments, a hand-worked monthly bridge, a planted price response).
+- **pytest:** 45 tests, including methods recovering known answers from simulated data (a −1.2 elasticity, a +40% store jump, a planted stock-out, five planted product segments, a hand-worked monthly bridge, a planted price response).
 - **dbt:** 34 data tests, including one that checks the dbt build against the Python pipeline.
 - **Reconciliation:** every revenue bridge reconciles to the cent.
 - **The dashboard itself:** automated tests render every tab, try every dropdown and filter option, and check the headline numbers against the analysis outputs, on every push.
