@@ -13,6 +13,7 @@ import time
 import pandas as pd
 
 from retailrev import (
+    alert_validation,
     drivers,
     events,
     experiment_design,
@@ -153,6 +154,9 @@ def main() -> None:
 
     print("Stock-out alerts (backtest and latest lists)")
     stock_alerts.main()
+
+    print("Alert validation (planted stock-outs)")
+    alert_validation.main()
 
     print("Robustness")
     _save(robustness.comp_sensitivity(), "comp_sensitivity")

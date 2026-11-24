@@ -75,3 +75,16 @@ def test_score_counts_precision_and_loss_after_alert():
     assert s["alerts_per_store_day"] == 2
     assert s["real_gap_share"] == 0.75 and s["seasonal_gap_share"] == 0.25 and s["actionable_gap_share"] == 0.5
     assert s["loss_after_alert_share"] == pytest.approx((10 * 8 + 20 * 4) / 200)
+
+
+def test_risk_uses_the_alert_days_price_not_later_prices():
+    d = _daily({("S1", "FOODS_1_001"): [3] * 40 + [0] * 10 + [3] * 5})
+    d.loc[d.date > dt.date(2015, 2, 12), "price"] = 99.0  # price changes after the alert
+    assert _alerts(d).iloc[0].risk_per_day == pytest.approx(3 * 2.0)
+
+
+def test_item_dark_in_four_other_stores_goes_to_merchandising():
+    gap = {(f"S{i}", "FOODS_1_001"): [3] * 30 + [0] * 20 for i in range(1, 5)}
+    late = {("S9", "FOODS_1_001"): [3] * 40 + [0] * 10}  # goes dark after four other stores already have
+    a = _alerts(_daily({**gap, **late}))
+    assert "S9" not in a.store_id.tolist() and len(a) == 4

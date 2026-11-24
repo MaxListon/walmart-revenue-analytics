@@ -6,17 +6,18 @@ Each morning, every product that hasn't sold for a while is checked against its 
     P(run)     = p0 ^ days_without_a_sale
     alert when P(run) < threshold   ->   alert on day  floor(ln(threshold) / ln(p0)) + 1  of the run
 
-so a fast seller is flagged after 2-3 quiet days and a slow seller only after weeks. Unlike the
+so a product that sells every day is flagged on its 3rd quiet day and a slow seller only after weeks. Unlike the
 retrospective detector (sql/03_stockouts.sql), an alert uses only sales up to the alert day.
 
 Alerts are ranked by revenue at risk per day (the item's recent daily units x shelf price) and capped
 per store per day, so a store team gets a short list. An item that is also dark in 4+ other stores, or dark
 for more than 28 days, goes to a merchandising list instead (likely a supply or range decision).
 
-Backtest (FY2016): an alert counts as a real gap if the retrospective detector, which also sees the
-28 days *after* the run, confirms the run at its strict 0.1% level. Inventory records would be a
-better truth; the data has none. Because the truth label uses the same kind of probability test,
-the comparison with fixed "no sale in N days" rules favours the item-aware rule somewhat.
+Backtest (FY2016): an alert is "confirmed" if the retrospective detector, which also sees the 28 days
+*after* the run, flags the run at its 0.1% level. That label is NOT independent: the alert is close to
+the detector's own before-window test at the same threshold, so it is strongly favoured over fixed
+"no sale in N days" rules. The threshold was also compared on the same year it is scored on. Read the
+results as agreement with the detector, not as accuracy against real inventory, which the data lacks.
 
     python -m retailrev.stock_alerts   # -> outputs/stockout_alert_backtest.csv, outputs/stockout_alerts_latest_*.csv
 """
@@ -32,6 +33,7 @@ from retailrev.paths import OUTPUTS, connect
 
 THRESHOLD = 0.001  # same strict level as the headline stock-out detector
 CAP_PER_STORE_DAY = 5  # alerts a store team sees each morning
+MAX_STORE_DAYS = 28  # dark longer than this -> merchandising
 CHAIN_STORES = 4  # other stores dark for the same item -> route to merchandising
 FY2016 = ("2015-01-31", "2016-01-29")
 
@@ -102,13 +104,23 @@ def alerts(
             SELECT r.*, {alert_len_sql} AS alert_len
             FROM runs r
             WHERE n_before = 28 AND rate_before > 0          -- a full month of history, and it was selling
+        ),
+        fired AS (
+            SELECT *, run_dates[alert_len] AS alert_date FROM a
+            WHERE zero_days >= alert_len AND run_dates[alert_len] BETWEEN DATE '{first}' AND DATE '{last}'
+        ),
+        known AS (      -- everything here is known on the alert morning: that day's price, who else is dark
+            SELECT f.* EXCLUDE (price, run_dates), f.rate_before * p.price AS risk_per_day,
+                   (SELECT count(DISTINCT o.store_id) FROM runs o
+                     WHERE o.item_id = f.item_id AND o.store_id <> f.store_id
+                       AND o.start_date <= f.alert_date - 6 AND o.end_date >= f.alert_date) AS other_stores_dark
+            FROM fired f
+            JOIN daily p ON p.store_id = f.store_id AND p.item_id = f.item_id AND p.date = f.alert_date
         )
-        SELECT store_id, item_id, dept_id, cat_id, start_date, end_date, zero_days, alert_len,
-               run_dates[alert_len] AS alert_date,
-               rate_before * price AS risk_per_day,
-               pow((zeros_before + 1) / 30.0, alert_len) AS p_at_alert
-        FROM a
-        WHERE zero_days >= alert_len AND run_dates[alert_len] BETWEEN DATE '{first}' AND DATE '{last}'
+        SELECT store_id, item_id, dept_id, cat_id, start_date, end_date, zero_days, alert_len, alert_date,
+               risk_per_day, other_stores_dark, pow((zeros_before + 1) / 30.0, alert_len) AS p_at_alert
+        FROM known
+        WHERE other_stores_dark < {CHAIN_STORES} AND alert_len <= {MAX_STORE_DAYS}   -- the rest go to merchandising
         {qualify}
     """).df()
 
@@ -141,6 +153,7 @@ def score(lab: pd.DataFrame, total_store_loss: float, store_days: int) -> dict:
         "loss_after_alert_share": (lab.loss_per_day * days_left)[store].sum() / total_store_loss,
         "median_alert_day": lab.alert_len.median(),
         "median_days_dark_after_alert": days_left[real].median(),
+        "median_days_left_store_stockout": days_left[store].median(),
     }
 
 
@@ -177,14 +190,15 @@ def latest(con: duckdb.DuckDBPyConnection, threshold: float = THRESHOLD) -> tupl
         )
         SELECT a.store_id, a.item_id, a.dept_id, a.cat_id, a.zero_days AS days_without_sale,
                a.run_dates[a.alert_len] AS first_alert_date,
-               a.rate_before * a.price AS revenue_at_risk_per_day,
+               a.rate_before * p.price AS revenue_at_risk_per_day,
                pow((a.zeros_before + 1) / 30.0, a.zero_days) AS chance_if_selling_normally,
                (SELECT count(*) FROM runs o
                  WHERE o.item_id = a.item_id AND o.store_id <> a.store_id
                    AND o.end_date = DATE '{last}' AND o.zero_days >= 7) AS other_stores_dark
-        FROM a WHERE a.zero_days >= a.alert_len
+        FROM a JOIN daily p ON p.store_id = a.store_id AND p.item_id = a.item_id AND p.date = DATE '{last}'
+        WHERE a.zero_days >= a.alert_len
     """).df()
-    to_store = (runs.other_stores_dark < CHAIN_STORES) & (runs.days_without_sale <= 28)
+    to_store = (runs.other_stores_dark < CHAIN_STORES) & (runs.days_without_sale <= MAX_STORE_DAYS)
     store = (
         runs[to_store]
         .sort_values(["store_id", "revenue_at_risk_per_day", "item_id"], ascending=[True, False, True])
@@ -221,7 +235,7 @@ def main() -> None:
     con.close()
     c = bt[bt.chosen].iloc[0]
     print(
-        f"  alerts: {c.alerts_per_store_day:.1f} per store per day, {c.real_gap_share:.0%} real gaps, "
+        f"  alerts: {c.alerts_per_store_day:.1f} per store per day, {c.real_gap_share:.0%} confirmed, {c.store_stockout_share:.0%} store stock-outs, "
         f"{c.loss_after_alert_share:.0%} of store stock-out loss still ahead at alert; "
         f"latest: {len(store)} store alerts, {len(merch)} items for merchandising"
     )

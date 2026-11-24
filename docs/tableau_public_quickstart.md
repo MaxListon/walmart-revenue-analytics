@@ -41,7 +41,7 @@ Regenerate the files any time with `python -m retailrev.tableau --public` (it re
 ## 4. Sheet "Outlook" (10 min) · `outlook`
 1. `fiscal_week` to **Columns** (keep it discrete or make it continuous), `revenue` to **Rows**.
 2. `series` to **Color**: **FY2016 actual** `#c3c2b7`, **FY2017 actual** `#2a78d6`, **FY2017 forecast** `#2a78d6`.
-3. `series` to **Path** or **Detail**, then click the line on the Marks card and pick a dashed pattern for the forecast. (Tableau 2023.2+ lets you set the line pattern per series. In older versions, use a lighter blue `#86b6ef` instead.)
+3. Give the forecast a lighter blue (`#86b6ef`) so it reads as a projection.
 4. Format the axis as currency (`$`, 0 decimals, display units: thousands).
 5. Title: *"FY2017 is tracking to $48.7M (+13.8%)"*.
 

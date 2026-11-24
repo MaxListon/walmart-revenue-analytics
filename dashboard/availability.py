@@ -19,6 +19,8 @@ from dashboard.common import (
     show,
 )
 
+LABELS = {"detected": "gaps caught", "revenue_ahead": "lost revenue still ahead"}
+
 
 def render() -> None:
     d = core()
@@ -139,19 +141,22 @@ def render() -> None:
         "stockout_alert_backtest",
         "stockout_alerts_latest_store",
         "stockout_alerts_latest_merchandising",
+        "alert_validation",
+        "alert_validation_matched",
+        "alert_pilot_power",
     )
 
 
 def alerts_section() -> None:
-    st.markdown("#### Daily stock-out alerts: does a simple alert catch them in time?")
+    st.markdown("#### Daily stock-out alerts: a prototype, checked against the full detector")
     bt = load("stockout_alert_backtest")
     ch = bt[bt.chosen].iloc[0]
     fx = bt[bt.setting == "5 days without a sale"].iloc[0]
     k = st.columns(3)
     k[0].metric(
-        "Alerts that were real gaps",
+        "Alerts later confirmed as gaps",
         f"{ch.real_gap_share:.0%}",
-        f"vs {fx.real_gap_share:.0%} for 'no sale in 5 days'",
+        f"{ch.store_stockout_share:.0%} were store stock-outs",
         delta_color="off",
         delta_arrow="off",
     )
@@ -164,7 +169,7 @@ def alerts_section() -> None:
     )
     k[2].metric(
         "Workload",
-        f"{ch.alerts_per_store_day:.0f} alerts",
+        f"{ch.alerts_per_store_day:.1f} alerts",
         "per store per day, highest revenue at risk first",
         delta_color="off",
         delta_arrow="off",
@@ -182,14 +187,14 @@ def alerts_section() -> None:
                 text=[t.replace(" without a sale", "") + (" (used)" if c else "") for t, c in zip(g.setting, g.chosen)],
                 textposition="middle right" if rule == "Item-aware" else "middle left",
                 marker=dict(color=color, size=11, line=dict(color="white", width=2)),
-                hovertemplate="%{text}<br>real gaps %{y:.0%}<br>loss still ahead %{x:.0%}<extra></extra>",
+                hovertemplate="%{text}<br>confirmed %{y:.0%}<br>loss still ahead %{x:.0%}<extra></extra>",
             )
         fig.update_layout(
-            title="Each rule at 5 alerts per store per day (FY2016)",
+            title="Each rule, at most 5 alerts per store per day (FY2016)",
             xaxis_title="Store stock-out loss still ahead when the alert fired",
-            yaxis_title="Alerts that were real gaps",
+            yaxis_title="Alerts later confirmed",
         )
-        fig.update_xaxes(range=[0.1, 0.62])
+        fig.update_xaxes(range=[0, 0.62])
         fig.update_yaxes(range=[0.1, 0.9])
         show(fig, pct_y=True, pct_x=True, height=420)
     with right:
@@ -217,9 +222,22 @@ def alerts_section() -> None:
         )
     st.caption(
         "An alert fires when a product's run without a sale would happen less than 0.1% of the time given its own last "
-        "28 days, so fast sellers are flagged after 2–3 days and slow ones only after weeks. Alerts use only sales up "
-        "to that morning. 'Real gap' means the full detector, which also sees the 28 days after, confirmed it; "
-        f"{ch.seasonal_gap_share:.0%} of alerts were seasonal gaps (real but intentional). There are no inventory "
-        "records to check against, and the truth label uses the same kind of test, so the comparison with fixed-day "
-        "rules favors the item-aware rule somewhat."
+        "28 days: the 3rd quiet day for a daily seller, weeks for a slow one. It uses only what was known that morning. "
+        "'Confirmed' means the full detector, which also sees the next 28 days, agreed. That detector uses nearly the "
+        "same test, so this strongly favors the item-aware rule and is agreement, not accuracy: there are no inventory "
+        "records to check against. Loss still ahead is not the same as preventable. The chart scores newly fired "
+        "alerts; the list shows every alert still open."
+    )
+    st.markdown("##### An independent check: planted stock-outs")
+    m = load("alert_validation_matched")
+    v = m.pivot(index="gap_days", columns="metric", values=["item_aware", "fixed_days"])
+    st.dataframe(
+        v.set_axis([f"{'Item-aware' if a == 'item_aware' else 'Fixed days'}: {LABELS[b]}" for a, b in v.columns], axis=1)
+        .rename_axis("Planted gap (days)")
+        .style.format("{:.0%}")
+    )
+    st.caption(
+        f"Known gaps were planted in real sales (Feb–May 2016) and each family was compared at the same volume, "
+        f"{m.volume.iloc[0]:.1f} alerts per store per day before the cap of 5. The item-aware rule wins at equal volume "
+        "but still misses most short gaps. The fixed rule must wait about 20 days to stay at that volume, which is why it catches so little; a 5-day rule catches every 7-day gap but at about 85 alerts per store per day. Planted gaps are random and total, so real results could differ."
     )

@@ -2,7 +2,7 @@
 
 **Revenue at 10 Walmart stores grew 65% in four years, but the same products in the same stores sold less for three of those years.** Using 59M rows of real Walmart sales, this project measures how much growth was real, explains why existing products shrank, and sizes what to do next: stock-outs, SNAP-day timing, a price test and the FY2017 outlook.
 
-[![CI](https://github.com/MaxListon/walmart-revenue-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/MaxListon/walmart-revenue-analytics/actions/workflows/ci.yml) 51 tests + 34 dbt data checks
+[![CI](https://github.com/MaxListon/walmart-revenue-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/MaxListon/walmart-revenue-analytics/actions/workflows/ci.yml) 60 tests + 34 dbt data checks
 
 | Read (5 min) | Explore | Check the work |
 |---|---|---|
@@ -32,7 +32,7 @@
 **5. Stress-testing sharpened the recommendations.**
 - **Forecasting:** on the M5 competition's own accuracy metric, a weekday average that adds this project's SNAP effects beats the standard seasonal-naive benchmark by **34%** and exponential smoothing by 22%, winning 5 of 6 test windows. The SNAP finding measurably improves forecasts.
 - **Stock-outs:** a simulation calibrated to the measured losses shows about a quarter is realistically recoverable (**≈$0.2M a year**, not the full $0.79M) for a modest rise in safety stock; SNAP-aware ordering trims staples' losses at no extra inventory.
-- **Stock-out alerts:** a [daily alert](src/retailrev/stock_alerts.py) that judges each product against its own last 28 days (so fast sellers are flagged after 2–3 quiet days, slow ones after weeks), capped at 5 a store a day. Backtested on FY2016, using only sales up to each morning: **64% of alerts were real gaps** (vs 27% for a "no sale in 5 days" rule at the same workload), and they fired while **49% of the store stock-out loss was still ahead** (vs 39%).
+- **Stock-out alerts:** a [daily alert](src/retailrev/stock_alerts.py) that judges each product against its own last 28 days (a product that sells every day is flagged on its 3rd quiet day; slow sellers wait weeks), at most 5 a store a day, with chain-wide gaps sent to merchandising. On FY2016 the full detector later confirmed **61%** of alerts as gaps (**43%** as store stock-outs), with **48%** of the store stock-out loss still ahead. That measures agreement with a closely related detector. A stricter, independent test [plants known stock-outs](src/retailrev/alert_validation.py) in later sales: at equal alert volume it catches **36%** of 7-day gaps (3% for a fixed-day rule) and **62%** of 14-day gaps (13%), but only 9% of 3-day gaps. The fixed rule must wait about 20 days to stay at that volume, which is why it catches so little; a 5-day rule catches every 7-day gap but at about 85 alerts per store per day. See the [product brief](docs/stockout_alert_brief.md).
 - **Launches:** a product's **first-month revenue per store-week** already ranks future top sellers well (AUC 0.92; its top-20% picks become top sellers 71% of the time vs 19% at random). A fuller model adds nothing.
 - **Price test:** a [pre-registered brief](docs/price_test_brief.md) and a [readout run on a simulated result](reports/price_test_readout.md): across 40 repeats, the decision rule rolled out 82% of the time when the rise truly pays and never when it doesn't.
 
@@ -43,7 +43,7 @@
 |---|---|---|
 | Report comparable sales next to total growth | Total growth hid three years of decline | Add comp + revenue bridge to the monthly review |
 | Test a **5%** Household price increase | Main model says ≈ −0.4, but checks are noisy; worth ≈ $0.4M a year if −0.4 holds | Randomize half of product-store pairs for 12 weeks (89% power; [brief](docs/price_test_brief.md)) |
-| Cut store stock-outs, starting with SNAP-driven staples | $0.79M lost in FY2016, 41% of it in SNAP-driven staples; about a quarter (≈$0.2M) is realistically recoverable | Daily zero-sales alerts (built and backtested: 5 a store a day); modestly more safety stock; SNAP-aware ordering for staples |
+| Cut store stock-outs, starting with SNAP-driven staples | $0.79M lost in FY2016, 41% of it in SNAP-driven staples; about a quarter (≈$0.2M) is realistically recoverable | Daily zero-sales alerts (prototype built: up to 5 a store a day); modestly more safety stock; SNAP-aware ordering for staples |
 | Review chain-wide gaps with merchandising | $2.1M lost in FY2016 while listed products were dark in most stores at once | Separate deliberate range cuts from supply failures |
 | Plan food stock and labor to the SNAP calendar | Food +9% to +28% on SNAP days, sagging to −19% by month-end in Wisconsin (−27% on the 1st) | Shift replenishment into SNAP windows |
 
@@ -62,7 +62,7 @@
 | Where will FY2017 land? | Try four forecasting methods on past years and keep the most accurate (backtesting) | $48.7M, 0.9% average backtest error |
 | How good is the daily forecasting? | Score six methods on 28-day forecasts with the M5 competition's metric, over six windows (WRMSSE) | SNAP-aware method 34% better than seasonal naive |
 | Can we call a launch at week 4? | Predict top sellers from first-month signals, trained on earlier launches and tested on later ones (logistic regression, AUC) | One number does it: AUC 0.92 |
-| Can a daily alert catch stock-outs early? | Flag each product when its run without a sale becomes unlikely for *that* product, using only past sales; backtest against the full detector and fixed-day rules | 64% of alerts real gaps; 49% of loss still ahead at alert |
+| Can a daily alert flag stock-outs early? | Flag each product when its run without a sale becomes unlikely for *that* product, using only past sales; compare with the full detector | Planted-gap test: catches 36% of 7-day gaps vs 3% for a fixed-day rule at equal (low) volume; misses most short ones |
 | How much stock-out loss can we win back? | Simulate weekly ordering with more safety stock or SNAP-aware forecasts, calibrated to measured losses (inventory simulation) | About a quarter, ≈$0.2M a year |
 
 ## SQL highlights
@@ -111,7 +111,7 @@ The same warehouse is rebuilt in [dbt](dbt/) with 34 data tests, including one t
 
 ## Engineering
 - **SQL warehouse in DuckDB:** 59M daily rows, plus a parallel **dbt** project with 34 data tests and every model and column documented. Browse the [data model and lineage graph](https://maxliston.github.io/walmart-revenue-analytics/).
-- **51 pytest tests:** each method must recover a known answer from simulated data (elasticity −1.2, a +40% store step, a planted stock-out, five planted product segments, a hand-worked monthly bridge, a planted SNAP lift, a planted price response, a perfect forecast scoring zero, a stock-out alert that must fire on day 3 for a fast seller and stay silent for a slow one), every revenue bridge must reconcile, and randomized steps must give identical results whatever order the data arrives in. The dashboard is tested too: every tab renders, every dropdown and filter option works, and the headline numbers match the analysis outputs. Every SQL showcase query compiles in CI, and its stated answer is checked against the warehouse locally.
+- **60 pytest tests:** each method must recover a known answer from simulated data (elasticity −1.2, a +40% store step, a planted stock-out, five planted product segments, a hand-worked monthly bridge, a planted SNAP lift, a planted price response, a perfect forecast scoring zero, a stock-out alert that must fire on day 3 for a fast seller and stay silent for a slow one), every revenue bridge must reconcile, and randomized steps must give identical results whatever order the data arrives in. The dashboard is tested too: every tab renders, every dropdown and filter option works, and the headline numbers match the analysis outputs. Every SQL showcase query compiles in CI, and its stated answer is checked against the warehouse locally.
 - **Reproducible:** the full pipeline was re-run and every output diffed against the previous run; exact package versions are pinned in `requirements-lock.txt`.
 - **GitHub Actions:** linting with ruff, the tests, and a dbt compile check, on the pinned versions. Tests that need the non-redistributable raw data skip in CI.
 - **Self-contained dashboard:** it reads only the committed `outputs/`, so it deploys without the raw data ([deploy guide](docs/deploy.md)). A *Start here* tab tells the story, a sidebar glossary explains every term, and every tab offers its data as CSV.
@@ -144,7 +144,7 @@ python -m retailrev.tableau      # Tableau / Power BI extracts
 python -m retailrev.report --month 2016-04   # one-page monthly business review
 python -m retailrev.price_test   # price-test readout on a simulated result
 python -m retailrev.excel        # Excel workbook (formulas; Excel recalculates on open)
-pytest                           # 51 tests (incl. dashboard and SQL showcase tests)
+pytest                           # 60 tests (incl. dashboard and SQL showcase tests)
 cd dbt && dbt build --profiles-dir . && dbt docs generate --profiles-dir . --static && cd ..   # 34 data tests + docs site
 streamlit run app.py --server.address localhost   # local only; drop the flag to share on your network
 ```
@@ -155,11 +155,12 @@ sql/            warehouse build (staging, marts, stock-out detection) + one file
 dbt/            the same warehouse as dbt models with schema and reconciliation tests
 src/retailrev/  pipeline and analyses: drivers, stockouts, pricing, price_events, experiment_design,
                 segments, inflation, events, launches, store_events, outlook, robustness, figures, report,
-                forecast_benchmark, launch_model, stock_sim, stock_alerts, price_test, excel
+                forecast_benchmark, launch_model, stock_sim, stock_alerts, alert_validation, price_test, excel, site
 notebooks/      exploratory analysis with a findings log
 outputs/        every result as CSV (+ tableau/ extracts, also used for Power BI)
 reports/        executive summary, leadership deck (PDF), 20 figures, dashboard GIF, price-test readout, Excel model, monthly/ reviews
 docs/           metrics catalog, price-test brief, interview Q&A, Tableau and Power BI build guides, deploy guide
+site/           interactive case study: one self-contained HTML page, built by `python -m retailrev.site`
 app.py          Streamlit dashboard entry point (11 tabs, starting with a story tab)
 dashboard/      one module per tab, each with render(); common.py holds the palette, loaders and widgets
 tests/          method tests on simulated data, output-integrity tests, dashboard tests

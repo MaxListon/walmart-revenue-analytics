@@ -210,14 +210,22 @@ Only **store stock-outs** are counted as lost sales in the headline ($0.79M in F
 | **Source** | `stock_sim.py` → `stockout_policy_simulation.csv` |
 | **Watch out** | A model, not a measurement: lead time and review cycle are assumptions. Use it to compare policies, not as a forecast of savings. |
 
-### Stock-out alert precision and lead
+### Stock-out alert confirmation and lead
 | | |
 |---|---|
-| **Definition** | How often a daily zero-sales alert is right, and how much stock-out loss is still ahead when it fires. |
-| **Formula** | Alert on day ⌊ln(0.001) / ln(p₀)⌋ + 1 of a run without a sale, where p₀ = (zero days in the 28 days before + 1) / 30; top 5 per store per day by revenue at risk (recent units × price). **Real-gap share** = alerts the full detector later confirms at 0.1%. **Loss still ahead** = confirmed store stock-out loss on and after the alert day ÷ all FY2016 store stock-out loss. |
+| **Definition** | How often the full detector later confirms a daily zero-sales alert, and how much stock-out loss is still ahead when it fires. |
+| **Formula** | Alert on day ⌊ln(0.001) / ln(p₀)⌋ + 1 of a run without a sale, where p₀ = (zero days in the 28 days before + 1) / 30; top 5 per store per day by revenue at risk (recent units × that day's price); items dark in 4+ other stores or for over 28 days are excluded and sent to merchandising. **Real-gap share** = alerts the full detector later confirms at 0.1%. **Loss still ahead** = confirmed store stock-out loss on and after the alert day ÷ all FY2016 store stock-out loss. |
 | **Grain** | alert (store × product × run), FY2016 |
 | **Source** | `stock_alerts.py` → `stockout_alert_backtest.csv`, `stockout_alerts_latest_store.csv`, `stockout_alerts_latest_merchandising.csv` |
-| **Watch out** | No inventory records, so "real" means confirmed by the retrospective detector, which uses the same kind of test: the comparison with fixed-day rules favours the item-aware rule somewhat. About 10% of alerts are seasonal gaps (real but intentional). |
+| **Watch out** | Not an accuracy measure. The alert is close to the detector's own before-window test at the same threshold, so it is strongly favoured over fixed-day rules, and the threshold was compared on the same year. The backtest scores newly fired alerts; the live list shows every open alert. "Still ahead" is not the same as preventable. |
+
+### Planted stock-out detection
+| | |
+|---|---|
+| **Definition** | Share of known, artificially planted stock-outs an alert rule catches, and the share of the truly removed revenue that falls after the alert day. |
+| **Formula** | 30,000 random store-products per gap length (3, 7, 14 days), gaps starting 30 Jan – 8 May 2016; sales set to zero; rules compared at equal uncapped alert volume (interpolated on log volume); CIs resample store-products. |
+| **Source** | `alert_validation.py` → `alert_validation.csv`, `alert_validation_matched.csv` |
+| **Watch out** | Planted gaps are random and total. Products already alerted before the gap are excluded. Volume is workload, not a false-alarm rate. The daily cap of 5 is not applied. |
 
 ### Price-test decision
 | | |
