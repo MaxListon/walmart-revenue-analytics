@@ -192,7 +192,7 @@ def render() -> None:
     flat_ = rr[rr.true_elasticity == -1.0]
     st.caption(
         "The test hasn't run, so a known demand response was planted into real FY2016 Household sales and the "
-        "pre-registered analysis (docs/price_test_brief.md) was run on it. Repeated with "
+        "analysis written in advance (docs/price_test_brief.md) was run on it. Repeated with "
         f"{len(pays)} random assignments per case: when the rise truly pays, the rule said roll out "
         f"{(pays.decision == 'Roll out').mean():.0%} of the time; when it doesn't, "
         f"{(flat_.decision == 'Roll out').mean():.0%}."

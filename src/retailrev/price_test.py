@@ -99,7 +99,7 @@ def readout(results: pd.DataFrame, reps: pd.DataFrame | None = None) -> str:
         "# Household price test: readout (simulated result)",
         "",
         "> **This is a simulation, not a real test.** A known demand response was planted into real FY2016 "
-        "Household sales to show the pre-registered analysis and decision rule working end to end. "
+        "Household sales to show the analysis and decision rule, written in advance, working end to end. "
         "See [the experiment brief](../docs/price_test_brief.md).",
         "",
         f"**Setup:** {first.pairs:,} product-store pairs ({first.products:,} Household products in 10 stores), "
@@ -120,7 +120,7 @@ def readout(results: pd.DataFrame, reps: pd.DataFrame | None = None) -> str:
         "",
         "**Reading it:** when the price rise truly pays (planted −0.4), the estimate lands near −0.4 and is "
         "significantly above −1, so the rule says roll out. When it doesn't (planted −1.0), the rule says don't. "
-        "The decision follows the pre-registered rule, not the point estimate alone.",
+        "The decision follows the rule set in advance, not the point estimate alone.",
         "",
     ]
     if reps is not None:

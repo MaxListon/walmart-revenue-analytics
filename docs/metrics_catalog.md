@@ -231,5 +231,5 @@ Only **store stock-outs** are counted as lost sales in the headline ($0.79M in F
 | | |
 |---|---|
 | **Definition** | Roll out the 5% Household increase only if its elasticity is significantly above −1. |
-| **Formula** | One-sided test of (elasticity + 1) ÷ SE at the 5% level, from the pre-registered Poisson model in [the brief](price_test_brief.md) |
+| **Formula** | One-sided test of (elasticity + 1) ÷ SE at the 5% level, from the Poisson model specified in advance in [the brief](price_test_brief.md) |
 | **Source** | `price_test.py` → `price_test_readout.csv`, `reports/price_test_readout.md` (simulated result) |
